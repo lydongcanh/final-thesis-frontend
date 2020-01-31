@@ -1,7 +1,9 @@
 import React, { useState } from "react";
-import { Button, Layout, Icon, Input } from "@ui-kitten/components";
+import { useDispatch } from "react-redux";
+import { Button, Card, CardHeader, Layout, Icon, Input } from "@ui-kitten/components";
 import { validateUsername, validatePassword } from "../../../core/validations";
 import { Texts } from "../../../core/texts";
+import { login } from "../../redux/actions/authActions";
 
 export default function LoginPanel() {
     const [username, setUsername] = useState("");
@@ -12,8 +14,22 @@ export default function LoginPanel() {
     const [editingPassword, setEditingPassword] = useState(false);
     const [isHidingPassword, setIsHidingPassword] = useState(true);
 
+    const dispatch = useDispatch();
+
     const showPasswordIcon = style => (
         <Icon {...style} name={isHidingPassword ? "eye-off" : "eye"} />
+    );
+
+    const cardFooter = () => (
+        <Layout style={{flexDirection: "row", justifyContent: "flex-end"}}>
+            <Button
+                disabled={!validUsername || !validPassword}
+                onPress={handleLoginButtonPress}
+                size="small"
+            >
+                Login
+            </Button>
+        </Layout>
     );
 
     function handleUsernameInputChange(username) {
@@ -28,8 +44,16 @@ export default function LoginPanel() {
         setValidPassword(validatePassword(password));
     }
 
+    function handleLoginButtonPress() {
+        dispatch(login(username, password));
+    }
+
     return (
-        <Layout>
+        <Card
+            appearance="filled"
+            header={() => <CardHeader title="Login" />}
+            footer={cardFooter}
+        >
             <Input
                 caption={editingUsername ? validUsername ? "" : Texts.INVALID_USERNAME : ""}
                 label="username"
@@ -49,11 +73,6 @@ export default function LoginPanel() {
                 status={editingPassword ? validPassword ? "success" : "danger" : "basic"}
                 value={password}
             />
-            <Button
-                disabled={!validUsername || !validPassword}
-            >
-                Login
-            </Button>
-        </Layout>
+        </Card>
     );
 }
