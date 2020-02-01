@@ -26,8 +26,8 @@ const TabBarComponent = ({ navigation }) => {
                 selectedIndex={navigation.state.index} 
                 onSelect={onSelect}
             >
-                <BottomNavigationTab icon={homeIcon} />
-                <BottomNavigationTab icon={accountIcon} />
+                <BottomNavigationTab icon={homeIcon} title="Home" />
+                <BottomNavigationTab icon={accountIcon} title="Account" />
             </BottomNavigation>
         </SafeAreaView>
     );
