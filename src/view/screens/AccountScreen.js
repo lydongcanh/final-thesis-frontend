@@ -1,8 +1,7 @@
 import React from "react";
 import { SafeAreaView } from "react-native";
 import { useSelector } from "react-redux";
-import LoginPanel from "../components/molecules/LoginPanel";
-import AccountPanel from "../components/molecules/AccountPanel";
+import { AccountPanel, LoginPanel } from "../components/accounts";
 
 export default function AccountScreen() {
     
