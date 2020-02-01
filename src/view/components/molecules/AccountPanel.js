@@ -11,7 +11,7 @@ export default function AccountPanel(props) {
     const dispatch = useDispatch();
 
     const cardFooter = () => (
-        <Layout style={{flexDirection: "row", justifyContent: "flex-end"}}>
+        <Layout style={{ flexDirection: "row", justifyContent: "flex-end" }}>
             <Button onPress={handleLogoutButton} size="small" status="danger">Logout</Button>
         </Layout>
     );
@@ -22,6 +22,7 @@ export default function AccountPanel(props) {
 
     return (
         <Card
+            appearance="filled"
             header={() => <CardHeader title="Account" />}
             footer={cardFooter}
         >
