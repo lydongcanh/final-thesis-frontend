@@ -2,8 +2,8 @@ import React from 'react';
 import { ApplicationProvider, IconRegistry } from "@ui-kitten/components";
 import { EvaIconsPack } from "@ui-kitten/eva-icons";
 import { mapping, light } from "@eva-design/eva";
-import { ThemeProvider } from "react-native-elements";
-import { Provider } from "react-redux";
+import { Provider as PaperProvider} from "react-native-paper";
+import { Provider as ReduxProvider} from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { AppLoading } from "expo";
 import { createAppContainer } from "react-navigation";
@@ -15,15 +15,15 @@ export default function App() {
     const AppContainer = createAppContainer(BottomTabNavigator);
 
     return (
-        <Provider store={store}>
+        <ReduxProvider store={store}>
             <PersistGate loading={<AppLoading />} persistor={persistor}>
                 <IconRegistry icons={EvaIconsPack} />
                 <ApplicationProvider mapping={mapping} theme={light}>
-                    <ThemeProvider>
+                    <PaperProvider>
                         <AppContainer />
-                    </ThemeProvider>
+                    </PaperProvider>
                 </ApplicationProvider>
             </PersistGate>
-        </Provider>
+        </ReduxProvider>
     );
 }
