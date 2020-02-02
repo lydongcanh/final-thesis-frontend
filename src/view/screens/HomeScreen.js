@@ -1,36 +1,19 @@
-import React, { useState } from "react";
-import { Dimensions, FlatList, ScrollView } from "react-native";
+import React from "react";
+import { FlatList, ScrollView } from "react-native";
 import { Layout, Text } from "@ui-kitten/components";
 import products from "../../../test/mockData/products.json";
 import MinimalProduct from "../components/products/MinimalProduct.js";
-import Carousel, { Pagination } from "react-native-snap-carousel";
 import { Divider } from "react-native-elements";
+import ProductCarousel from "../components/products/ProductCarousel.js";
 
 export default function HomeScreen() {
-
-    const [carouselRef, setCarouslRef] = useState(null);
-
-    const screenWidth = Dimensions.get("window").width;
 
     return (
         <ScrollView>
             <Layout style={{ backgroundColor: "#f2f2f2" }}>
-                <Text category="h6" style={{ margin: 8 }}>Hot</Text>
-                <Carousel
-                    autoplayDelay={500}
-                    autoplayInterval={3000}
-                    data={products}
-                    itemWidth={screenWidth}
-                    ref={c => setCarouslRef(c)}
-                    renderItem={({ item }) => <MinimalProduct product={item} />}
-                    sliderWidth={screenWidth}
-                />
-                <Pagination
-                    carouselRef={carouselRef}
-                    dotsLength={products.length}
-                    inactiveDotOpacity={0.4}
-                    inactiveDotScale={1.2}
-                    tappableDots={carouselRef}
+                <ProductCarousel
+                    products={products}
+                    title="Hot"
                 />
                 <Divider style={{ margin: 8 }} />
                 <Text category="h6" style={{ margin: 8 }}>All Products</Text>
