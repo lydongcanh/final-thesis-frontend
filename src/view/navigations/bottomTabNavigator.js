@@ -2,21 +2,18 @@ import React from "react";
 import { createBottomTabNavigator } from "react-navigation-tabs";
 import { BottomNavigation, BottomNavigationTab, Icon, Layout } from "@ui-kitten/components";
 import { AccountScreen, HomeScreen } from "../screens";
+import TestScreen from "../screens/TestScreen";
 
 const TabBarComponent = ({ navigation }) => {
-
-    const homeIcon = (style) => (
-        <Icon {...style} name="home" />
-    );
-
-    const accountIcon = (style) => (
-        <Icon {...style} name="person" />
-    );
-
+   
     const onSelect = (index) => {
         const selectedTabRoute = navigation.state.routes[index];
         navigation.navigate(selectedTabRoute.routeName);
     };
+
+    const tabIcon = (style, name) => (
+        <Icon {...style} name={name} />
+    );
 
     return (
         <Layout>
@@ -25,8 +22,9 @@ const TabBarComponent = ({ navigation }) => {
                 selectedIndex={navigation.state.index}
                 onSelect={onSelect}
             >
-                <BottomNavigationTab icon={homeIcon} title="Home" />
-                <BottomNavigationTab icon={accountIcon} title="Account" />
+                <BottomNavigationTab icon={(style) => tabIcon(style, "home")} title="Home" />
+                <BottomNavigationTab icon={(style) => tabIcon(style, "person")} title="Account" />
+                <BottomNavigationTab icon={(style) => tabIcon(style, "lock")} title = "Test" />
             </BottomNavigation>
         </Layout>
     );
@@ -35,6 +33,7 @@ const TabBarComponent = ({ navigation }) => {
 export const BottomTabNavigator = createBottomTabNavigator({
     Home: HomeScreen,
     Account: AccountScreen,
+    Test: TestScreen
 }, {
     tabBarComponent: TabBarComponent,
 });
