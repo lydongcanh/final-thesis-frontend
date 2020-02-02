@@ -10,7 +10,7 @@ export default function HomeScreen() {
 
     return (
         <ScrollView>
-            <Layout style={{ backgroundColor: "#f2f2f2" }}>
+            <Layout>
                 <ProductCarousel
                     products={products}
                     title="Hot"
