@@ -1,0 +1,21 @@
+[
+    {
+        "id": 0,
+        "name": "Men",
+        "parentCategoryId": null,
+        "description": "",
+        "image": ""
+    },
+    {
+        "id": 0,
+        "name": "Men",
+        "parentCategoryId": null,
+        "description": "",
+        "image": ""
+    },
+    {
+        "id": 1,
+        "name": "T-Shirt",
+        "parentCategoryId": 0
+    }
+]
