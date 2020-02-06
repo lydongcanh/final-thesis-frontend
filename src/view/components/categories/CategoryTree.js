@@ -1,58 +1,35 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import TreeView from "react-native-final-tree-view";
 import { Layout, Icon, Text } from "@ui-kitten/components";
-import { Chip, Divider } from "react-native-paper";
+import { ActivityIndicator, Chip, Divider } from "react-native-paper";
+import { CategoryService } from "../../../core/services";
 
-export default function CategoryTree() {
+/**
+ * @param {*} props onLeafNodePressed(node)
+ */
+export default function CategoryTree(props) {
 
-    const data = [
-        {
-            id: 'Parent1',
-            name: 'Parent1',
-            children: [
-                {
-                    id: 'child1',
-                    name: 'child1',
-                    children: [
-                        {
-                            id: 'child11',
-                            name: 'child11',
-                            children: [
-                                {
-                                    id: 'child111',
-                                    name: 'child111',
-                                },
-                            ],
-                        },
-                        {
-                            id: 'child12',
-                            name: 'child12',
-                        },
-                    ],
-                },
-            ],
-        },
-        {
-            id: 'Parent2',
-            name: 'Parent2',
-            children: [
-                {
-                    id: 'child2',
-                    name: 'child2',
-                    children: [
-                        {
-                            id: 'child21',
-                            name: 'child21',
-                        },
-                        {
-                            id: 'child22',
-                            name: 'child22',
-                        },
-                    ],
-                },
-            ],
-        },
-    ];
+    const [categories, setCategories] = useState(null);
+
+    useEffect(() => {
+        loadCategories();
+    }, []);
+
+    async function loadCategories() {
+        const result = await CategoryService.getAllRoot();
+        if (result.data) {
+            for (const category of result.data) {
+                if (category.childrenCategories) {
+                    category.children = category.childrenCategories;
+                }
+            }
+            console.log(result.data);
+            setCategories(result.data);
+        } else {
+            // TODO: display error, load again button
+            alert("Failed to load categories!!");
+        }
+    }
 
     function getIndicator(isExpanded, hasChildrenNodes) {
         if (!hasChildrenNodes)
@@ -68,15 +45,17 @@ export default function CategoryTree() {
         if (!node || node.children) // Not leaf
             return;
 
-        // TODO: Show products with matched category...
+        if (props.onLeafNodePressed)
+            props.onLeafNodePressed(node);
     }
 
-    return (
-        <Layout>
-            <Text category="label" style={{ padding: 8 }}>Categories</Text>
-            <Divider />
+    function getTreeView() {
+        if (!categories)
+            return <ActivityIndicator style={{ padding: 8, margin: 8 }}/>
+
+        return (
             <TreeView
-                data={data}
+                data={categories}
                 getCollapsedNodeHeight={() => 32}
                 onNodePress={handleNodeOnPress}
                 renderNode={({ node, level, isExpanded, hasChildrenNodes }) => {
@@ -91,6 +70,14 @@ export default function CategoryTree() {
                     );
                 }}
             />
+        );
+    }
+
+    return (
+        <Layout>
+            <Text category="label" style={{ padding: 8 }}>Categories</Text>
+            <Divider />
+            {getTreeView()}
         </Layout>
     );
 }
