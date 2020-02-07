@@ -23,7 +23,6 @@ export default function CategoryTree(props) {
                     category.children = category.childrenCategories;
                 }
             }
-            console.log(result.data);
             setCategories(result.data);
         } else {
             // TODO: display error, load again button
