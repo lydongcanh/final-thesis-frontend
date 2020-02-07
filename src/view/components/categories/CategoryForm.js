@@ -1,97 +1,110 @@
-import React, { useEffect, useState } from "react";
-import { Card, CardHeader, Input, Select } from "@ui-kitten/components";
+import React, { useState } from "react";
+import { Button, Card, CardHeader, Input, Text } from "@ui-kitten/components";
 import { CategoryService } from "../../../core/services";
-import { ActivityIndicator, Button } from "react-native-paper";
+import { ActivityIndicator } from "react-native-paper";
+import { View } from "react-native";
 
 /**
  * 
- * @param {*} props mode["create", "edit", "delete"], category, onOk
+ * @param {*} props mode["create", "edit", "delete"], category, onCancel, onOk
  */
 export default function CategoryForm(props) {
 
     const [name, setName] = useState(props.mode == "edit" && props.category != null ? props.category.name : "");
     const [description, setDescription] = useState(props.mode == "edit" && props.category != null ? props.category.description : "");
-    const [parentSelectIndex, setParentSelectIndex] = useState(0);
-    const [allCategories, setAllcategories] = useState(null);
+    const [isProgressing, setIsProgressing] = useState(false);
 
-    useEffect(() => {
-        loadCategories();
-    }, []);
-
-    async function loadCategories() {
-        const result = await CategoryService.getAll();
-        if (result.data) {
-            setAllcategories(result.data);
-        } else {
-            // TODO: show error and load again button.
-            alert("Failed to load categories!");
-        }
-    }
-
-    function getCategoryDisplayName(category) {
-        return `${category.name}`;
-    }
-
-    function getCategorySelectData() {
-        if (!allCategories)
-            return [];
-
-        const data = [];
-        for(let i = 0; i < allCategories.length; i++) {
-            data.push({
-                index: i,
-                text: getCategoryDisplayName(allCategories[i])
-            });
-        }
-        return data;
-    }
-
-    function handleCategoryOnSelect({ index }) {
-        setParentSelectIndex(index);
-    }
-
-    function getCategorySelect() {
-        if (!allCategories)
-            return <ActivityIndicator />
-
-        return (
-            <Select
-                data={getCategorySelectData()}
-                onSelect={handleCategoryOnSelect}
-                label="Parent Category"
-            />
-        );
-    }
-
-    async function handleCreateButtonOnPress() {
-        const result = await CategoryService.create({
+    async function createCategory() {
+        const newCategory = {
             name: name,
             description: description,
-            parentCategoryId: allCategories[parentSelectIndex].id
-        });
-        await loadCategories();
-        console.log(JSON.stringify(result.data, null, 2));
+        };
+
+        if (props.category)
+            newCategory.parentCategoryId = props.category.id;
+
+        const result = await CategoryService.create(newCategory);
+        console.log(result);
+        // TODO: show error...
+    }
+
+    async function updateCategory() {
+        const updatedCategory = props.category;
+        updatedCategory.name = name;
+        updatedCategory.description = description;
+
+        const result = await CategoryService.update(updatedCategory);
+
+        console.log(result);
+        // TODO: show error...
+    }
+
+    async function handleOnOkButtonPress() {
+        // TODO: Validate name & description.
+        setIsProgressing(true);
+
+        if (props.mode == "create")
+            await createCategory();
+
+        if (props.mode == "edit")
+            await updateCategory();
+
+        setIsProgressing(false);
+        await props.onOk();
+    }
+
+    function getParentInfo() {
+        if (props.mode == "create") {
+            return (
+                <Input
+                    disabled={true}
+                    label="Parent Category"
+                    value={props.category ? props.category.name : "No parent (Root category)"}
+                />
+            )
+        }
     }
 
     function getHeader() {
         return <CardHeader title={props.mode.toUpperCase()} />
     }
 
+    function getFooter() {
+        return (
+            <View style={{ flexDirection: "row", justifyContent: "flex-end" }}>
+                <Button appearance="ghost" onPress={props.onCancel}>Cancel</Button>
+                <Button appearance="ghost" onPress={handleOnOkButtonPress}>OK</Button>
+            </View>
+        );
+    }
+
+    function getFormContent() {
+        if (isProgressing)
+            return <ActivityIndicator />
+
+        return (
+            <View>
+                <Input
+                    label="Name"
+                    onChangeText={setName}
+                    value={name}
+                />
+                <Input
+                    label="Description"
+                    onChangeText={setDescription}
+                    value={description}
+                />
+                {getParentInfo()}
+            </View>
+        );
+    }
+
     return (
-        <Card 
+        <Card
+            footer={getFooter}
             header={getHeader}
-        > 
-            <Input 
-                label="Name"
-                onChangeText={setName}
-                value={name}
-            />
-            <Input
-                label="Description"
-                onChangeText={setDescription}
-                value={description}
-            />
-            {getCategorySelect()}
+        >
+            {getFormContent()}
         </Card>
     )
 }
