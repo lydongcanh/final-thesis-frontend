@@ -20,14 +20,21 @@ export default function CategoryManageView() {
         const result = await CategoryService.getAllRoot();
         if (result.data) {
             for (const category of result.data) {
-                if (category.childrenCategories) {
-                    category.children = category.childrenCategories;
-                }
+                setChildren(category);
             }
             setCategories(result.data);
         } else {
             // TODO: display error, load again button
             alert("Failed to load categories!!");
+        }
+    }
+
+    function setChildren(category) {
+        if (category && category.childrenCategories) {
+            category.children = category.childrenCategories;
+            for(const child of category.children) {
+                setChildren(child);
+            }
         }
     }
 
@@ -132,12 +139,15 @@ export default function CategoryManageView() {
             <Portal>
                 <Dialog
                     visible={showingDialog}
-                    onDismiss={() => setshowingDialog(false)}
                 >
                     <CategoryForm 
                         mode={dialogMode}
                         category={selectedNode}
-                        onOk={async () => await loadCategories()}
+                        onCancel={() => setshowingDialog(false)}
+                        onOk={async () => { 
+                            setshowingDialog(false);
+                            await loadCategories();
+                        }}
                     />
                 </Dialog>
             </Portal>
