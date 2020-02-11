@@ -1,19 +1,21 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { Button, Card, CardHeader, Layout, Icon, Input, CheckBox } from "@ui-kitten/components";
+import { Button, Card, CardHeader, Layout, Icon, Input } from "@ui-kitten/components";
 import { validateUsername, validatePassword } from "../../../core/validations";
 import { Texts } from "../../../core/texts";
 import { login } from "../../redux/actions/authActions";
 import { Space } from "../others";
 
-export default function LoginPanel() {
+export default function UserSignupPanel() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const [keepLoggedIn, setKeepLoggedIn] = useState(true);
+    const [confirmPassword, setConfirmPassword] = useState("");
     const [validUsername, setValidUsername] = useState(false);
     const [validPassword, setValidPassword] = useState(false);
+    const [validConfirmPassword, setValidConfirmPassword] = useState(false);
     const [editingUsername, setEditingUsername] = useState(false);
     const [editingPassword, setEditingPassword] = useState(false);
+    const [editingConfirmPassword, setEditingConfirmPassword] = useState(false);
     const [isHidingPassword, setIsHidingPassword] = useState(true);
 
     const dispatch = useDispatch();
@@ -23,18 +25,13 @@ export default function LoginPanel() {
     );
 
     const cardFooter = () => (
-        <Layout style={{flexDirection: "row", justifyContent: "space-between"}}>
-            <CheckBox 
-                text={Texts.REMEMBER_ME}
-                checked={keepLoggedIn}
-                onChange={setKeepLoggedIn}
-            />
+        <Layout style={{ flexDirection: "row", justifyContent: "flex-end" }}>
             <Button
-                disabled={!validUsername || !validPassword}
+                disabled={!validUsername || !validPassword || !validConfirmPassword}
                 onPress={handleLoginButtonPress}
                 size="small"
             >
-                Login
+                Sign Up
             </Button>
         </Layout>
     );
@@ -51,16 +48,23 @@ export default function LoginPanel() {
         setValidPassword(validatePassword(password));
     }
 
+    function handleConfirmPasswordInputChange(confirmPassword) {
+        setConfirmPassword(confirmPassword);
+        setEditingConfirmPassword(true);
+        setValidConfirmPassword( 
+            (password && confirmPassword) &&
+            (password !== "" && confirmPassword !== "") &&
+            (confirmPassword === password)
+        );
+    }
+
     function handleLoginButtonPress() {
-        // TODO: Connect to server, hash password...
-        if (keepLoggedIn)
-            dispatch(login(username, password));
+        dispatch(login(username, password));
     }
 
     return (
         <Card
             appearance="filled"
-            //header={() => <CardHeader title="Login" />}
             footer={cardFooter}
         >
             <Input
@@ -82,6 +86,16 @@ export default function LoginPanel() {
                 secureTextEntry={isHidingPassword}
                 status={editingPassword ? validPassword ? "success" : "danger" : "basic"}
                 value={password}
+            />
+            <Space />
+            <Input
+                caption={editingConfirmPassword ? validConfirmPassword ? "" : Texts.INVALID_CONFIRM_PASSWORD : ""}
+                label="Confirm Password"
+                maxLength={100}
+                onChangeText={handleConfirmPasswordInputChange}
+                secureTextEntry={true}
+                status={editingConfirmPassword ? validConfirmPassword ? "success" : "danger" : "basic"}
+                value={confirmPassword}
             />
         </Card>
     );

@@ -1,7 +1,7 @@
 import React from "react";
 import { SafeAreaView } from "react-native";
 import { useSelector } from "react-redux";
-import { AccountPanel, LoginPanel } from "../components/accounts";
+import { AccountPanel, UserAccountView } from "../components/accounts";
 
 export default function AccountScreen() {
     
@@ -11,7 +11,7 @@ export default function AccountScreen() {
             return <AccountPanel password={auth.password} username={auth.username}/>
         }
 
-        return <LoginPanel />
+        return <UserAccountView />
     }
 
     return (
