@@ -39,6 +39,14 @@ export default function CategoryForm(props) {
         // TODO: show error...
     }
 
+    async function deleteCategory() {
+        const deleteCategory = props.category;
+        const result = await CategoryService.delete(deleteCategory.id);
+
+        console.log(result);
+        // TODO: show error...
+    }
+
     async function handleOnOkButtonPress() {
         // TODO: Validate name & description.
         setIsProgressing(true);
@@ -48,6 +56,9 @@ export default function CategoryForm(props) {
 
         if (props.mode == "edit")
             await updateCategory();
+
+        if (props.mode == "delete")
+            await deleteCategory();
 
         setIsProgressing(false);
         await props.onOk();
@@ -81,6 +92,10 @@ export default function CategoryForm(props) {
     function getFormContent() {
         if (isProgressing)
             return <ActivityIndicator />
+
+        if (props.mode == "delete") {
+            return <Text>Delete {props.category.name} category?</Text>
+        }
 
         return (
             <View>
