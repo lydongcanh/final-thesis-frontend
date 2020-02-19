@@ -6,7 +6,7 @@ import { Texts } from "../../../core/texts";
 import { login } from "../../redux/actions/authActions";
 import { Space } from "../others";
 
-export default function UserSignupPanel() {
+export default function CustomerSignupPanel() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");

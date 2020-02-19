@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { TabView, Tab } from "@ui-kitten/components";
-import { LoginPanel, UserSignupPanel } from ".";
+import { LoginPanel, CustomerSignupPanel } from ".";
 
 export default function UserAccountView() {
 
@@ -15,7 +15,7 @@ export default function UserAccountView() {
                 <LoginPanel />
             </Tab>
             <Tab title="Sign Up">
-                <UserSignupPanel />
+                <CustomerSignupPanel />
             </Tab>
         </TabView>
     )
