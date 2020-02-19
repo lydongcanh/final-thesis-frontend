@@ -15,6 +15,14 @@ class AccountService extends BaseService {
         super(accountsEndpoint);
     }
 
+    async login(username, password) {
+        const result = await this.query({ username, password });
+        if (result.data.length == 1)
+            return { account: result.data[0] };
+
+        return { error: Texts.AUTH_ERROR };
+    }
+
     async customerSignup(username, password) {
         return await this.createNewAccount(username, password, ACCOUNT_TYPES.Customer);
     }
@@ -28,12 +36,7 @@ class AccountService extends BaseService {
         if (checkPassword.error)
             return checkPassword;
 
-        return await this.create({
-            username: username,
-            password: password,
-            accountType: accountType,
-            isActive: isActive
-        });
+        return await this.create({ username, password, accountType, isActive });
     }
 
     /**

@@ -5,10 +5,11 @@ import { Button, Card, CardHeader, Layout, Text } from "@ui-kitten/components";
 
 /**
  * 
- * @param {*} props username, password
+ * @param {*} props account
  */
 export default function AccountPanel(props) {
     const dispatch = useDispatch();
+    const { account } = props;
 
     const cardFooter = () => (
         <Layout style={{ flexDirection: "row", justifyContent: "flex-end" }}>
@@ -26,8 +27,11 @@ export default function AccountPanel(props) {
             header={() => <CardHeader title="Account" />}
             footer={cardFooter}
         >
-            <Text>Username: {props.username}</Text>
-            <Text>Password: {props.password}</Text>
+            <Text>Id: {account.id}</Text>
+            <Text>Username: {account.username}</Text>
+            <Text>Password: {account.password}</Text>
+            <Text>Type: {account.accountType}</Text>
+            <Text>Active: {account.isActive.toString()}</Text>
         </Card>
     );
 }

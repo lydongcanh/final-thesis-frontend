@@ -1,8 +1,11 @@
 import { ACCOUNT_LOGIN, ACCOUNT_LOGOUT } from "./actionTypes";
 
-export const login = (username, password) => ({
+/**
+ * @param {boolean} persistAccount Should the account be persisted between sections?
+ */
+export const login = (account, persistAccount) => ({
     type: ACCOUNT_LOGIN,
-    payload: { username, password }
+    payload: { account, persistAccount }
 });
 
 export const logout = () => ({

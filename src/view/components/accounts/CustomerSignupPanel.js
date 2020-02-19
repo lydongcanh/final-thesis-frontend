@@ -71,7 +71,7 @@ export default function CustomerSignupPanel() {
             return;
         }
 
-        dispatch(login(username, password));
+        dispatch(login(result.data, true));
     }
 
     return (

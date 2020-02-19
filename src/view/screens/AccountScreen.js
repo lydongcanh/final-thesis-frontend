@@ -6,9 +6,11 @@ import { AccountPanel, UserAccountView } from "../components/accounts";
 export default function AccountScreen() {
     
     function getAccountContent() {
+        // TODO: check persisted account.
         const auth = useSelector(state => state.authReducer);
+        
         if (auth.loggedIn) {
-            return <AccountPanel password={auth.password} username={auth.username}/>
+            return <AccountPanel account={auth.account}/>
         }
 
         return <UserAccountView />
