@@ -1,7 +1,7 @@
 import React from "react";
 import { Divider, List } from "react-native-paper";
 import { Avatar, Layout, Text } from "@ui-kitten/components";
-
+import { Space } from "../others"
 /**
  * 
  * @param {*} props employees
@@ -24,7 +24,7 @@ export default function EmployeeList(props) {
     );
 
     return (
-        <List.Section title="All Employees">
+        <List.Section title="All employees">
             {employees.map((employee, index) => (
                 <Layout key={index}>
                     <List.Item
@@ -32,7 +32,7 @@ export default function EmployeeList(props) {
                         left={() => <Avatar style={{ margin: 8 }} source={{ uri: employee.image }} />}
                         title={employeeTitle(employee.fullname)}
                     />
-                    <Divider style={{ margin: 8 }} />
+                    <Space />
                 </Layout>
             ))}
         </List.Section>

@@ -3,8 +3,8 @@ import { Layout } from "@ui-kitten/components";
 import employees from "../../../test/mockData/employees.json";
 import { EmployeeList } from "../components/employees";
 import { ScrollView, SafeAreaView } from "react-native";
-import { CategoryForm, CategoryTree, CategoryManageView } from "../components/categories";
-import { Divider, Button } from "react-native-paper";
+import { CategoryManageView } from "../components/categories";
+import { Divider } from "react-native-paper";
 import { CategoryService } from "../../core/services";
 
 export default function TestScreen() {
@@ -22,11 +22,10 @@ export default function TestScreen() {
         <ScrollView>
             <SafeAreaView>
                 <Layout>
-                    {/* <EmployeeList employees={employees} /> */}
                     <CategoryManageView />
-                    <Divider/>
+                    <Divider />
+                    <EmployeeList employees={employees} />
                 </Layout>
-                {/* <Button style={{ width: 150, alignSelf: "center" }} mode="contained" onPress={handleCategoriesButton}>Categories</Button> */}
             </SafeAreaView>
         </ScrollView>
     );

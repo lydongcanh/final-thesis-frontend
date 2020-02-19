@@ -38,13 +38,15 @@ export default function CategoryTree(props) {
     }
 
     function getIndicator(isExpanded, hasChildrenNodes) {
+        const indicatorStyle = { width: 16 };
+
         if (!hasChildrenNodes)
-            return <Icon name="arrow-right-outline" />;
+            return "";
 
         if (isExpanded)
-            return <Icon name="minus-outline" />;
+            return <Icon name="chevron-down-outline" style={indicatorStyle} />;
 
-        return <Icon name="plus-outline" />;
+        return <Icon name="chevron-right-outline" style={indicatorStyle} />;
     }
 
     async function handleNodeOnPress({ node }) {
