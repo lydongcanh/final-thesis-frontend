@@ -10,6 +10,7 @@ export default function UserAccountView() {
         <TabView
             onSelect={setTabSelectedIndex}
             selectedIndex={tabSelectedIndex}
+            style={{flex: 1}}
         >
             <Tab title="Login">
                 <LoginPanel />

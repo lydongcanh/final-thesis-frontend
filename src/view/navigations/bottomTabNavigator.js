@@ -22,18 +22,18 @@ const TabBarComponent = ({ navigation }) => {
                 selectedIndex={navigation.state.index}
                 onSelect={onSelect}
             >
+                <BottomNavigationTab icon={(style) => tabIcon(style, "person")} title="Account" />
                 <BottomNavigationTab icon={(style) => tabIcon(style, "lock")} title="Test" />
                 <BottomNavigationTab icon={(style) => tabIcon(style, "home")} title="Home" />
-                <BottomNavigationTab icon={(style) => tabIcon(style, "person")} title="Account" />
             </BottomNavigation>
         </Layout>
     );
 };
 
 export const BottomTabNavigator = createBottomTabNavigator({
+    Account: AccountScreen,
     Test: TestScreen,
-    Home: HomeScreen,
-    Account: AccountScreen
+    Home: HomeScreen
 }, {
     tabBarComponent: TabBarComponent,
 });
