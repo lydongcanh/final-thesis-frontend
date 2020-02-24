@@ -8,12 +8,11 @@ import employees from "../../../test/mockData/employees.json";
 export default function ManagementScreen() {
 
     const [tabSelectedIndex, setTabSelectedIndex] = useState(0);
-    const shouldLoadComponent = (index) => index === tabSelectedIndex;
 
     return (
         <TabView
+            indicatorStyle={{ height: 1 }}
             onSelect={setTabSelectedIndex}
-            shouldLoadComponent={shouldLoadComponent}
             selectedIndex={tabSelectedIndex}
             style={{ flex: 1 }}
         >

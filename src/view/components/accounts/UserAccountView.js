@@ -8,6 +8,7 @@ export default function UserAccountView() {
 
     return (
         <TabView
+            indicatorStyle={{ height : 1 }}
             onSelect={setTabSelectedIndex}
             selectedIndex={tabSelectedIndex}
             style={{flex: 1}}
