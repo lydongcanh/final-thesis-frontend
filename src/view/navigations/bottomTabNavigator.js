@@ -1,8 +1,7 @@
 import React from "react";
 import { createBottomTabNavigator } from "react-navigation-tabs";
 import { BottomNavigation, BottomNavigationTab, Icon, Layout } from "@ui-kitten/components";
-import { AccountScreen, HomeScreen } from "../screens";
-import TestScreen from "../screens/TestScreen";
+import { AccountScreen, HomeScreen, ManagementScreen } from "../screens";
 
 const TabBarComponent = ({ navigation }) => {
 
@@ -22,8 +21,8 @@ const TabBarComponent = ({ navigation }) => {
                 selectedIndex={navigation.state.index}
                 onSelect={onSelect}
             >
+                <BottomNavigationTab icon={(style) => tabIcon(style, "briefcase")} title="Management" />
                 <BottomNavigationTab icon={(style) => tabIcon(style, "person")} title="Account" />
-                <BottomNavigationTab icon={(style) => tabIcon(style, "lock")} title="Test" />
                 <BottomNavigationTab icon={(style) => tabIcon(style, "home")} title="Home" />
             </BottomNavigation>
         </Layout>
@@ -31,8 +30,8 @@ const TabBarComponent = ({ navigation }) => {
 };
 
 export const BottomTabNavigator = createBottomTabNavigator({
+    Management: ManagementScreen,
     Account: AccountScreen,
-    Test: TestScreen,
     Home: HomeScreen
 }, {
     tabBarComponent: TabBarComponent,

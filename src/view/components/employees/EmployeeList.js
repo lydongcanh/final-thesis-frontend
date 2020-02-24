@@ -24,7 +24,7 @@ export default function EmployeeList(props) {
     );
 
     return (
-        <List.Section title="All employees">
+        <List.Section>
             {employees.map((employee, index) => (
                 <Layout key={index}>
                     <List.Item

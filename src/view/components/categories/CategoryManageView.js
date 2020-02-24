@@ -158,8 +158,8 @@ export default function CategoryManageView() {
 
     return (
         <Layout>
-            {getHeader()}
-            <Divider />
+            {/* {getHeader()}
+            <Divider /> */}
             {getTreeView()}
             {getDialog()}
         </Layout>
