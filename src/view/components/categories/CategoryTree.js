@@ -41,12 +41,12 @@ export default function CategoryTree(props) {
         const indicatorStyle = { width: 16 };
 
         if (!hasChildrenNodes)
-            return "";
+            return;
 
         if (isExpanded)
-            return <Icon name="chevron-down-outline" style={indicatorStyle} />;
+            return <Icon name="chevron-down-outline" width={20} height={20} />;
 
-        return <Icon name="chevron-right-outline" style={indicatorStyle} />;
+        return <Icon name="chevron-right-outline"  width={20} height={20} />;
     }
 
     async function handleNodeOnPress({ node }) {
@@ -68,13 +68,15 @@ export default function CategoryTree(props) {
                 onNodePress={handleNodeOnPress}
                 renderNode={({ node, level, isExpanded, hasChildrenNodes }) => {
                     return (
-                        <Chip
-                            avatar={getIndicator(isExpanded, hasChildrenNodes)}
-                            mode="flat"
-                            style={{ marginLeft: 16 * level, borderRadius: 0, backgroundColor: "white" }}
-                        >
+                        <Layout style={{ 
+                            marginLeft: 16 * level + (hasChildrenNodes ? 0 : 16), 
+                            flexDirection: "row",
+                            justifyContent: "flex-start",
+                            height: 32,
+                        }}>
+                            {getIndicator(isExpanded, hasChildrenNodes)}
                             <Text>{node.name}</Text>
-                        </Chip>
+                        </Layout>
                     );
                 }}
             />
