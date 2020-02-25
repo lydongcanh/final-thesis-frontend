@@ -2,6 +2,7 @@ import React from "react";
 import { createBottomTabNavigator } from "react-navigation-tabs";
 import { BottomNavigation, BottomNavigationTab, Icon, Layout } from "@ui-kitten/components";
 import { AccountScreen, HomeScreen, ManagementScreen } from "../screens";
+import { SafeAreaView } from "react-navigation";
 
 const TabBarComponent = ({ navigation }) => {
 
@@ -15,7 +16,7 @@ const TabBarComponent = ({ navigation }) => {
     );
 
     return (
-        <Layout>
+        <SafeAreaView>
             <BottomNavigation
                 appearance="noIndicator"
                 selectedIndex={navigation.state.index}
@@ -26,7 +27,7 @@ const TabBarComponent = ({ navigation }) => {
                 <BottomNavigationTab icon={(style) => tabIcon(style, "person")} title="Account" />
                 <BottomNavigationTab icon={(style) => tabIcon(style, "home")} title="Home" />
             </BottomNavigation>
-        </Layout>
+        </SafeAreaView>
     );
 };
 
