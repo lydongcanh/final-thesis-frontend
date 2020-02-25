@@ -8,12 +8,15 @@ import { Button, Card, CardHeader, Layout, Text } from "@ui-kitten/components";
  * @param {*} props account
  */
 export default function AccountPanel(props) {
+    
     const dispatch = useDispatch();
     const { account } = props;
 
     const cardFooter = () => (
         <Layout style={{ flexDirection: "row", justifyContent: "flex-end" }}>
-            <Button onPress={handleLogoutButton} size="small" status="danger">Logout</Button>
+            <Button onPress={handleLogoutButton} size="small" status="danger">
+                Logout
+            </Button>
         </Layout>
     );
 

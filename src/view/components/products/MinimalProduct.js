@@ -6,15 +6,15 @@ import { Surface } from "react-native-paper";
 /**
  * Display only primary infomations of a product.
  * Should be used in a list, carousel...
- * @param props product
+ * @param props product, size
  */
 
 export default function MinimalProduct(props) {
 
-    const { product } = props;
-
+    const { product, size } = props;
+    
     const cardHeader = () => (
-        <Image style={{ height: 200 }} source={{ uri: product.image }} />
+        <Image style={{ height: size }} source={{ uri: product.image }} />
     );
 
     const cardFooter = () => (
@@ -44,6 +44,7 @@ export default function MinimalProduct(props) {
     return (
         <Surface style={{
             borderRadius: 20,
+            elevation: 4,
             flex: 1,
             margin: 8,
         }}>

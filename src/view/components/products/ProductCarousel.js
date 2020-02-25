@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Layout, Text } from "@ui-kitten/components";
 import { Dimensions } from "react-native";
-import MinimalProduct from "./MinimalProduct";
 import Carousel, { Pagination } from "react-native-snap-carousel";
+import { MinimalProduct } from ".";
 
 /**
  * 
@@ -11,7 +11,7 @@ import Carousel, { Pagination } from "react-native-snap-carousel";
 export default function ProductCarousel(props) {
 
     const [activeIndex, setActiveIndex] = useState(0);
-    const [carouselRef, setCarouslRef] = useState(null);
+    const [carouselRef, setCarouslRef] = useState();
 
     const { products, title } = props;
     const screenWidth = Dimensions.get("window").width;
@@ -20,16 +20,16 @@ export default function ProductCarousel(props) {
         <Layout>
             <Text category="h6" style={{ margin: 8 }}>{title}</Text>
             <Carousel
-                autoplay={true}
-                autoplayDelay={500}
-                autoplayInterval={3000}
+                // autoplay={true}
+                // autoplayDelay={500}
+                // autoplayInterval={3000}
                 data={products}
-                loop={true}
-                loopClonesPerSide={2}
+                //loop={true}
+                //loopClonesPerSide={2}
                 itemWidth={screenWidth}
                 onSnapToItem={setActiveIndex}
                 ref={c => setCarouslRef(c)}
-                renderItem={({ item }) => <MinimalProduct product={item} />}
+                renderItem={({ item }) => <MinimalProduct product={item} size={375} />}
                 sliderWidth={screenWidth}
             />
             <Pagination
