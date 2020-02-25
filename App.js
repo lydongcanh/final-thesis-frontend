@@ -10,6 +10,10 @@ import { createAppContainer } from "react-navigation";
 import { store, persistor } from "./src/view/redux/store";
 import { BottomTabNavigator } from './src/view/navigations/bottomTabNavigator';
 
+/** Fix buffer issue on iOS. */
+import { Buffer } from "buffer";
+global.Buffer = Buffer;
+
 export default function App() {
 
     const AppContainer = createAppContainer(BottomTabNavigator);
