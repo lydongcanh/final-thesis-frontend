@@ -20,6 +20,7 @@ const TabBarComponent = ({ navigation }) => {
                 appearance="noIndicator"
                 selectedIndex={navigation.state.index}
                 onSelect={onSelect}
+                style={{ borderTopColor: "#e6e6e6", borderTopWidth: 0.5 }}
             >
                 <BottomNavigationTab icon={(style) => tabIcon(style, "briefcase")} title="Management" />
                 <BottomNavigationTab icon={(style) => tabIcon(style, "person")} title="Account" />
