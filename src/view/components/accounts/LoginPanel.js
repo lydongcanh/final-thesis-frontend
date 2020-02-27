@@ -32,6 +32,7 @@ export default function LoginPanel() {
                 text={Texts.REMEMBER_ME}
                 checked={keepLoggedIn}
                 onChange={setKeepLoggedIn}
+                disabled // TODO: enable later...
             />
             <Button
                 disabled={!validUsername || !validPassword}
@@ -57,7 +58,7 @@ export default function LoginPanel() {
 
     async function handleLoginButtonPress() {
         const result = await AccountService.login(username, password);
-        console.log(result);
+
         if (result.error) {
             setSnackbarMessage(result.error);
             setIsShowingSnackbar(true);

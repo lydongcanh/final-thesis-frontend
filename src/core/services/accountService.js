@@ -27,14 +27,17 @@ class AccountService extends BaseService {
         return await this.createNewAccount(username, password, ACCOUNT_TYPES.Customer);
     }
 
+    async employeeSignup(username, password) {
+        return await this.createNewAccount(username, password, ACCOUNT_TYPES.Employee);
+    }
+
     async createNewAccount(username, password, accountType, isActive = true) {
         const checkUsername = await this.isValidUsername(username);
         if (checkUsername.error)
             return checkUsername;
 
-        const checkPassword = await this.isValidPassword(password);
-        if (checkPassword.error)
-            return checkPassword;
+        if (!validatePassword(password))
+            return Texts.INVALID_PASSWORD;
 
         return await this.create({ username, password, accountType, isActive });
     }
@@ -51,16 +54,6 @@ class AccountService extends BaseService {
             return { error: Texts.USERNAME_ALREADY_EXISTS };
 
         return { username: username }
-    }
-
-    /**
-     * @param {string} password 
-     */
-    async isValidPassword(password) {
-        if (!validatePassword(password))
-            return { error: Texts.INVALID_PASSWORD };
-
-        return { password: password }
     }
 }
 

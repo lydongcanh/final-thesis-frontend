@@ -4,6 +4,7 @@ import { Button, ButtonGroup, Layout, Icon, Text } from "@ui-kitten/components";
 import { ActivityIndicator, Portal, Dialog } from "react-native-paper";
 import { CategoryService } from "../../../core/services";
 import { CategoryForm } from ".";
+import { Space } from "../others";
 
 export default function CategoryManageView() {
 
@@ -158,6 +159,7 @@ export default function CategoryManageView() {
         <Layout>
             {/* {getHeader()}
             <Divider /> */}
+            <Space />
             {getTreeView()}
             {getDialog()}
         </Layout>

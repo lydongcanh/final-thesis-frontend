@@ -32,7 +32,7 @@ export default function EmployeeList(props) {
                         left={() => <Avatar style={{ margin: 8 }} source={{ uri: employee.image }} />}
                         title={employeeTitle(employee.fullname)}
                     />
-                    <Space />
+                    <Space value={2}/>
                 </Layout>
             ))}
         </List.Section>

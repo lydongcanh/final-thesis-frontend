@@ -1,37 +1,33 @@
 import React, { useState } from "react";
-import { ScrollView, Platform, StatusBar } from "react-native";
+import { Platform, StatusBar } from "react-native";
 import { Layout, TabView, Tab } from "@ui-kitten/components";
-import { CategoryManageView, CategoryTree } from "../components/categories";
-import { EmployeeList } from "../components/employees";
-import employees from "../../../test/mockData/employees.json";
+import { CategoryManageView } from "../components/categories";
+import { EmployeeManageView } from "../components/employees";
 
 export default function ManagementScreen() {
 
     const [tabSelectedIndex, setTabSelectedIndex] = useState(0);
 
     return (
-        <Layout style={{ 
-            flex: 1, 
-            justifyContent: "flex-start", 
-            alignContent: "center", 
+        <Layout style={{
+            flex: 1,
+            justifyContent: "flex-start",
+            alignContent: "center",
             padding: 8,
             marginTop: Platform.OS === "ios" ? 0 : StatusBar.currentHeight
         }}>
             <TabView
-                indicatorStyle={{ height: 1 }}
+                indicatorStyle={{ height: 0 }}
                 onSelect={setTabSelectedIndex}
                 selectedIndex={tabSelectedIndex}
                 shouldLoadComponent={(index) => tabSelectedIndex === index}
                 style={{ flex: 1 }}
             >
-                <Tab title="Category">
+                <Tab title="Product & Category">
                     <CategoryManageView />
-                    {/* <CategoryTree /> */}
                 </Tab>
                 <Tab title="Employee">
-                    <ScrollView >
-                        <EmployeeList employees={employees} />
-                    </ScrollView>
+                    <EmployeeManageView />
                 </Tab>
             </TabView>
         </Layout>
