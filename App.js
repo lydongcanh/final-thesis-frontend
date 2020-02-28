@@ -9,6 +9,7 @@ import { AppLoading } from "expo";
 import { createAppContainer } from "react-navigation";
 import { store, persistor } from "./src/view/redux/store";
 import { BottomTabNavigator } from './src/view/navigations/bottomTabNavigator';
+import { ThemeProvider } from "react-native-elements";
 import * as ErrorRecovery from 'expo-error-recovery';
 
 /** Fix buffer issue on iOS. */
@@ -27,7 +28,9 @@ export default function App(props) {
                 <IconRegistry icons={EvaIconsPack} />
                 <ApplicationProvider mapping={mapping} theme={light}>
                     <PaperProvider>
-                        <AppContainer />
+                        <ThemeProvider>
+                            <AppContainer />
+                        </ThemeProvider>
                     </PaperProvider>
                 </ApplicationProvider>
             </PersistGate>
