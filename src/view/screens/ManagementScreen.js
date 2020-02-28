@@ -17,7 +17,7 @@ export default function ManagementScreen() {
             marginTop: Platform.OS === "ios" ? 0 : StatusBar.currentHeight
         }}>
             <TabView
-                indicatorStyle={{ height: 0 }}
+                indicatorStyle={{ height: 1 }}
                 onSelect={setTabSelectedIndex}
                 selectedIndex={tabSelectedIndex}
                 shouldLoadComponent={(index) => tabSelectedIndex === index}
