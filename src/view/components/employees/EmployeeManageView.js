@@ -2,12 +2,13 @@ import React, { useState } from "react";
 import EmployeeList from "./EmployeeList.js";
 import { ScrollView } from "react-native";
 import { Layout } from "@ui-kitten/components";
-import { SearchInput } from "../others/index.js";
+import { SearchInput, Space } from "../others/index.js";
 import { FAB, Dialog, Portal } from "react-native-paper";
 import { EmployeeManageForm } from ".";
 
 export default function EmployeeManageView() {
 
+    const [searchText, setSearchText] = useState("");
     const [isFABOpen, setIsFABOpen] = useState(false);
     const [isManageFormOpen, setIsManageFormOpen] = useState(false);
 
@@ -15,22 +16,15 @@ export default function EmployeeManageView() {
         { icon: "plus", label: "Thêm nhân viên", onPress: () => setIsManageFormOpen(true) }
     ];
 
-    function handleSearchTextChange(text) {
-    }
-
-    function handleSearch(text) {
-        alert(text);
-    }
-
     return (
         <Layout style={{ flex: 1, justifyContent: "space-between" }}>
+            <Space value={4}/>
             <SearchInput
-                placeHolder="Nhập tên nhân viên, email, sđt..."
-                onChangeText={handleSearchTextChange}
-                onSearch={handleSearch}
+                placeHolder="Nhập tên nhân viên"
+                onChangeText={setSearchText}
             />
             <ScrollView>
-                <EmployeeList />
+                <EmployeeList searchText={searchText}/>
             </ScrollView>
             <FAB.Group
                 open={isFABOpen}

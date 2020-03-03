@@ -3,19 +3,29 @@ import { List, ActivityIndicator } from "react-native-paper";
 import { Avatar, Button, Layout, Text } from "@ui-kitten/components";
 import { EmployeeService } from "../../../core/services";
 
-export default function EmployeeList() {
+/**
+ * @param {*} props searchText
+ */
+export default function EmployeeList(props) {
+
+    const { searchText } = props;
 
     const [isLoaded, setIsLoaded] = useState(false);
     const [employees, setEmployees] = useState();
-
+    
     useEffect(() => {
-        loadEmployees();
-    }, []);
+        loadEmployees(searchText);
+    }, [searchText]);
 
     // TODO: catch errors...
-    async function loadEmployees() {
-        const result = await EmployeeService.getAll();
+    async function loadEmployees(searchText) {
+        setIsLoaded(false);
+
+        const result = (!searchText || searchText === "")
+                       ? await EmployeeService.getAll()
+                       : await EmployeeService.query({ containsName: searchText });
         setEmployees(result.data);
+
         setIsLoaded(true);
     }
 
@@ -36,7 +46,7 @@ export default function EmployeeList() {
 
     function getListContent() {
         if (!isLoaded)
-            return <ActivityIndicator />;
+            return <ActivityIndicator style={{ margin: 8 }} />;
 
         if (!employees)
             return <Text>Load nhân viên không thành công.</Text>
