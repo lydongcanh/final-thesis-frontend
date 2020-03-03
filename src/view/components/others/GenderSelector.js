@@ -1,22 +1,17 @@
 import React from "react";
 import { Select } from "@ui-kitten/components";
+import { GENDERS } from "../../../core/types";
 
 /**
  * @param {*} pros gender, setGender
  */
 export default function GenderSelector(props) {
 
-    const genders = [
-        { text: "Nam" },
-        { text: "Nữ" },
-        { text: "Khác" }
-    ];
-
     return (
         <Select
             placeholder="Chọn giới tính"
             label="Giới tính"
-            data={genders}
+            data={GENDERS}
             selectedOption={{ text: props.gender }}
             onSelect={({ text }) => props.setGender(text)}
         />

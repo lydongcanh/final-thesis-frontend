@@ -2,12 +2,7 @@ import BaseService from "./baseService";
 import { accountsEndpoint } from "../apis/endpoints";
 import { validateUsername, validatePassword } from "../validations";
 import { Texts } from "../texts";
-
-const ACCOUNT_TYPES = {
-    Admin: "Admin",
-    Customer: "Customer",
-    Employee: "Employee"
-};
+import { ACCOUNT_TYPES } from "../types";
 
 class AccountService extends BaseService {
 
