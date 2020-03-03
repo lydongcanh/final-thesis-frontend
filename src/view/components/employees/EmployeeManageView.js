@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import employees from "../../../../test/mockData/employees.json";
 import EmployeeList from "./EmployeeList.js";
 import { ScrollView } from "react-native";
 import { Layout } from "@ui-kitten/components";
@@ -31,7 +30,7 @@ export default function EmployeeManageView() {
                 onSearch={handleSearch}
             />
             <ScrollView>
-                <EmployeeList employees={employees} />
+                <EmployeeList />
             </ScrollView>
             <FAB.Group
                 open={isFABOpen}
