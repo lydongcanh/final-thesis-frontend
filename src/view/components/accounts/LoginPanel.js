@@ -1,23 +1,16 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { Button, Card, CardHeader, Layout, Icon, Input, CheckBox } from "@ui-kitten/components";
-import { Snackbar } from "react-native-paper";
-import { validateUsername, validatePassword } from "../../../core/validations";
+import { Button, Card, Layout, Icon, Input, CheckBox } from "@ui-kitten/components";
 import { Texts } from "../../../core/texts";
 import { login } from "../../redux/actions/authActions";
 import { AccountService } from "../../../core/services";
+import { Toast } from "native-base";
 
 export default function LoginPanel() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [keepLoggedIn, setKeepLoggedIn] = useState(true);
-    const [validUsername, setValidUsername] = useState(false);
-    const [validPassword, setValidPassword] = useState(false);
-    const [editingUsername, setEditingUsername] = useState(false);
-    const [editingPassword, setEditingPassword] = useState(false);
     const [isHidingPassword, setIsHidingPassword] = useState(true);
-    const [isShowingSnackbar, setIsShowingSnackbar] = useState(false);
-    const [snackbarMessage, setSnackbarMessage] = useState("");
 
     const dispatch = useDispatch();
 
@@ -34,7 +27,7 @@ export default function LoginPanel() {
                 disabled // TODO: enable later...
             />
             <Button
-                disabled={!validUsername || !validPassword}
+                disabled={username === "" || password === "" }
                 onPress={handleLoginButtonPress}
                 size="small"
             >
@@ -43,24 +36,14 @@ export default function LoginPanel() {
         </Layout>
     );
 
-    function handleUsernameInputChange(username) {
-        setUsername(username);
-        setEditingUsername(true);
-        setValidUsername(validateUsername(username));
-    }
-
-    function handlePasswordInputChange(password) {
-        setPassword(password);
-        setEditingPassword(true);
-        setValidPassword(validatePassword(password));
-    }
-
     async function handleLoginButtonPress() {
         const result = await AccountService.login(username, password);
 
         if (result.error) {
-            setSnackbarMessage(result.error);
-            setIsShowingSnackbar(true);
+            Toast.show({
+                text: result.error,
+                type: "danger"
+            });
             return;
         }
 
@@ -71,36 +54,24 @@ export default function LoginPanel() {
         <Layout style={{ flex: 1, justifyContent: "space-between" }}>
             <Card
                 appearance="filled"
-                //header={() => <CardHeader title="Login" />}
                 footer={cardFooter}
             >
                 <Input
-                    caption={editingUsername ? validUsername ? "" : Texts.INVALID_USERNAME : ""}
                     label="Email"
                     maxLength={100}
-                    onChangeText={handleUsernameInputChange}
-                    status={editingUsername ? validUsername ? "success" : "danger" : "basic"}
+                    onChangeText={setUsername}
                     value={username}
                 />
                 <Input
-                    caption={editingPassword ? validPassword ? "" : Texts.INVALID_PASSWORD : ""}
                     icon={showPasswordIcon}
                     label="Mật khẩu"
                     maxLength={100}
-                    onChangeText={handlePasswordInputChange}
+                    onChangeText={setPassword}
                     onIconPress={() => setIsHidingPassword(!isHidingPassword)}
                     secureTextEntry={isHidingPassword}
-                    status={editingPassword ? validPassword ? "success" : "danger" : "basic"}
                     value={password}
                 />
             </Card>
-            <Snackbar
-                duration={Snackbar.DURATION_SHORT}
-                onDismiss={() => setIsShowingSnackbar(false)}
-                visible={isShowingSnackbar}
-            >
-                {snackbarMessage}
-            </Snackbar>
         </Layout>
     );
 }
