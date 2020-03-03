@@ -11,7 +11,8 @@ export default function LoginPanel() {
     const [password, setPassword] = useState("");
     const [keepLoggedIn, setKeepLoggedIn] = useState(true);
     const [isHidingPassword, setIsHidingPassword] = useState(true);
-
+    const [isLoading, setIsLoading] = useState(false);
+    
     const dispatch = useDispatch();
 
     const showPasswordIcon = style => (
@@ -27,7 +28,7 @@ export default function LoginPanel() {
                 disabled // TODO: enable later...
             />
             <Button
-                disabled={username === "" || password === "" }
+                disabled={username === "" || password === "" || isLoading}
                 onPress={handleLoginButtonPress}
                 size="small"
             >
@@ -37,17 +38,20 @@ export default function LoginPanel() {
     );
 
     async function handleLoginButtonPress() {
-        const result = await AccountService.login(username, password);
+        setIsLoading(true);
 
+        const result = await AccountService.login(username, password);
         if (result.error) {
             Toast.show({
                 text: result.error,
                 type: "danger"
             });
-            return;
+        }
+        else {
+            dispatch(login(result.account, keepLoggedIn));
         }
 
-        dispatch(login(result.account, keepLoggedIn));
+        setIsLoading(false);
     }
 
     return (
@@ -58,12 +62,14 @@ export default function LoginPanel() {
             >
                 <Input
                     label="Email"
+                    disabled={isLoading}
                     maxLength={100}
                     onChangeText={setUsername}
                     value={username}
                 />
                 <Input
                     icon={showPasswordIcon}
+                    disabled={isLoading}
                     label="Mật khẩu"
                     maxLength={100}
                     onChangeText={setPassword}

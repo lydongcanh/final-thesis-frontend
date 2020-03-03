@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Button, Card, Layout, Icon, Input } from "@ui-kitten/components";
-import { Snackbar } from "react-native-paper";
 import { validateUsername, validatePassword } from "../../../core/validations";
 import { Texts } from "../../../core/texts";
 import { login } from "../../redux/actions/authActions";
 import { AccountService } from "../../../core/services";
+import { Toast } from "native-base";
 
 export default function CustomerSignupPanel() {
     const [username, setUsername] = useState("");
@@ -18,8 +18,7 @@ export default function CustomerSignupPanel() {
     const [editingPassword, setEditingPassword] = useState(false);
     const [editingConfirmPassword, setEditingConfirmPassword] = useState(false);
     const [isHidingPassword, setIsHidingPassword] = useState(true);
-    const [isShowingSnackbar, setIsShowingSnackbar] = useState(false);
-    const [snackbarMessage, setSnackbarMessage] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
 
     const dispatch = useDispatch();
 
@@ -30,7 +29,7 @@ export default function CustomerSignupPanel() {
     const cardFooter = () => (
         <Layout style={{ flexDirection: "row", justifyContent: "flex-end" }}>
             <Button
-                disabled={!validUsername || !validPassword || !validConfirmPassword}
+                disabled={!validUsername || !validPassword || !validConfirmPassword || isLoading}
                 onPress={handleSignupButtonPress}
                 size="small"
             >
@@ -62,15 +61,20 @@ export default function CustomerSignupPanel() {
     }
 
     async function handleSignupButtonPress() {
-        const result = await AccountService.customerSignup(username, password);
+        setIsLoading(true);
 
+        const result = await AccountService.customerSignup(username, password);
         if (result.error) {
-            setSnackbarMessage(result.error);
-            setIsShowingSnackbar(true);
-            return;
+            Toast.show({
+                text: result.error,
+                type: "danger"
+            });
+        }
+        else {
+            dispatch(login(result.data, true));
         }
 
-        dispatch(login(result.data, true));
+        setIsLoading(false);
     }
 
     return (
@@ -81,6 +85,7 @@ export default function CustomerSignupPanel() {
             >
                 <Input
                     caption={editingUsername ? validUsername ? "" : Texts.INVALID_USERNAME : ""}
+                    disabled={isLoading}
                     label="Email"
                     maxLength={100}
                     onChangeText={handleUsernameInputChange}
@@ -90,6 +95,7 @@ export default function CustomerSignupPanel() {
                 <Input
                     caption={editingPassword ? validPassword ? "" : Texts.INVALID_PASSWORD : ""}
                     icon={showPasswordIcon}
+                    disabled={isLoading}
                     label="Mật khẩu"
                     maxLength={100}
                     onChangeText={handlePasswordInputChange}
@@ -100,6 +106,7 @@ export default function CustomerSignupPanel() {
                 />
                 <Input
                     caption={editingConfirmPassword ? validConfirmPassword ? "" : Texts.INVALID_CONFIRM_PASSWORD : ""}
+                    disabled={isLoading}
                     label="Nhập lại mật khẩu"
                     maxLength={100}
                     onChangeText={handleConfirmPasswordInputChange}
@@ -108,13 +115,6 @@ export default function CustomerSignupPanel() {
                     value={confirmPassword}
                 />
             </Card>
-            <Snackbar
-                duration={Snackbar.DURATION_SHORT}
-                onDismiss={() => setIsShowingSnackbar(false)}
-                visible={isShowingSnackbar}
-            >
-                {snackbarMessage}
-            </Snackbar>
         </Layout>
     );
 }
