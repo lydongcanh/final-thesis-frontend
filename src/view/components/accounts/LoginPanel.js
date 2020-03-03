@@ -5,7 +5,6 @@ import { Snackbar } from "react-native-paper";
 import { validateUsername, validatePassword } from "../../../core/validations";
 import { Texts } from "../../../core/texts";
 import { login } from "../../redux/actions/authActions";
-import { Space } from "../others";
 import { AccountService } from "../../../core/services";
 
 export default function LoginPanel() {
@@ -39,7 +38,7 @@ export default function LoginPanel() {
                 onPress={handleLoginButtonPress}
                 size="small"
             >
-                Login
+                Đăng nhập
             </Button>
         </Layout>
     );
@@ -83,11 +82,10 @@ export default function LoginPanel() {
                     status={editingUsername ? validUsername ? "success" : "danger" : "basic"}
                     value={username}
                 />
-                <Space />
                 <Input
                     caption={editingPassword ? validPassword ? "" : Texts.INVALID_PASSWORD : ""}
                     icon={showPasswordIcon}
-                    label="Password"
+                    label="Mật khẩu"
                     maxLength={100}
                     onChangeText={handlePasswordInputChange}
                     onIconPress={() => setIsHidingPassword(!isHidingPassword)}

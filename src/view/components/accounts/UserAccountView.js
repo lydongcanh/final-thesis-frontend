@@ -13,10 +13,10 @@ export default function UserAccountView() {
             selectedIndex={tabSelectedIndex}
             style={{flex: 1}}
         >
-            <Tab title="Login">
+            <Tab title="Đăng nhập">
                 <LoginPanel />
             </Tab>
-            <Tab title="Sign Up">
+            <Tab title="Đăng ký">
                 <CustomerSignupPanel />
             </Tab>
         </TabView>

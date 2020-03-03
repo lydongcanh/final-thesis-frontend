@@ -1,16 +1,17 @@
 const DefaultTexts = {
     // Validations.
-    INVALID_USERNAME: "Invalid email.",
-    USERNAME_ALREADY_EXISTS: "Username already exists.",
-    INVALID_PASSWORD: "Password must have at least 8 characters, 1 letter & 1 number.",
-    INVALID_CONFIRM_PASSWORD: "The confirmation does not match.",
+    INVALID_USERNAME: "Email không hợp lệ.",
+    USERNAME_ALREADY_EXISTS: "Tài khoản đã tồn tại.",
+    INVALID_PASSWORD: "Mật khẩu cần có ít nhất 8 ký tự, ít nhất 1 chữ cái & 1 số.",
+    INVALID_CONFIRM_PASSWORD: "Nhập lại mật khẩu không đúng.",
 
     // UI.
-    REMEMBER_ME: "Keep me logged in.",
+    REMEMBER_ME: "Lưu tài khoản.",
 
     // Operations:
-    CUSTOMER_ACCOUNT_CREATED: "Your account has been created successfully.",
-    AUTH_ERROR: "Incorrect username or password."
+    CUSTOMER_ACCOUNT_CREATED: "Tạo tài khoản thành công.",
+    AUTH_ERROR: "Email hoặc mật khẩu không đúng.",
+    EMPLOYEE_CREATED: "Thêm nhân viên thành công."
 }
 
 export const Texts = DefaultTexts;

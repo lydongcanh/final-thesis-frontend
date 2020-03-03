@@ -23,9 +23,9 @@ const TabBarComponent = ({ navigation }) => {
                 onSelect={onSelect}
                 style={{ borderTopColor: "#e6e6e6", borderTopWidth: 0.5 }}
             >
-                <BottomNavigationTab icon={(style) => tabIcon(style, "briefcase")} title="Management" />
-                <BottomNavigationTab icon={(style) => tabIcon(style, "person")} title="Account" />
-                <BottomNavigationTab icon={(style) => tabIcon(style, "home")} title="Home" />
+                <BottomNavigationTab icon={(style) => tabIcon(style, "briefcase")} title="Quản lý" />
+                <BottomNavigationTab icon={(style) => tabIcon(style, "person")} title="Tài khoản" />
+                <BottomNavigationTab icon={(style) => tabIcon(style, "home")} title="Trang chủ" />
             </BottomNavigation>
         </SafeAreaView>
     );

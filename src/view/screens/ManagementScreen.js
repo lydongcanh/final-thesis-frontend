@@ -23,10 +23,10 @@ export default function ManagementScreen() {
                 shouldLoadComponent={(index) => tabSelectedIndex === index}
                 style={{ flex: 1 }}
             >
-                <Tab title="Product & Category">
+                <Tab title="Danh mục & Sản phẩm">
                     <CategoryManageView />
                 </Tab>
-                <Tab title="Employee">
+                <Tab title="Nhân viên">
                     <EmployeeManageView />
                 </Tab>
             </TabView>

@@ -13,7 +13,7 @@ export default function EmployeeManageView() {
     const [isManageFormOpen, setIsManageFormOpen] = useState(false);
 
     const fabActions = [
-        { icon: "plus", label: "New Employee", onPress: () => setIsManageFormOpen(true) }
+        { icon: "plus", label: "Thêm nhân viên", onPress: () => setIsManageFormOpen(true) }
     ];
 
     function handleSearchTextChange(text) {
@@ -26,7 +26,7 @@ export default function EmployeeManageView() {
     return (
         <Layout style={{ flex: 1, justifyContent: "space-between" }}>
             <SearchInput
-                placeHolder="Search"
+                placeHolder="Nhập tên nhân viên, email, sđt..."
                 onChangeText={handleSearchTextChange}
                 onSearch={handleSearch}
             />

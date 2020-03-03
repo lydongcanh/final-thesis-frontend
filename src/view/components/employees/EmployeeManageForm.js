@@ -1,15 +1,18 @@
 import React, { useState } from "react";
-import { Avatar, Button, ActivityIndicator } from "react-native-paper";
-import { Card, CardHeader, Input, Text, Datepicker, Layout } from "@ui-kitten/components"
+import { Button, ActivityIndicator } from "react-native-paper";
+import { Card, CardHeader, Input, Datepicker, Layout } from "@ui-kitten/components"
 import { Toast } from "native-base";
 import { GenderSelector } from "../others";
 import { EmployeeJobTitleSelector } from ".";
 import { EmployeeService, AccountService } from "../../../core/services";
+import { Texts } from "../../../core/texts";
 
 /**
  * @param {*} props onOk, onCancel
  */
 export default function EmployeeManageForm(props) {
+
+    const DEFAULT_PASSWORD = "abcd1234";
 
     const [name, setName] = useState("Ly Dong Canh");
     const [address, setAddress] = useState("12/ABC EHTF HASDA");
@@ -21,11 +24,11 @@ export default function EmployeeManageForm(props) {
     const [birthdate, setbirthdate] = useState(new Date(1998, 12, 31));
     const [isLoading, setIsLoading] = useState(false);
 
+    // TODO: catch error from server...
     async function handleOnOk() {
         setIsLoading(true);
 
-        const accountResult = await AccountService.customerSignup(email, "abcd1234");
-        console.log(accountResult);
+        const accountResult = await AccountService.employeeSignup(email, DEFAULT_PASSWORD);
 
         if (accountResult.error) {
             Toast.show({ 
@@ -36,7 +39,7 @@ export default function EmployeeManageForm(props) {
             return;
         }
         
-        const result = await EmployeeService.create({
+        await EmployeeService.create({
             name: name, 
             birthdate: birthdate, 
             address: address, 
@@ -48,10 +51,13 @@ export default function EmployeeManageForm(props) {
             accountId: accountResult.data.id
         });
 
-        console.log(result);
         setIsLoading(false);
+        props.onOk();
 
-        //props.onOk();
+        Toast.show({
+            text: Texts.EMPLOYEE_CREATED,
+            type: "success"
+        });
     }
 
     function handleOnCancel() {
@@ -62,7 +68,7 @@ export default function EmployeeManageForm(props) {
     function getFooter() {
         return (
             <Layout style={{ flexDirection: "row", justifyContent: "flex-end" }}>
-                <Button onPress={handleOnCancel} disabled={false}>Cancel</Button>
+                <Button onPress={handleOnCancel} disabled={false}>Hủy</Button>
                 <Button onPress={handleOnOk} disabled={isLoading}>Ok</Button>
             </Layout>
         );
