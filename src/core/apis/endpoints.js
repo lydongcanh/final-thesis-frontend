@@ -3,3 +3,5 @@ export const rootEndpoint = "http://10.0.2.2:5001/api"; // For Android localhost
 export const categoriesEndpoint = rootEndpoint + "/categories";
 export const accountsEndpoint = rootEndpoint + "/accounts";
 export const employeesEndpoint = rootEndpoint + "/employees";
+export const customersEndpoint = rootEndpoint + "/customers";
+export const productsEndpoint = rootEndpoint + "/products";
