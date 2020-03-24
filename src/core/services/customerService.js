@@ -1,5 +1,5 @@
 import BaseService from "./baseService";
-import {customersEndpoint} from "../apis/endpoints";
+import { customersEndpoint } from "../apis/endpoints";
 
 class CustomerService extends BaseService {
 

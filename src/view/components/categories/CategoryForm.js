@@ -10,8 +10,10 @@ import { View } from "react-native";
  */
 export default function CategoryForm(props) {
 
-    const [name, setName] = useState(props.mode == "edit" && props.category != null ? props.category.name : "");
-    const [description, setDescription] = useState(props.mode == "edit" && props.category != null ? props.category.description : "");
+    const { mode, category } = props;
+
+    const [name, setName] = useState(mode == "edit" && category != null ? category.name : "");
+    const [description, setDescription] = useState(mode == "edit" && category != null ? category.description : "");
     const [isProgressing, setIsProgressing] = useState(false);
 
     async function createCategory() {
@@ -20,8 +22,8 @@ export default function CategoryForm(props) {
             description: description,
         };
 
-        if (props.category)
-            newCategory.parentCategoryId = props.category.id;
+        if (category)
+            newCategory.parentCategoryId = category.id;
 
         const result = await CategoryService.create(newCategory);
         console.log(result);
@@ -29,7 +31,7 @@ export default function CategoryForm(props) {
     }
 
     async function updateCategory() {
-        const updatedCategory = props.category;
+        const updatedCategory = category;
         updatedCategory.name = name;
         updatedCategory.description = description;
 
@@ -40,7 +42,7 @@ export default function CategoryForm(props) {
     }
 
     async function deleteCategory() {
-        const deleteCategory = props.category;
+        const deleteCategory = category;
         const result = await CategoryService.delete(deleteCategory.id);
 
         console.log(result);
@@ -51,13 +53,13 @@ export default function CategoryForm(props) {
         // TODO: Validate name & description.
         setIsProgressing(true);
 
-        if (props.mode == "create")
+        if (mode == "create")
             await createCategory();
 
-        if (props.mode == "edit")
+        if (mode == "edit")
             await updateCategory();
 
-        if (props.mode == "delete")
+        if (mode == "delete")
             await deleteCategory();
 
         setIsProgressing(false);
@@ -65,25 +67,36 @@ export default function CategoryForm(props) {
     }
 
     function getParentInfo() {
-        if (props.mode == "create") {
+        if (mode == "create") {
             return (
                 <Input
                     disabled={true}
-                    label="Parent Category"
-                    value={props.category ? props.category.name : "No parent (Root category)"}
+                    label="Danh mục cha"
+                    value={category ? category.name : "Không có (danh mục gốc)"}
                 />
             )
         }
     }
 
     function getHeader() {
-        return <CardHeader title={props.mode.toUpperCase()} />
+        return <CardHeader title={getTitle()} />
+    }
+
+    function getTitle() {
+        if (mode === "create")
+            return "Thêm";
+
+        if (mode === "edit")
+            return "Sửa";
+
+        if (mode === "delete")
+            return "Xóa";
     }
 
     function getFooter() {
         return (
             <View style={{ flexDirection: "row", justifyContent: "flex-end" }}>
-                <Button appearance="ghost" onPress={props.onCancel}>Cancel</Button>
+                <Button appearance="ghost" onPress={props.onCancel}>Hủy</Button>
                 <Button appearance="ghost" onPress={handleOnOkButtonPress}>OK</Button>
             </View>
         );
@@ -94,18 +107,18 @@ export default function CategoryForm(props) {
             return <ActivityIndicator />
 
         if (props.mode == "delete") {
-            return <Text>Delete {props.category.name} category?</Text>
+            return <Text>Xóa danh mục: {props.category.name}</Text>
         }
 
         return (
             <View>
                 <Input
-                    label="Name"
+                    label="Tên"
                     onChangeText={setName}
                     value={name}
                 />
                 <Input
-                    label="Description"
+                    label="Chú thích"
                     onChangeText={setDescription}
                     value={description}
                 />
