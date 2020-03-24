@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Button, ActivityIndicator } from "react-native-paper";
-import { Card, CardHeader, Input, Datepicker, Layout } from "@ui-kitten/components"
+import { ActivityIndicator } from "react-native-paper";
+import { Card, CardHeader, Button, Input, Datepicker, Layout } from "@ui-kitten/components"
 import { Toast } from "native-base";
 import { GenderSelector } from "../others";
 import { EmployeeJobTitleSelector } from ".";
@@ -68,8 +68,8 @@ export default function EmployeeManageForm(props) {
     function getFooter() {
         return (
             <Layout style={{ flexDirection: "row", justifyContent: "flex-end" }}>
-                <Button onPress={handleOnCancel} disabled={false}>Hủy</Button>
-                <Button onPress={handleOnOk} disabled={isLoading}>Ok</Button>
+                <Button appearance="ghost" onPress={handleOnCancel} disabled={false}>Hủy</Button>
+                <Button appearance="ghost"  onPress={handleOnOk} disabled={isLoading}>Ok</Button>
             </Layout>
         );
     }

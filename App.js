@@ -1,3 +1,4 @@
+//import "react-native-gesture-handler";
 import React, { useState, useEffect } from 'react';
 import { ApplicationProvider, IconRegistry } from "@ui-kitten/components";
 import { EvaIconsPack } from "@ui-kitten/eva-icons";
@@ -7,16 +8,22 @@ import { Provider as ReduxProvider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { AppLoading } from "expo";
 import { createAppContainer } from "react-navigation";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
 import { store, persistor } from "./src/view/redux/store";
 import { BottomTabNavigator } from "./src/view/navigations/bottomTabNavigator";
 import { ThemeProvider } from "react-native-elements";
 import { Root } from "native-base";
+import { WelcomeScreen, HomeScreen } from "./src/view/screens";
+
 import * as ErrorRecovery from "expo-error-recovery";
 import * as ExpoFont from "expo-font";
 
 /** Fix buffer issue on iOS. */
 import { Buffer } from "buffer";
 global.Buffer = Buffer;
+
+const Stack = createStackNavigator();
 
 export default function App(props) {
 
@@ -42,18 +49,22 @@ export default function App(props) {
 
     return (
         <ReduxProvider store={store}>
-            <PersistGate loading={<AppLoading />} persistor={persistor}>
-                <IconRegistry icons={EvaIconsPack} />
-                <ApplicationProvider mapping={mapping} theme={light}>
-                    <PaperProvider>
-                        <ThemeProvider>
-                            <Root>
-                                <AppContainer />
-                            </Root>
-                        </ThemeProvider>
-                    </PaperProvider>
-                </ApplicationProvider>
-            </PersistGate>
+        <PersistGate loading={<AppLoading />} persistor={persistor}>
+            <IconRegistry icons={EvaIconsPack} />
+            <ApplicationProvider mapping={mapping} theme={light}>
+            <PaperProvider>
+            <ThemeProvider>
+                <Root>
+                    <NavigationContainer>
+                        <Stack.Navigator screenOptions={{ headerShown: false }}>
+                            <Stack.Screen name="Welcome" component={WelcomeScreen} />
+                        </Stack.Navigator>
+                    </NavigationContainer>
+                </Root>
+            </ThemeProvider>
+            </PaperProvider>
+            </ApplicationProvider>
+        </PersistGate>
         </ReduxProvider>
     );
 }

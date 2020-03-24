@@ -55,7 +55,7 @@ export default function LoginPanel() {
     }
 
     return (
-        <Layout style={{ flex: 1, justifyContent: "space-between" }}>
+        <Layout style={{ justifyContent: "space-between" }}>
             <Card
                 appearance="filled"
                 footer={cardFooter}
