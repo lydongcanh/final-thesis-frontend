@@ -9,3 +9,4 @@ export { default as CustomerAccountInfoScreen } from "./customer/AccountInfoScre
 export { default as CustomerCartScreen } from "./customer/CartScreen";
 export { default as CustomerFavouriteScreen } from "./customer/FavouriteScreen";
 export { default as CustomerMainScreen } from "./customer/MainScreen";
+export { default as CustomerSearchScreen } from "./customer/SearchScreen";

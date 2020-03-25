@@ -3,7 +3,7 @@ import { Platform, StatusBar } from "react-native";
 import { BottomNavigation, BottomNavigationTab, Icon } from "@ui-kitten/components";
 import { SafeAreaView } from "react-navigation";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { CustomerAccountInfoScreen, CustomerMainScreen, CustomerFavouriteScreen, CustomerCartScreen } from ".";
+import { CustomerAccountInfoScreen, CustomerMainScreen, CustomerFavouriteScreen, CustomerCartScreen, CustomerSearchScreen } from ".";
 
 const Tab = createBottomTabNavigator();
 
@@ -26,6 +26,7 @@ const TabBarComponent = ({ navigation, state }) => {
                 style={{ borderTopColor: "#e6e6e6", borderTopWidth: 0.5 }}
             >
                 <BottomNavigationTab icon={(style) => tabIcon(style, "home")} title="Trang chủ" />
+                <BottomNavigationTab icon={(style) => tabIcon(style, "search")} title="Tìm kiếm" />
                 <BottomNavigationTab icon={(style) => tabIcon(style, "heart")} title="Yêu Thích" />
                 <BottomNavigationTab icon={(style) => tabIcon(style, "person")} title="Tài khoản" />
                 <BottomNavigationTab icon={(style) => tabIcon(style, "shopping-cart")} title="Giỏ hàng" />
@@ -43,6 +44,7 @@ export default function CustomerHomeScreen({ navigation }) {
         }}>
             <Tab.Navigator tabBar={props => <TabBarComponent {...props} />}>
                 <Tab.Screen name="Home" component={CustomerMainScreen} />
+                <Tab.Screen name="Search" component={CustomerSearchScreen} />
                 <Tab.Screen name="Favourite" component={CustomerFavouriteScreen} />
                 <Tab.Screen name="AccountInfo" component={CustomerAccountInfoScreen} />
                 <Tab.Screen name="Cart" component={CustomerCartScreen} />
