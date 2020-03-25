@@ -14,7 +14,7 @@ import { store, persistor } from "./src/view/redux/store";
 //import { BottomTabNavigator } from "./src/view/navigations/bottomTabNavigator";
 import { ThemeProvider } from "react-native-elements";
 import { Root } from "native-base";
-import { WelcomeScreen, LoginScreen, CustomerSignupScreen, HomeScreen } from "./src/view/screens";
+import { WelcomeScreen, LoginScreen, CustomerSignupScreen, CustomerHomeScreen, EmployeeHomeScreen } from "./src/view/screens";
 
 import * as ErrorRecovery from "expo-error-recovery";
 import * as ExpoFont from "expo-font";
@@ -49,41 +49,46 @@ export default function App(props) {
 
     return (
         <ReduxProvider store={store}>
-        <PersistGate loading={<AppLoading />} persistor={persistor}>
-            <IconRegistry icons={EvaIconsPack} />
-            <ApplicationProvider mapping={mapping} theme={light}>
-            <PaperProvider>
-            <ThemeProvider>
-                <Root>
-                    <NavigationContainer>
-                        <Stack.Navigator initialRouteName="Home">
-                            <Stack.Screen
-                                options={{ headerShown: false }}
-                                name="Home"
-                                component={HomeScreen}
-                            />
-                            <Stack.Screen 
-                                options={{ headerShown: false }} 
-                                name="Welcome" 
-                                component={WelcomeScreen} 
-                            />
-                            <Stack.Screen
-                                options={{ title: "Đăng nhập" }}
-                                name="Login" 
-                                component={LoginScreen} 
-                            />
-                            <Stack.Screen 
-                                options={{ title: "Đăng ký" }}
-                                name="CustomerSignup"
-                                component={CustomerSignupScreen}
-                            />
-                        </Stack.Navigator>
-                    </NavigationContainer>
-                </Root>
-            </ThemeProvider>
-            </PaperProvider>
-            </ApplicationProvider>
-        </PersistGate>
+            <PersistGate loading={<AppLoading />} persistor={persistor}>
+                <IconRegistry icons={EvaIconsPack} />
+                <ApplicationProvider mapping={mapping} theme={light}>
+                    <PaperProvider>
+                        <ThemeProvider>
+                            <Root>
+                                <NavigationContainer>
+                                    <Stack.Navigator initialRouteName="Welcome">
+                                        <Stack.Screen
+                                            options={{ headerShown: false }}
+                                            name="Welcome"
+                                            component={WelcomeScreen}
+                                        />
+                                        <Stack.Screen
+                                            options={{ headerShown: false }}
+                                            name="CustomerHome"
+                                            component={CustomerHomeScreen}
+                                        />
+                                        <Stack.Screen
+                                            //options={{ headerShown: false }}
+                                            name="EmployeeHome"
+                                            component={EmployeeHomeScreen}
+                                        />
+                                        <Stack.Screen
+                                            options={{ title: "Đăng nhập" }}
+                                            name="Login"
+                                            component={LoginScreen}
+                                        />
+                                        <Stack.Screen
+                                            options={{ title: "Đăng ký" }}
+                                            name="CustomerSignup"
+                                            component={CustomerSignupScreen}
+                                        />
+                                    </Stack.Navigator>
+                                </NavigationContainer>
+                            </Root>
+                        </ThemeProvider>
+                    </PaperProvider>
+                </ApplicationProvider>
+            </PersistGate>
         </ReduxProvider>
     );
 }

@@ -4,15 +4,8 @@ import products from "../../../test/mockData/products.json";
 import { Divider } from "react-native-paper";
 import { ProductCarousel, ProductList } from "../components/products";
 import { SafeAreaView } from "react-navigation";
-import { useSelector } from "react-redux";
 
-export default function HomeScreen({ navigation, route }) {
-
-    const auth = useSelector(state => state.authReducer);
-
-    if ((!route || !route.params || !route.params.skipedWelcome) && !auth.loggedIn) {
-        navigation.navigate("Welcome");
-    }
+export default function CustomerHomeScreen({ navigation }) {
 
     return (
         <SafeAreaView style={{

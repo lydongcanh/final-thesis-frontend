@@ -20,7 +20,7 @@ export default function CustomerSignupScreen() {
     const [isHidingPassword, setIsHidingPassword] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
 
-    const dispatch = useDispatch({ navigation });
+    const dispatch = useDispatch();
 
     const showPasswordIcon = style => (
         <Icon {...style} name={isHidingPassword ? "eye-off" : "eye"} />

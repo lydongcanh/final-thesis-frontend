@@ -1,4 +1,5 @@
-export { default as HomeScreen } from "./HomeScreen";
+export { default as CustomerHomeScreen } from "./CustomerHomeScreen";
+export { default as EmployeeHomeScreen } from "./EmployeeHomeScreen";
 export { default as AccountScreen } from "./AccountScreen";
 export { default as ManagementScreen } from "./ManagementScreen";
 export { default as WelcomeScreen } from "./WelcomeScreen";
