@@ -4,6 +4,7 @@ const DefaultTexts = {
     USERNAME_ALREADY_EXISTS: "Tài khoản đã tồn tại.",
     INVALID_PASSWORD: "Mật khẩu cần có ít nhất 8 ký tự, ít nhất 1 chữ cái & 1 số.",
     INVALID_CONFIRM_PASSWORD: "Nhập lại mật khẩu không đúng.",
+    INVALID_PERSON_NAME: "Xin nhập đầy đủ họ và tên.",
 
     // UI.
     REMEMBER_ME: "Lưu tài khoản.",

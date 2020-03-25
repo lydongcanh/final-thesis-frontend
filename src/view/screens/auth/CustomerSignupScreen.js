@@ -4,16 +4,20 @@ import { Button, Card, Layout, Icon, Input } from "@ui-kitten/components";
 import { validateUsername, validatePassword } from "../../../core/validations";
 import { Texts } from "../../../core/texts";
 import { login } from "../../redux/actions/authActions";
-import { AccountService } from "../../../core/services";
+import { AccountService, CustomerService } from "../../../core/services";
 import { Toast } from "native-base";
+import { Space } from "../../components/others";
 
-export default function CustomerSignupScreen() {
+export default function CustomerSignupScreen({ navigation }) {
+    const [customerName, setCustomerName] = useState("");
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
+    const [validCustomerName, setValidCustomerName] = useState(false);
     const [validUsername, setValidUsername] = useState(false);
     const [validPassword, setValidPassword] = useState(false);
     const [validConfirmPassword, setValidConfirmPassword] = useState(false);
+    const [editingCustomerName, setEditingCustomerName] = useState(false);
     const [editingUsername, setEditingUsername] = useState(false);
     const [editingPassword, setEditingPassword] = useState(false);
     const [editingConfirmPassword, setEditingConfirmPassword] = useState(false);
@@ -50,6 +54,12 @@ export default function CustomerSignupScreen() {
         setValidPassword(validatePassword(password));
     }
 
+    function handleCustomerNameInputChange(name) {
+        setCustomerName(name);
+        setEditingCustomerName(true);
+        setValidCustomerName(name !== null & name.length > 0);
+    }
+
     function handleConfirmPasswordInputChange(confirmPassword) {
         setConfirmPassword(confirmPassword);
         setEditingConfirmPassword(true);
@@ -63,27 +73,47 @@ export default function CustomerSignupScreen() {
     async function handleSignupButtonPress() {
         setIsLoading(true);
 
-        const result = await AccountService.customerSignup(username, password);
-        if (result.error) {
+        const accountResult = await AccountService.customerSignup(username, password);
+        if (accountResult.error) {
             Toast.show({
-                text: result.error,
+                text: accountResult.error,
                 type: "danger"
             });
+            
+            setIsLoading(false);
+            return;
         }
-        else {
-            dispatch(login(result.data, true));
-            navigation.navigate("CustomerHome");
-        }
+        
+        const account = accountResult.data;
+        const customerResult = await CustomerService.create({
+            accountId: account.id,
+            name: customerName,
+            email: username
+        });
+        console.log(customerResult);
 
+        dispatch(login(account, true));
+        navigation.navigate("CustomerHome");
         setIsLoading(false);
     }
 
     return (
-        <Layout style={{ flex: 1, justifyContent: "space-between"}}>
+        <Layout style={{ flex: 1, justifyContent: "space-between" }}>
             <Card
                 appearance="filled"
                 footer={cardFooter}
             >
+                <Input
+                    caption={editingCustomerName ? validCustomerName ? "" : Texts.INVALID_PERSON_NAME : ""}
+                    disabled={isLoading}
+                    label="Họ & tên"
+                    maxLength={100}
+                    onChangeText={handleCustomerNameInputChange}
+                    status={editingCustomerName ? validCustomerName ? "success" : "danger" : "basic"}
+                    value={customerName}
+                />
+                <Space />
+
                 <Input
                     caption={editingUsername ? validUsername ? "" : Texts.INVALID_USERNAME : ""}
                     disabled={isLoading}
@@ -93,6 +123,8 @@ export default function CustomerSignupScreen() {
                     status={editingUsername ? validUsername ? "success" : "danger" : "basic"}
                     value={username}
                 />
+                <Space />
+
                 <Input
                     caption={editingPassword ? validPassword ? "" : Texts.INVALID_PASSWORD : ""}
                     icon={showPasswordIcon}
@@ -105,6 +137,8 @@ export default function CustomerSignupScreen() {
                     status={editingPassword ? validPassword ? "success" : "danger" : "basic"}
                     value={password}
                 />
+                <Space />
+
                 <Input
                     caption={editingConfirmPassword ? validConfirmPassword ? "" : Texts.INVALID_CONFIRM_PASSWORD : ""}
                     disabled={isLoading}
@@ -115,6 +149,7 @@ export default function CustomerSignupScreen() {
                     status={editingConfirmPassword ? validConfirmPassword ? "success" : "danger" : "basic"}
                     value={confirmPassword}
                 />
+                <Space />
             </Card>
         </Layout>
     );
