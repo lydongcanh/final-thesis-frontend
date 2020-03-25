@@ -1,16 +1,22 @@
 import React from "react";
 import { ScrollView, Platform, StatusBar } from "react-native";
-import { Layout } from "@ui-kitten/components";
 import products from "../../../test/mockData/products.json";
 import { Divider } from "react-native-paper";
 import { ProductCarousel, ProductList } from "../components/products";
 import { SafeAreaView } from "react-navigation";
+import { useSelector } from "react-redux";
 
-export default function HomeScreen() {
+export default function HomeScreen({ navigation, route }) {
+
+    const auth = useSelector(state => state.authReducer);
+
+    if ((!route || !route.params || !route.params.skipedWelcome) && !auth.loggedIn) {
+        navigation.navigate("Welcome");
+    }
 
     return (
         <SafeAreaView style={{
-            marginTop: Platform.OS === "ios" ? 0 : StatusBar.currentHeight,
+            //marginTop: Platform.OS === "ios" ? 0 : StatusBar.currentHeight,
             justifyContent: "center",
             flex: 1
         }}>

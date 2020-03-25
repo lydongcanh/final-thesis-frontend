@@ -1,4 +1,4 @@
-//import "react-native-gesture-handler";
+import "react-native-gesture-handler";
 import React, { useState, useEffect } from 'react';
 import { ApplicationProvider, IconRegistry } from "@ui-kitten/components";
 import { EvaIconsPack } from "@ui-kitten/eva-icons";
@@ -7,14 +7,14 @@ import { Provider as PaperProvider } from "react-native-paper";
 import { Provider as ReduxProvider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { AppLoading } from "expo";
-import { createAppContainer } from "react-navigation";
+//import { createAppContainer } from "react-navigation";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { store, persistor } from "./src/view/redux/store";
-import { BottomTabNavigator } from "./src/view/navigations/bottomTabNavigator";
+//import { BottomTabNavigator } from "./src/view/navigations/bottomTabNavigator";
 import { ThemeProvider } from "react-native-elements";
 import { Root } from "native-base";
-import { WelcomeScreen, HomeScreen } from "./src/view/screens";
+import { WelcomeScreen, LoginScreen, CustomerSignupScreen, HomeScreen } from "./src/view/screens";
 
 import * as ErrorRecovery from "expo-error-recovery";
 import * as ExpoFont from "expo-font";
@@ -30,7 +30,7 @@ export default function App(props) {
     const [isReady, setIsReady] = useState(false);
 
     ErrorRecovery.setRecoveryProps(props);
-    const AppContainer = createAppContainer(BottomTabNavigator);
+    //const AppContainer = createAppContainer(BottomTabNavigator);
 
     useEffect(() => {
         loadFont();
@@ -56,8 +56,27 @@ export default function App(props) {
             <ThemeProvider>
                 <Root>
                     <NavigationContainer>
-                        <Stack.Navigator screenOptions={{ headerShown: false }}>
-                            <Stack.Screen name="Welcome" component={WelcomeScreen} />
+                        <Stack.Navigator initialRouteName="Home">
+                            <Stack.Screen
+                                options={{ headerShown: false }}
+                                name="Home"
+                                component={HomeScreen}
+                            />
+                            <Stack.Screen 
+                                options={{ headerShown: false }} 
+                                name="Welcome" 
+                                component={WelcomeScreen} 
+                            />
+                            <Stack.Screen
+                                options={{ title: "Đăng nhập" }}
+                                name="Login" 
+                                component={LoginScreen} 
+                            />
+                            <Stack.Screen 
+                                options={{ title: "Đăng ký" }}
+                                name="CustomerSignup"
+                                component={CustomerSignupScreen}
+                            />
                         </Stack.Navigator>
                     </NavigationContainer>
                 </Root>
