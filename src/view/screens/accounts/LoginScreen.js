@@ -5,6 +5,7 @@ import { Texts } from "../../../core/texts";
 import { login } from "../../redux/actions/authActions";
 import { AccountService } from "../../../core/services";
 import { Toast } from "native-base";
+import { ACCOUNT_TYPES } from "../../../core/types";
 
 export default function LoginScreen({ navigation }) {
 
@@ -50,7 +51,8 @@ export default function LoginScreen({ navigation }) {
         }
         else {
             dispatch(login(result.account, keepLoggedIn));
-            navigation.navigate("Home");
+            const screen = result.account.accountType === ACCOUNT_TYPES.Employee ? "EmployeeHome" : "CustomerHome";
+            navigation.navigate(screen);
         }
 
         setIsLoading(false);

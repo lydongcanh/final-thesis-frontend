@@ -1,17 +1,21 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Layout, Button } from "@ui-kitten/components";
 import { StyleSheet, ImageBackground, View } from "react-native";
 import { useSelector } from "react-redux";
 import { ACCOUNT_TYPES } from "../../core/types";
 
 export default function WelcomeScreen({ navigation }) {
-
+    
     const auth = useSelector(state => state.authReducer);
 
-    if (auth.loggedIn && auth.account) {
-        const screen = auth.account.accountType === ACCOUNT_TYPES.Employee ? "EmployeeHome" : "CustomerHome";
-        navigation.navigate(screen); 
-    }
+    useEffect(() => {
+
+        if (auth.loggedIn && auth.account) {
+            const screen = auth.account.accountType === ACCOUNT_TYPES.Employee ? "EmployeeHome" : "CustomerHome";
+            navigation.navigate(screen); 
+        }
+    
+    }, []);
 
     const styles = StyleSheet.create({
         backgroundImage: {

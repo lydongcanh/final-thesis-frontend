@@ -72,7 +72,7 @@ export default function CustomerSignupScreen() {
         }
         else {
             dispatch(login(result.data, true));
-            navigation.navigate("Home");
+            navigation.navigate("CustomerHome");
         }
 
         setIsLoading(false);
