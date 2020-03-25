@@ -3,8 +3,7 @@ import { Platform, StatusBar } from "react-native";
 import { BottomNavigation, BottomNavigationTab, Icon } from "@ui-kitten/components";
 import { SafeAreaView } from "react-navigation";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { LoginScreen } from ".";
-import { CustomerSignupPanel, UserAccountView } from "../components/accounts";
+import { CustomerAccountInfoScreen, CustomerMainScreen, CustomerFavouriteScreen, CustomerCartScreen } from ".";
 
 const Tab = createBottomTabNavigator();
 
@@ -26,9 +25,10 @@ const TabBarComponent = ({ navigation, state }) => {
                 onSelect={onSelect}
                 style={{ borderTopColor: "#e6e6e6", borderTopWidth: 0.5 }}
             >
-                <BottomNavigationTab icon={(style) => tabIcon(style, "briefcase")} title="Quản lý" />
-                <BottomNavigationTab icon={(style) => tabIcon(style, "person")} title="Tài khoản" />
                 <BottomNavigationTab icon={(style) => tabIcon(style, "home")} title="Trang chủ" />
+                <BottomNavigationTab icon={(style) => tabIcon(style, "heart")} title="Yêu Thích" />
+                <BottomNavigationTab icon={(style) => tabIcon(style, "person")} title="Tài khoản" />
+                <BottomNavigationTab icon={(style) => tabIcon(style, "shopping-cart")} title="Giỏ hàng" />
             </BottomNavigation>
         </SafeAreaView>
     );
@@ -42,9 +42,10 @@ export default function CustomerHomeScreen({ navigation }) {
             flex: 1
         }}>
             <Tab.Navigator tabBar={props => <TabBarComponent {...props} />}>
-                <Tab.Screen name="A" component={UserAccountView} />
-                <Tab.Screen name="B" component={LoginScreen} />
-                <Tab.Screen name="C" component={CustomerSignupPanel} />
+                <Tab.Screen name="Home" component={CustomerMainScreen} />
+                <Tab.Screen name="Favourite" component={CustomerFavouriteScreen} />
+                <Tab.Screen name="AccountInfo" component={CustomerAccountInfoScreen} />
+                <Tab.Screen name="Cart" component={CustomerCartScreen} />
             </Tab.Navigator>
         </SafeAreaView>
     )
