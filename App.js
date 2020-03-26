@@ -7,11 +7,9 @@ import { Provider as PaperProvider } from "react-native-paper";
 import { Provider as ReduxProvider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { AppLoading } from "expo";
-//import { createAppContainer } from "react-navigation";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { store, persistor } from "./src/view/redux/store";
-//import { BottomTabNavigator } from "./src/view/navigations/bottomTabNavigator";
 import { ThemeProvider } from "react-native-elements";
 import { Root } from "native-base";
 import { WelcomeScreen, LoginScreen, CustomerSignupScreen, CustomerHomeScreen, EmployeeHomeScreen } from "./src/view/screens";
@@ -30,7 +28,6 @@ export default function App(props) {
     const [isReady, setIsReady] = useState(false);
 
     ErrorRecovery.setRecoveryProps(props);
-    //const AppContainer = createAppContainer(BottomTabNavigator);
 
     useEffect(() => {
         loadFont();
