@@ -39,7 +39,7 @@ export default function CustomerHomeScreen({ navigation }) {
 
     return (
         <SafeAreaView style={{
-            marginTop: Platform.OS === "ios" ? 0 : StatusBar.currentHeight,
+            //marginTop: Platform.OS === "ios" ? 0 : StatusBar.currentHeight,
             flex: 1
         }}>
             <Tab.Navigator tabBar={props => <TabBarComponent {...props} />}>

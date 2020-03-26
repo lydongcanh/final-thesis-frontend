@@ -92,6 +92,11 @@ export default function CustomerSignupScreen({ navigation }) {
         });
         console.log(customerResult);
 
+        account.customerId = customerResult.data.id;
+        const updateAccountResult = await AccountService.update(account);
+
+        console.log(updateAccountResult);
+
         dispatch(login(account, true));
         navigation.navigate("CustomerHome");
         setIsLoading(false);
