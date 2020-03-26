@@ -1,4 +1,3 @@
-import uuid from "react-native-uuid";
 import BaseAPI from "../apis/baseAPI";
 
 export default class BaseService {
@@ -16,8 +15,6 @@ export default class BaseService {
     }
 
     async create(entity) {
-        const id = uuid.v1();
-        entity.id = id;
         return await this.restClient.post(entity);
     }
 
