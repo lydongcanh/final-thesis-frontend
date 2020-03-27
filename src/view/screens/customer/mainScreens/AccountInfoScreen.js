@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { Layout, Text, Button } from "@ui-kitten/components";
 import { useSelector, useDispatch } from "react-redux";
-import { Space } from "../../components/others";
-import { logout } from "../../redux/actions/authActions";
+import { Space } from "../../../components/others";
+import { logout } from "../../../redux/actions/authActions";
 
 export default function AccountInfoScreen({ navigation }) {
 
