@@ -12,7 +12,13 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { store, persistor } from "./src/view/redux/store";
 import { ThemeProvider } from "react-native-elements";
 import { Root } from "native-base";
-import { WelcomeScreen, LoginScreen, CustomerSignupScreen, CustomerHomeScreen, EmployeeHomeScreen } from "./src/view/screens";
+import { WelcomeScreen, 
+         LoginScreen, 
+         CustomerSignupScreen, 
+         CustomerHomeScreen, 
+         EmployeeHomeScreen, 
+         CustomerSubCategoryScreen 
+        } from "./src/view/screens";
 
 import * as ErrorRecovery from "expo-error-recovery";
 import * as ExpoFont from "expo-font";
@@ -70,14 +76,18 @@ export default function App(props) {
                         component={EmployeeHomeScreen}
                     />
                     <Stack.Screen
-                        options={{ title: "Đăng nhập" }}
+                        options={{ title: "LOGIN" }}
                         name="Login"
                         component={LoginScreen}
                     />
                     <Stack.Screen
-                        options={{ title: "Đăng ký" }}
+                        options={{ title: "SIGN UP" }}
                         name="CustomerSignup"
                         component={CustomerSignupScreen}
+                    />
+                    <Stack.Screen 
+                        name="CustomerSubCategory"
+                        component={CustomerSubCategoryScreen}
                     />
                 </Stack.Navigator>
             </NavigationContainer>

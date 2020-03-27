@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { ScrollView, FlatList } from "react-native-gesture-handler";
+import { FlatList } from "react-native-gesture-handler";
 import { Layout, Text, Input, Icon, Button, Card } from "@ui-kitten/components";
-import { Surface, ActivityIndicator } from "react-native-paper";
+import { ActivityIndicator } from "react-native-paper";
 import { Image } from "react-native";
 import { CategoryService } from "../../../../core/services";
 import { Space } from "../../../components/others";
 
-export default function SearchScreen() {
+export default function SearchScreen({ navigation }) {
 
     const [categories, setCategories] = useState();
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const [isLoaded, setIsLoaded] = useState(false);
 
     useEffect(() => {
@@ -46,6 +46,10 @@ export default function SearchScreen() {
         }
     }
 
+    function handleCategoryClick(category) {
+        navigation.navigate("CustomerSubCategory", category);
+    }
+
     function getCategories() {
         if (isLoading) {
             return <ActivityIndicator style={{ margin: 8, flex: 1, alignContent: "center" }} />
@@ -68,30 +72,28 @@ export default function SearchScreen() {
         }
 
         return (
-            <ScrollView>
-                <FlatList
-                    data={categories}
-                    numColumns={2}
-                    keyExtractor={(_, index) => index.toString()}
-                    renderItem={({ item }) => (
-                        <Card 
-                            style={{flex: 1, margin: 8, padding: 4}}
-                            onPress={() => alert(item)}
+            <FlatList
+                data={categories}
+                numColumns={2}
+                keyExtractor={(_, index) => index.toString()}
+                renderItem={({ item }) => (
+                    <Card
+                        style={{ flex: 1, margin: 8 }}
+                        onPress={() => handleCategoryClick(item)}
+                    >
+                        <Image
+                            style={{ width: "100%", height: 150, justifyContent: "center", alignContent: "center" }}
+                            source={{ uri: item.imagePath }}
+                        />
+                        <Text
+                            category="h6"
+                            style={{ textAlign: "center", fontWeight: "bold" }}
                         >
-                            <Image
-                                style={{ width: "100%", height: 150, justifyContent: "center", alignContent: "center" }}
-                                source={{ uri: item.imagePath }}
-                            />
-                            <Text
-                                category="h6"
-                                style={{ textAlign: "center", fontWeight: "bold" }}
-                            >
-                                {item.name}
-                            </Text>
-                        </Card>
-                    )}
-                />
-            </ScrollView>
+                            {item.name}
+                        </Text>
+                    </Card>
+                )}
+            />
         );
     }
 
