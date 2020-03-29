@@ -1,10 +1,10 @@
-import { categoriesEndpoint } from "../apis/endpoints";
+import { productCategoriesEndpoint } from "../apis/endpoints";
 import BaseService from "./baseService";
 
 class CategoryService extends BaseService {
     
     constructor() {
-        super(categoriesEndpoint);
+        super(productCategoriesEndpoint);
     }
 
     async getAllLeaf() {

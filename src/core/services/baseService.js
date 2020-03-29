@@ -10,6 +10,13 @@ export default class BaseService {
         return await this.restClient.getAll();
     }
 
+    /**
+     * @param {string} id 
+     */
+    async getById(id) {
+        return await this.restClient.getById(id);
+    }
+
     async query(queryParams) {
         return await this.restClient.get(queryParams);
     }
@@ -22,6 +29,9 @@ export default class BaseService {
         return await this.restClient.put(newEntity);
     }
     
+    /**
+     * @param {string} id 
+     */
     async delete(id) {
         return await this.restClient.delete(id);
     }

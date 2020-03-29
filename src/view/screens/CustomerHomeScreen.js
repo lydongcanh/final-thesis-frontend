@@ -25,11 +25,11 @@ const TabBarComponent = ({ navigation, state }) => {
                 onSelect={onSelect}
                 style={{ borderTopColor: "#e6e6e6", borderTopWidth: 0.5 }}
             >
-                <BottomNavigationTab icon={(style) => tabIcon(style, "home")} title="Home" />
-                <BottomNavigationTab icon={(style) => tabIcon(style, "search")} title="Search" />
-                <BottomNavigationTab icon={(style) => tabIcon(style, "heart")} title="Favourite" />
-                <BottomNavigationTab icon={(style) => tabIcon(style, "person")} title="Account" />
-                <BottomNavigationTab icon={(style) => tabIcon(style, "shopping-cart")} title="Cart" />
+                <BottomNavigationTab icon={(style) => tabIcon(style, "home")} title="Trang chủ" />
+                <BottomNavigationTab icon={(style) => tabIcon(style, "search")} title="Tìm kiếm" />
+                <BottomNavigationTab icon={(style) => tabIcon(style, "heart")} title="Yêu thích" />
+                <BottomNavigationTab icon={(style) => tabIcon(style, "person")} title="Tài khoản" />
+                <BottomNavigationTab icon={(style) => tabIcon(style, "shopping-cart")} title="Giỏ hàng" />
             </BottomNavigation>
         </SafeAreaView>
     );
@@ -39,7 +39,7 @@ export default function CustomerHomeScreen({ navigation }) {
 
     return (
         <SafeAreaView style={{
-            marginTop: Platform.OS === "ios" ? 0 : StatusBar.currentHeight,
+            //marginTop: Platform.OS === "ios" ? 0 : StatusBar.currentHeight,
             flex: 1
         }}>
             <Tab.Navigator tabBar={props => <TabBarComponent {...props} />}>
