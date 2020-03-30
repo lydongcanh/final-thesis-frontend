@@ -58,14 +58,14 @@ export default function SearchScreen({ navigation }) {
         if (!isLoaded) {
             return (
                 <Layout style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-                    <Text appearance="hint">Failed to load categories!</Text>
+                    <Text appearance="hint">Có lỗi xảy ra khi load dữ liệu, xin thử lại!</Text>
                     <Space />
                     <Button
                         size="tiny"
                         icon={(style) => <Icon {...style} name="sync" />}
                         onPress={loadCategories}
                     >
-                        Reload
+                        Thử lại
                     </Button>
                 </Layout>
             );

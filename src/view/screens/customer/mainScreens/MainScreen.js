@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Layout, Text, Card } from "@ui-kitten/components";
-import { CollectionService, CollectionDetailsService, ProductService } from "../../../../core/services";
+import { Layout, Text, Card, Button, Icon } from "@ui-kitten/components";
+import { CollectionService } from "../../../../core/services";
 import { FlatList, ScrollView } from "react-native-gesture-handler";
 import { ActivityIndicator } from "react-native-paper";
 import { Image, Dimensions, View, ImageBackground } from "react-native";
 import Carousel, { Pagination } from "react-native-snap-carousel";
+import { Space } from "../../../components/others";
+import { MinimalProduct } from "../../../components/products";
 
 export default function MainScreen() {
 
@@ -19,7 +21,8 @@ export default function MainScreen() {
     const [carouselRef, setCarouslRef] = useState();
 
     const [collections, setCollection] = useState();
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
+    const [isLoaded, setIsLoaded] = useState(false);
 
     useEffect(() => {
         loadCollections();
@@ -27,10 +30,16 @@ export default function MainScreen() {
 
     async function loadCollections() {
         setIsLoading(true);
-        const collectionResult = await CollectionService.getMainPageCollection();
-        // TODO: catch error, reload...
-        setCollection(collectionResult.data);
-        setIsLoading(false);
+        try {
+            const collectionResult = await CollectionService.getMainPageCollection();
+            // TODO: catch error, reload...
+            setCollection(collectionResult.data);
+            setIsLoaded(true);
+        } catch (e) {
+            setIsLoaded(false);
+        } finally {
+            setIsLoading(false);
+        }
     }
 
     function getCollectionUI(collection) {
@@ -41,15 +50,7 @@ export default function MainScreen() {
                     horizontal
                     data={collection.details}
                     keyExtractor={(_, index) => index.toString()}
-                    renderItem={({ item }) => (
-                        <Card
-                            style={{ flex: 1, margin: 8 }}
-                            header={() => <Image style={{ width: 180, height: 180 }} source={{ uri: item.product.mainImage }}/>}
-                        >
-                            <Text category="label">{item.product.name}</Text>
-                            <Text category="label" appearance="hint" >${item.product.unitPrice}</Text>
-                        </Card>
-                    )}
+                    renderItem={({ item }) => <MinimalProduct product={item.product} />}
                 />
             </Layout>
         );
@@ -58,6 +59,22 @@ export default function MainScreen() {
     function getCollectionsUI() {
         if (isLoading)
             return <ActivityIndicator style={{ margin: 8, flex: 1, alignContent: "center" }} />
+
+        if (!isLoaded) {
+            return (
+                <Layout style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+                    <Text appearance="hint">Có lỗi xảy ra khi load dữ liệu, xin thử lại!</Text>
+                    <Space />
+                    <Button
+                        size="tiny"
+                        icon={(style) => <Icon {...style} name="sync" />}
+                        onPress={loadCollections}
+                    >
+                        Thử lại
+                    </Button>
+                </Layout>
+            );
+        }
 
         return (
             <FlatList
