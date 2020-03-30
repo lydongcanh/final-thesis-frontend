@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { Layout, Text, Card, Button, Icon } from "@ui-kitten/components";
+import { Layout, Text, Button, Icon } from "@ui-kitten/components";
 import { CollectionService } from "../../../../core/services";
 import { FlatList, ScrollView } from "react-native-gesture-handler";
 import { ActivityIndicator } from "react-native-paper";
-import { Image, Dimensions, View, ImageBackground } from "react-native";
+import { Dimensions, View, ImageBackground } from "react-native";
 import Carousel, { Pagination } from "react-native-snap-carousel";
 import { Space } from "../../../components/others";
 import { MinimalProduct } from "../../../components/products";
 
-export default function MainScreen() {
+export default function MainScreen({ navigation }) {
 
     const screenWidth = Dimensions.get("window").width;
     const headCarouselData = [
@@ -50,7 +50,7 @@ export default function MainScreen() {
                     horizontal
                     data={collection.details}
                     keyExtractor={(_, index) => index.toString()}
-                    renderItem={({ item }) => <MinimalProduct product={item.product} />}
+                    renderItem={({ item }) => <MinimalProduct product={item.product} navigation={navigation} />}
                 />
             </Layout>
         );

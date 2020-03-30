@@ -10,3 +10,4 @@ export { default as CustomerFavouriteScreen } from "./customer/mainScreens/Favou
 export { default as CustomerMainScreen } from "./customer/mainScreens/MainScreen";
 export { default as CustomerSearchScreen } from "./customer/mainScreens/SearchScreen";
 export { default as CustomerSubCategoryScreen } from "./customer/subScreens/SubCategoryScreen";
+export { default as CustomerProductPurchaseScreen } from "./customer/subScreens/ProductPurchaseScreen";

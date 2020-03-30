@@ -5,7 +5,7 @@ import { Card, Text, Layout, Icon, Button } from "@ui-kitten/components";
 /**
  * @param props product, size
  */
-export default function MinimalProduct({ product }) {
+export default function MinimalProduct({ product, navigation }) {
 
     function getCardHeader() {
         return (
@@ -25,6 +25,7 @@ export default function MinimalProduct({ product }) {
         <Card
             style={{ flex: 1, margin: 8 }}
             header={getCardHeader}
+            onPress={() => navigation.navigate("CustomerProductPurchase", { product: product })}
         >
             <Text numberOfLines={1} style={{ width: 100 }}>{product.name}</Text>
             <Text appearance="hint" >${product.unitPrice}</Text>
