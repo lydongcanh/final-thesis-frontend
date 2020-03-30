@@ -28,17 +28,8 @@ export default function MainScreen() {
     async function loadCollections() {
         setIsLoading(true);
         const collectionResult = await CollectionService.getMainPageCollection();
-        const collections = collectionResult.data;
-        for (const collection of collections) {
-            console.log(collection.id);
-            const detailsResult = await CollectionDetailsService.getDetailsOfCollection(collection.id);
-            collection.details = detailsResult.data;
-            for (let i = 0; i < collection.details.length; i++) {
-                const productResult = await ProductService.getById(collection.details[i].productId);
-                collection.details[i].product = productResult.data;
-            }
-        }
-        setCollection(collections);
+        // TODO: catch error, reload...
+        setCollection(collectionResult.data);
         setIsLoading(false);
     }
 
