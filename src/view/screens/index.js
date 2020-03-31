@@ -5,7 +5,7 @@ export { default as WelcomeScreen } from "./WelcomeScreen";
 export { default as LoginScreen } from "./auth/LoginScreen";
 export { default as CustomerSignupScreen } from "./auth/CustomerSignupScreen";
 export { default as CustomerAccountInfoScreen } from "./customer/mainScreens/AccountInfoScreen";
-export { default as CustomerCartScreen } from "./customer/mainScreens/CartScreen";
+export { default as CustomerCartScreen } from "./customer/subScreens/CartScreen";
 export { default as CustomerFavouriteScreen } from "./customer/mainScreens/FavouriteScreen";
 export { default as CustomerMainScreen } from "./customer/mainScreens/MainScreen";
 export { default as CustomerSearchScreen } from "./customer/mainScreens/SearchScreen";

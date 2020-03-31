@@ -3,9 +3,9 @@ import { Layout, Text, Button, Icon } from "@ui-kitten/components";
 import { CollectionService } from "../../../../core/services";
 import { FlatList, ScrollView } from "react-native-gesture-handler";
 import { ActivityIndicator } from "react-native-paper";
-import { Dimensions, View, ImageBackground } from "react-native";
+import { Dimensions, View, ImageBackground, Platform, StatusBar } from "react-native";
 import Carousel, { Pagination } from "react-native-snap-carousel";
-import { Space } from "../../../components/others";
+import { Space, CustomerScreensHeader } from "../../../components/others";
 import { MinimalProduct } from "../../../components/products";
 
 export default function MainScreen({ navigation }) {
@@ -95,9 +95,9 @@ export default function MainScreen({ navigation }) {
                     onSnapToItem={setActiveIndex}
                     ref={c => setCarouslRef(c)}
                     renderItem={({ item }) => (
-                        <ImageBackground 
-                            source={{ uri: item }} 
-                            style={{ width: screenWidth, height: 250 }} 
+                        <ImageBackground
+                            source={{ uri: item }}
+                            style={{ width: screenWidth, height: 250 }}
                         />
                     )}
                     sliderWidth={screenWidth}
@@ -117,12 +117,12 @@ export default function MainScreen({ navigation }) {
     }
 
     return (
-        <Layout style={{ flex: 1 }}>
-            {getHeadCarousel()}
-            {getCollectionsUI()}
-            {/* <ScrollView>
-                <Text>{JSON.stringify(collections, null, 2)}</Text>
-            </ScrollView> */}
+        <Layout style={{ flex: 1, marginTop: Platform.OS === "ios" ? 0 : StatusBar.currentHeight, }}>
+            <CustomerScreensHeader navigation={navigation} />
+            <ScrollView>
+                {getHeadCarousel()}
+                {getCollectionsUI()}
+            </ScrollView>
         </Layout>
     );
 }

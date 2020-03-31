@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import { FlatList } from "react-native-gesture-handler";
 import { Layout, Text, Input, Icon, Button, Card } from "@ui-kitten/components";
 import { ActivityIndicator } from "react-native-paper";
-import { Image } from "react-native";
+import { Image, Platform, StatusBar } from "react-native";
 import { CategoryService } from "../../../../core/services";
-import { Space } from "../../../components/others";
+import { Space, CustomerScreensHeader } from "../../../components/others";
 
 export default function SearchScreen({ navigation }) {
 
@@ -98,10 +98,15 @@ export default function SearchScreen({ navigation }) {
     }
 
     return (
-        <Layout style={{ flex: 1, justifyContent: "flex-start", padding: 16 }}>
+        <Layout style={{ 
+            flex: 1, 
+            justifyContent: "flex-start", 
+            marginTop: Platform.OS === "ios" ? 0 : StatusBar.currentHeight 
+        }}>
             {/* <Input
                 icon={(style) => <Icon {...style} name="search" />}
             /> */}
+            <CustomerScreensHeader navigation={navigation} />
             {getCategories()}
         </Layout>
     );

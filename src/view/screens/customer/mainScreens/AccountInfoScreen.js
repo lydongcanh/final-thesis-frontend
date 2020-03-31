@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
+import { Platform, StatusBar } from "react-native";
 import { Layout, Text, Button } from "@ui-kitten/components";
 import { useSelector, useDispatch } from "react-redux";
-import { Space } from "../../../components/others";
+import { Space, CustomerScreensHeader } from "../../../components/others";
 import { logout } from "../../../redux/actions/authActions";
 
 export default function AccountInfoScreen({ navigation }) {
@@ -34,7 +35,11 @@ export default function AccountInfoScreen({ navigation }) {
         }
 
         return (
-            <Layout style={{ margin: 16, justifyContent: "space-between" }}>
+            <Layout style={{
+                margin: 16,
+                justifyContent: "space-between",
+                marginTop: Platform.OS === "ios" ? 0 : StatusBar.currentHeight
+            }}>
                 <Button
                     status="danger"
                     onPress={() => navigation.navigate("Login")}
@@ -52,7 +57,8 @@ export default function AccountInfoScreen({ navigation }) {
     }
 
     return (
-        <Layout style={{ flex: 1 }}>
+        <Layout style={{ flex: 1, marginTop: Platform.OS === "ios" ? 0 : StatusBar.currentHeight }}>
+            <CustomerScreensHeader navigation={navigation} />
             {getAccountContent()}
         </Layout>
     );

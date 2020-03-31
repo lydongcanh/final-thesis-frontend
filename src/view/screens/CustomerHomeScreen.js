@@ -1,6 +1,5 @@
 import React from "react";
-import { Platform, StatusBar } from "react-native";
-import { BottomNavigation, BottomNavigationTab, Icon } from "@ui-kitten/components";
+import { BottomNavigation, BottomNavigationTab, Icon  } from "@ui-kitten/components";
 import { SafeAreaView } from "react-navigation";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { CustomerAccountInfoScreen, CustomerMainScreen, CustomerFavouriteScreen, CustomerCartScreen, CustomerSearchScreen } from ".";
@@ -29,7 +28,6 @@ const TabBarComponent = ({ navigation, state }) => {
                 <BottomNavigationTab icon={(style) => tabIcon(style, "search")} title="Tìm kiếm" />
                 <BottomNavigationTab icon={(style) => tabIcon(style, "heart")} title="Yêu thích" />
                 <BottomNavigationTab icon={(style) => tabIcon(style, "person")} title="Tài khoản" />
-                <BottomNavigationTab icon={(style) => tabIcon(style, "shopping-cart")} title="Giỏ hàng" />
             </BottomNavigation>
         </SafeAreaView>
     );
@@ -38,16 +36,12 @@ const TabBarComponent = ({ navigation, state }) => {
 export default function CustomerHomeScreen({ navigation }) {
 
     return (
-        <SafeAreaView style={{
-            //marginTop: Platform.OS === "ios" ? 0 : StatusBar.currentHeight,
-            flex: 1
-        }}>
+        <SafeAreaView style={{ flex: 1 }}>
             <Tab.Navigator tabBar={props => <TabBarComponent {...props} />}>
                 <Tab.Screen name="Home" component={CustomerMainScreen} />
                 <Tab.Screen name="Search" component={CustomerSearchScreen} />
                 <Tab.Screen name="Favourite" component={CustomerFavouriteScreen} />
                 <Tab.Screen name="AccountInfo" component={CustomerAccountInfoScreen} />
-                <Tab.Screen name="Cart" component={CustomerCartScreen} />
             </Tab.Navigator>
         </SafeAreaView>
     )

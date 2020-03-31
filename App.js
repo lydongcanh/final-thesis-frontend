@@ -18,7 +18,8 @@ import { WelcomeScreen,
          CustomerHomeScreen, 
          EmployeeHomeScreen, 
          CustomerSubCategoryScreen,
-         CustomerProductPurchaseScreen
+         CustomerProductPurchaseScreen,
+         CustomerCartScreen
         } from "./src/view/screens";
 
 import * as ErrorRecovery from "expo-error-recovery";
@@ -94,6 +95,11 @@ export default function App(props) {
                         options={{ headerShown: false }}
                         name="CustomerProductPurchase"
                         component={CustomerProductPurchaseScreen}
+                    />
+                    <Stack.Screen
+                        options={{ headerShown: false }}
+                        name="CustomerCart"
+                        component={CustomerCartScreen}
                     />
                 </Stack.Navigator>
             </NavigationContainer>
