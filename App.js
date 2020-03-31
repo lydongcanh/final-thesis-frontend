@@ -97,7 +97,7 @@ export default function App(props) {
                         component={CustomerProductPurchaseScreen}
                     />
                     <Stack.Screen
-                        options={{ headerShown: false }}
+                        options={{ title: "Giỏ hàng" }}
                         name="CustomerCart"
                         component={CustomerCartScreen}
                     />
