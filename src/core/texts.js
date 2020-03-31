@@ -12,7 +12,9 @@ const DefaultTexts = {
     // Operations:
     CUSTOMER_ACCOUNT_CREATED: "Tạo tài khoản thành công.",
     AUTH_ERROR: "Email hoặc mật khẩu không đúng.",
-    EMPLOYEE_CREATED: "Thêm nhân viên thành công."
+    EMPLOYEE_CREATED: "Thêm nhân viên thành công.",
+    CART_ITEM_ADDED: "Thêm vào giỏ hàng thành công.",
+    NO_AVAILABLE_PRODUCT: "Sản phẩm hiện tại đã hết hàng."
 }
 
 export const Texts = DefaultTexts;
