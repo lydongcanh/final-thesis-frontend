@@ -78,12 +78,12 @@ export default function App(props) {
                         component={EmployeeHomeScreen}
                     />
                     <Stack.Screen
-                        options={{ title: "LOGIN" }}
+                        options={{ title: "Đăng nhập" }}
                         name="Login"
                         component={LoginScreen}
                     />
                     <Stack.Screen
-                        options={{ title: "SIGN UP" }}
+                        options={{ title: "Đăng ký" }}
                         name="CustomerSignup"
                         component={CustomerSignupScreen}
                     />

@@ -64,7 +64,7 @@ export default function ProductPurchaseScreen({ navigation, route }) {
                             duration: 3000,
                             onClose: (reason) => { 
                                 if (reason === "user")
-                                    navigation.navigate("CustomerCart")
+                                    navigation.navigate("CustomerCart", { account: auth.account })
                             }
                         });
                     }

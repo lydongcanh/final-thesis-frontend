@@ -1,6 +1,7 @@
 import React from "react";
 import { Image } from "react-native";
 import { Card, Text, Layout, Icon, Button } from "@ui-kitten/components";
+import { formatCurrency } from "../../../core/utilities";
 
 /**
  * @param props product, size
@@ -28,7 +29,7 @@ export default function MinimalProduct({ product, navigation }) {
             onPress={() => navigation.navigate("CustomerProductPurchase", { product: product })}
         >
             <Text numberOfLines={1} style={{ width: 100 }}>{product.name}</Text>
-            <Text appearance="hint" >${product.unitPrice}</Text>
+            <Text category="label" appearance="hint" >{formatCurrency(product.unitPrice)}VND</Text>
         </Card>
     );
 }

@@ -9,12 +9,10 @@ export default function WelcomeScreen({ navigation }) {
     const auth = useSelector(state => state.authReducer);
 
     useEffect(() => {
-
         if (auth.loggedIn && auth.account) {
             const screen = auth.account.accountType === ACCOUNT_TYPES.Employee ? "EmployeeHome" : "CustomerHome";
             navigation.navigate(screen); 
         }
-    
     }, []);
 
     const styles = StyleSheet.create({
