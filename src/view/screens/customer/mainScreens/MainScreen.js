@@ -58,11 +58,11 @@ export default function MainScreen({ navigation }) {
 
     function getCollectionsUI() {
         if (isLoading)
-            return <ActivityIndicator style={{ margin: 8, flex: 1, alignContent: "center" }} />
+            return <ActivityIndicator style={{ marginTop: "50%", alignSelf: "center" }} />
 
         if (!isLoaded) {
             return (
-                <Layout style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+                <Layout style={{ marginTop: "50%", justifyContent: "center", alignItems: "center" }}>
                     <Text appearance="hint">Có lỗi xảy ra khi load dữ liệu, xin thử lại!</Text>
                     <Space />
                     <Button
@@ -117,7 +117,10 @@ export default function MainScreen({ navigation }) {
     }
 
     return (
-        <Layout style={{ flex: 1, marginTop: Platform.OS === "ios" ? 0 : StatusBar.currentHeight, }}>
+        <Layout style={{ 
+            flex: 1, 
+            marginTop: Platform.OS === "ios" ? 0 : StatusBar.currentHeight,
+        }}>
             <CustomerScreensHeader navigation={navigation} />
             <ScrollView>
                 {getHeadCarousel()}

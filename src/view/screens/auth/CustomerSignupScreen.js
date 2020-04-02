@@ -117,7 +117,6 @@ export default function CustomerSignupScreen({ navigation }) {
                     status={editingCustomerName ? validCustomerName ? "success" : "danger" : "basic"}
                     value={customerName}
                 />
-                <Space />
 
                 <Input
                     caption={editingUsername ? validUsername ? "" : Texts.INVALID_USERNAME : ""}
@@ -128,7 +127,6 @@ export default function CustomerSignupScreen({ navigation }) {
                     status={editingUsername ? validUsername ? "success" : "danger" : "basic"}
                     value={username}
                 />
-                <Space />
 
                 <Input
                     caption={editingPassword ? validPassword ? "" : Texts.INVALID_PASSWORD : ""}
@@ -142,7 +140,6 @@ export default function CustomerSignupScreen({ navigation }) {
                     status={editingPassword ? validPassword ? "success" : "danger" : "basic"}
                     value={password}
                 />
-                <Space />
 
                 <Input
                     caption={editingConfirmPassword ? validConfirmPassword ? "" : Texts.INVALID_CONFIRM_PASSWORD : ""}
@@ -154,7 +151,6 @@ export default function CustomerSignupScreen({ navigation }) {
                     status={editingConfirmPassword ? validConfirmPassword ? "success" : "danger" : "basic"}
                     value={confirmPassword}
                 />
-                <Space />
             </Card>
         </Layout>
     );
