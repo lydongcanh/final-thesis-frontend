@@ -19,12 +19,12 @@ export default function WelcomeScreen({ navigation }) {
     const [isLoaded, setIsLoaded] = useState(false);
 
     useEffect(() => {
-        login();
+        loadAccount();
     }, []);
 
-    async function login() {
+    async function loadAccount() {
         try {
-            setIsLoading(true);     
+            setIsLoading(true);   
             if (auth.account) {
                 const result = await AccountService.login(auth.account.username, auth.account.password);
                 if (result.error) {
@@ -39,9 +39,12 @@ export default function WelcomeScreen({ navigation }) {
                     dispatch(login(result.account, true));
                     navigation.navigate(screen);
                 }
+            } else {
+                setIsLoaded(true);
             }
         } catch(e) {
             setIsLoaded(false);
+            console.log(e);
         } finally {
             setIsLoading(false);
         }
@@ -59,7 +62,7 @@ export default function WelcomeScreen({ navigation }) {
                     <Button
                         size="tiny"
                         icon={(style) => <Icon {...style} name="sync" />}
-                        onPress={login}
+                        onPress={loadAccount}
                     >
                         Thử lại
                     </Button>
