@@ -7,7 +7,7 @@ import { formatCurrency } from "../../../../core/utilities";
 import { Space } from "../../../components/others";
 import { CustomerCartService } from "../../../../core/services";
 
-export default function CartScreen({ route }) {
+export default function CartScreen({ navigation, route }) {
 
     const { account } = route.params;
     const [cartItems, setCartItems] = useState([]);
@@ -31,6 +31,14 @@ export default function CartScreen({ route }) {
         } finally {
             setIsLoading(false);
         }
+    }
+
+    function handlePurchaseButton() {
+        navigation.navigate("CustomerCartPurchase", {
+            cartItems: cartItems,
+            customer: account.customer,
+            finalPrice: getFinalPrice()
+        });
     }
 
     function handleDeleteCartItemButton(cartItem) {
@@ -114,17 +122,23 @@ export default function CartScreen({ route }) {
         return (
             <View style={{
                 padding: 24,
-                backgroundColor: "rgba(235, 235, 235)",
+                backgroundColor: "rgba(245, 245, 245, 1)",
                 borderTopLeftRadius: 12,
                 borderTopRightRadius: 12
             }}>
-                <Layout style={{ flexDirection: "row", justifyContent: "space-between" }}>
+                <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
                     <Text >Tổng tiền:</Text>
                     <Text appearance="hint" >{formatCurrency(getFinalPrice())}VND</Text>
-                </Layout>
+                </View>
                 <Divider style={{ margin: 8 }} />
 
-                <Button style={{ borderRadius: 24 }}>Thanh toán</Button>
+                <Button 
+                    style={{ borderRadius: 24 }}
+                    onPress={handlePurchaseButton}
+                    disabled={getFinalPrice() <= 0}
+                >
+                    Tiếp tục
+                </Button>
             </View>
         );
     }

@@ -15,3 +15,11 @@ export const ACCOUNT_TYPES = {
     Customer: "Khách hàng",
     Employee: "Nhân viên"
 };
+
+export const CUSTOMER_ORDER_TYPES = {
+    Pending: "Chờ xử lý",
+    Resolved: "Đã xử lý",
+    Delivering: "Đang giao hàng",
+    Completed: "Hoàn thành",
+    Cancelled: "Bị hủy"
+};
