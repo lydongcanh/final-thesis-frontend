@@ -7,7 +7,10 @@ import { AccountService } from "../../../core/services";
 import { Toast } from "native-base";
 import { ACCOUNT_TYPES } from "../../../core/types";
 
-export default function LoginScreen({ navigation }) {
+/**
+ * @param {*} param0 route.params.shouldGoBack 
+ */
+export default function LoginScreen({ navigation, route }) {
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -44,8 +47,12 @@ export default function LoginScreen({ navigation }) {
         }
         else {
             dispatch(login(result.account, true));
-            const screen = result.account.accountType === ACCOUNT_TYPES.Employee ? "EmployeeHome" : "CustomerHome";
-            navigation.navigate(screen);
+            if (route && route.params && route.params.shouldGoBack) {
+                navigation.goBack();
+            } else {
+                const screen = accountType === ACCOUNT_TYPES.Employee ? "EmployeeHome" : "CustomerHome";
+                navigation.navigate(screen);
+            }
         }
 
         setIsLoading(false);

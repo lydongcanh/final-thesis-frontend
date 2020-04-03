@@ -10,7 +10,7 @@ export default function CustomerScreensHeader({ navigation }) {
         if (auth.loggedIn && auth.account) {
             navigation.navigate("CustomerCart", { account: auth.account })
         } else {
-            navigation.navigate("Login");
+            navigation.navigate("Login", { shouldGoBack: true });
         }
     }
 

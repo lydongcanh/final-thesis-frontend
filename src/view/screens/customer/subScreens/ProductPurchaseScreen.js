@@ -37,7 +37,7 @@ export default function ProductPurchaseScreen({ navigation, route }) {
         const size = productSizes[selectedSizeIndex];
 
         if (!auth.loggedIn || !auth.account) {
-            navigation.navigate("Login");
+            navigation.navigate("Login", { shouldGoBack: true });
             return;
         }
 
