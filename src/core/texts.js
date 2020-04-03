@@ -14,7 +14,8 @@ const DefaultTexts = {
     AUTH_ERROR: "Email hoặc mật khẩu không đúng.",
     EMPLOYEE_CREATED: "Thêm nhân viên thành công.",
     CART_ITEM_ADDED: "Thêm vào giỏ hàng thành công.",
-    NO_AVAILABLE_PRODUCT: "Sản phẩm hiện tại đã hết hàng."
+    NO_AVAILABLE_PRODUCT: "Sản phẩm hiện tại đã hết hàng.",
+    NO_UNCOMPLETED_CUSTOMER_ORDER: "Hiện không có hóa đơn nào đang chờ xử lý."
 }
 
 export const Texts = DefaultTexts;

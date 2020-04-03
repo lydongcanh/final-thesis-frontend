@@ -1,18 +1,18 @@
-import React, { useEffect } from "react";
-import { Platform, StatusBar, Image } from "react-native";
-import { Layout, Text, Button, List, ListItem, Icon } from "@ui-kitten/components";
+import React, { useState, useEffect } from "react";
+import { Platform, StatusBar, Image, View, FlatList } from "react-native";
+import { Layout, Text, Button, List, ListItem, Icon, Card, CardHeader } from "@ui-kitten/components";
 import { useSelector, useDispatch } from "react-redux";
 import { Space, CustomerScreensHeader } from "../../../components/others";
 import { logout } from "../../../redux/actions/authActions";
-import { Divider } from "react-native-paper";
+import { Divider, ActivityIndicator } from "react-native-paper";
+import { Texts } from "../../../../core/texts";
+import { CustomerOrderService } from "../../../../core/services";
+import { CUSTOMER_ORDER_TYPES } from "../../../../core/types";
+import { formatCurrency } from "../../../../core/utilities";
 
 export default function AccountInfoScreen({ navigation }) {
 
     const accountFunctionDatas = [
-        {
-            title: "Địa chỉ",
-            icon: "pin"
-        },
         {
             title: "Thông tin cá nhân",
             icon: "edit"
@@ -22,12 +22,96 @@ export default function AccountInfoScreen({ navigation }) {
             icon: "lock"
         },
         {
-            title: "Hóa đơn",
+            title: "Hóa đơn đã hoàn tất",
             icon: "pricetags"
-        }
+        },
     ];
 
+    const [isLoading, setIsLoading] = useState(true);
+    const [isLoaded, setIsLoaded] = useState(false);
+    const [orders, setOrders] = useState([]);
+
     const dispatch = useDispatch();
+    const auth = useSelector(state => state.authReducer);
+    const account = auth.account;
+
+    useEffect(() => {
+        loadOrders();
+    }, [navigation]);
+
+    async function loadOrders() {
+        try {
+            if (!account || !account.customer) {
+                setIsLoaded(true);
+                return;
+            }
+
+            const result = await CustomerOrderService.getByCustomerId(account.customer.id);
+            if (result.error) {
+                setIsLoaded(false);
+                return;
+            }
+
+            setOrders(result.data);
+            setIsLoaded(true);
+        } catch (e) {
+            console.log(e);
+            setIsLoaded(false);
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
+    function getOrders(completed) {
+        if (!orders || orders.length < 1)
+            return [];
+
+        // TODO: recheck business logic...
+        return orders.filter(order => {
+            return (order.orderState === CUSTOMER_ORDER_TYPES.Completed) === completed;
+        });
+    }
+
+    function getOrderUI(order) {
+        return (
+            <Card
+                //status="info"
+                //header={() => <CardHeader title=""/>}
+                onPress={() => alert(item.toString())}
+                style={{ flex: 1, margin: 4, borderRadius: 8 }}
+            >
+                <Text appearance="hint">
+                    Trạng thái: {order.orderState}
+                </Text>
+                <Text appearance="hint">
+                    Giá: {formatCurrency(CustomerOrderService.calculateFinalPrice(order))}VND
+                </Text>
+                <Text appearance="hint">
+                    Địa chỉ: {order.shipAddress.number}, {order.shipAddress.street}, {order.shipAddress.district}, {order.shipAddress.city}
+                </Text>
+                <Text appearance="hint">
+                    Ngày đặt hàng: {new Date(Date.parse(order.creationDate)).toLocaleDateString()}
+                </Text>
+            </Card>
+        );
+    }
+
+    function getUnCompletedOrdersUI() {
+        if (!orders || orders.length < 1)
+            return <Text>{Texts.NO_UNCOMPLETED_CUSTOMER_ORDER}</Text>
+
+        return (
+            <Layout style={{ flex: 2, padding: 8 }}>
+                <Text category="label" style={{ fontWeight: "bold" }}>Đơn hàng chờ xử lý</Text>
+                <Divider style={{ marginTop: 4, marginBottom: 4 }} />
+                <FlatList
+                    data={getOrders(false)}
+                    keyExtractor={(_, index) => index.toString()}
+                    renderItem={({ item }) => getOrderUI(item)}
+                />
+            </Layout>
+        );
+    }
 
     function getAccountFunctionUI({ item }) {
         return (
@@ -38,12 +122,11 @@ export default function AccountInfoScreen({ navigation }) {
                     accessory={style => <Icon {...style} name="chevron-right-outline" />}
                 />
                 <Divider />
-                <Space value={16}/>
             </Layout>
         );
     }
 
-    function getLoggedInUI(account) {
+    function getLoggedInUI() {
         const customer = account.customer;
 
         return (
@@ -59,12 +142,15 @@ export default function AccountInfoScreen({ navigation }) {
                     <Text appearance="hint" >{customer.vipLevel}</Text>
                 </Layout>
 
-                <Layout style={{ padding: 4 }}>
+                <Layout style={{ flex: 1, padding: 4 }}>
                     <List
+                        style={{ backgroundColor: "white" }}
                         data={accountFunctionDatas}
                         renderItem={getAccountFunctionUI}
                     />
                 </Layout>
+
+                {getUnCompletedOrdersUI()}
 
                 <Button
                     style={{ borderRadius: 24 }}
@@ -106,13 +192,29 @@ export default function AccountInfoScreen({ navigation }) {
     }
 
     function getAccountContent() {
-        // TODO: check persisted account.
-        const auth = useSelector(state => state.authReducer);
+        if (isLoading)
+            return <ActivityIndicator style={{ flex: 1, alignSelf: "center" }} />
 
-        if (auth.loggedIn) {
-            const account = auth.account;
-            return getLoggedInUI(account);
+        if (!isLoaded) {
+            return (
+                <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+                    <Text appearance="hint">Có lỗi xảy ra khi load dữ liệu, xin thử lại!</Text>
+                    <Space />
+                    <Button
+                        size="tiny"
+                        icon={(style) => <Icon {...style} name="sync" />}
+                        onPress={loadOrders}
+                    >
+                        Thử lại
+                    </Button>
+                </View>
+            );
         }
+
+        // TODO: check persisted account.
+
+        if (auth.loggedIn)
+            return getLoggedInUI();
 
         return getUnloggedInUI();
     }

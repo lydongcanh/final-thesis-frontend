@@ -10,6 +10,22 @@ class CustomerOrderService extends BaseService {
     }
 
     /**
+     * @param {string} customerId 
+     */
+    async getByCustomerId(customerId) {
+        return super.query({
+            customerId: customerId
+        })
+    }
+
+    calculateFinalPrice(order) {
+        let price = 0;
+        for(const detail of order.orderDetails)
+            price += detail.quantity * detail.purchasedPrice;
+        return price;
+    }
+    
+    /**
      * Create new order with customer & cart items data.
      * Return error or added order if success.
      */
