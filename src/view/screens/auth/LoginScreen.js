@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { Button, Card, Layout, Icon, Input, CheckBox } from "@ui-kitten/components";
+import { Button, Card, Layout, Icon, Input } from "@ui-kitten/components";
 import { Texts } from "../../../core/texts";
 import { login } from "../../redux/actions/authActions";
 import { AccountService } from "../../../core/services";
@@ -11,7 +11,6 @@ export default function LoginScreen({ navigation }) {
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const [keepLoggedIn, setKeepLoggedIn] = useState(true);
     const [isHidingPassword, setIsHidingPassword] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
     
@@ -22,13 +21,7 @@ export default function LoginScreen({ navigation }) {
     );
 
     const cardFooter = () => (
-        <Layout style={{ flexDirection: "row", justifyContent: "space-between" }}>
-            <CheckBox
-                text={Texts.REMEMBER_ME}
-                checked={keepLoggedIn}
-                onChange={setKeepLoggedIn}
-                disabled // TODO: enable later...
-            />
+        <Layout style={{ flexDirection: "row", justifyContent: "flex-end" }}>
             <Button
                 disabled={username === "" || password === "" || isLoading}
                 onPress={handleLoginButtonPress}
@@ -50,7 +43,7 @@ export default function LoginScreen({ navigation }) {
             });
         }
         else {
-            dispatch(login(result.account, keepLoggedIn));
+            dispatch(login(result.account, true));
             const screen = result.account.accountType === ACCOUNT_TYPES.Employee ? "EmployeeHome" : "CustomerHome";
             navigation.navigate(screen);
         }

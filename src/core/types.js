@@ -1,7 +1,7 @@
 export const GENDERS = [
-    { text: "Nam" },
-    { text: "Nữ" },
-    { text: "Khác" }
+    "Nam",
+    "Nữ",
+    "Khác"
 ];
 
 

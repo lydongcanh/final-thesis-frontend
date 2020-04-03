@@ -3,7 +3,7 @@ import { Layout, Text, Input, Button, Card, CardHeader } from "@ui-kitten/compon
 import { ScrollView } from "react-native-gesture-handler";
 import { Divider, ActivityIndicator } from "react-native-paper";
 import { Image, View } from "react-native";
-import { Space } from "../../../components/others";
+import { AddressInputPanel, Space } from "../../../components/others";
 import { formatCurrency } from "../../../../core/utilities";
 import { CustomerOrderService } from "../../../../core/services";
 import { Toast } from "native-base";
@@ -13,10 +13,10 @@ export default function CartPurchaseScreen({ navigation, route }) {
     const { cartItems, customer, finalPrice } = route.params;
     const [isLoading, setIsLoading] = useState(false);
 
-    const [addressNumber, setAddressNumber] = useState("123A");
-    const [addressStreet, setAddressStreet] = useState("To Ky");
-    const [addressDistrict, setAddressDistrict] = useState("12");
-    const [addressCity, setAddressCity] = useState("TP.HCM");
+    const [addressNumber, setAddressNumber] = useState();
+    const [addressStreet, setAddressStreet] = useState();
+    const [addressDistrict, setAddressDistrict] = useState();
+    const [addressCity, setAddressCity] = useState();
 
     async function handlePurchaseButton() {
         try {
@@ -51,19 +51,6 @@ export default function CartPurchaseScreen({ navigation, route }) {
             addressStreet && addressStreet.length > 0 &&
             addressDistrict && addressDistrict.length > 0 &&
             addressCity && addressCity.length > 0;
-    }
-
-    function getAddressInputUI(title, value, onChangeText) {
-        return (
-            <Layout>
-                <Input
-                    label={title}
-                    value={value}
-                    onChangeText={onChangeText}
-                    maxLength={50}
-                />
-            </Layout>
-        );
     }
 
     function getCartItemsUI() {
@@ -120,15 +107,17 @@ export default function CartPurchaseScreen({ navigation, route }) {
         return (
             <Layout style={{ flex: 1, justifyContent: "space-between" }}>
                 <ScrollView style={{ padding: 16 }}>
-                    <Card
-                        status={isPurchasable() ? "success" : "danger"}
-                        header={() => <CardHeader title="Địa chỉ giao hàng" />}
-                    >
-                        {getAddressInputUI("Số nhà", addressNumber, setAddressNumber)}
-                        {getAddressInputUI("Tên đường", addressStreet, setAddressStreet)}
-                        {getAddressInputUI("Quận", addressDistrict, setAddressDistrict)}
-                        {getAddressInputUI("Thành phố", addressCity, setAddressCity)}
-                    </Card>
+                    <AddressInputPanel 
+                        title="Địa chỉ giao hàng"
+                        addressNumber={addressNumber}
+                        addressStreet={addressStreet}
+                        addressDistrict={addressDistrict}
+                        addressCity={addressCity}
+                        setAddressNumber={setAddressNumber}
+                        setAddressStreet={setAddressStreet}
+                        setAddressDistrict={setAddressDistrict}
+                        setAddressCity={setAddressCity}
+                    />
                     <Space />
 
                     <Card

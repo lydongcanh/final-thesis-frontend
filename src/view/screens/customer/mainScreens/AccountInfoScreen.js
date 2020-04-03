@@ -15,15 +15,18 @@ export default function AccountInfoScreen({ navigation }) {
     const accountFunctionDatas = [
         {
             title: "Thông tin cá nhân",
-            icon: "edit"
+            icon: "edit",
+            callback: handleAccountDetailsButton
         },
         {
             title: "Đổi mật khẩu",
-            icon: "lock"
+            icon: "lock",
+            callback: handleChangePasswordButton
         },
         {
             title: "Hóa đơn đã hoàn tất",
-            icon: "pricetags"
+            icon: "pricetags",
+            callback: handleCompletedOrdersButton
         },
     ];
 
@@ -62,6 +65,18 @@ export default function AccountInfoScreen({ navigation }) {
         }
     }
 
+    function handleAccountDetailsButton() {
+        navigation.navigate("CustomerAccountDetails", { customer: account.customer })
+    }
+
+    function handleChangePasswordButton() {
+
+    }
+
+    function handleCompletedOrdersButton() {
+
+    }
+
     function getOrders(completed) {
         if (!orders || orders.length < 1)
             return [];
@@ -75,9 +90,7 @@ export default function AccountInfoScreen({ navigation }) {
     function getOrderUI(order) {
         return (
             <Card
-                //status="info"
-                //header={() => <CardHeader title=""/>}
-                onPress={() => alert(item.toString())}
+                onPress={() => alert(JSON.stringify(order, null, 2))}
                 style={{ flex: 1, margin: 4, borderRadius: 8 }}
             >
                 <Text appearance="hint">
@@ -120,6 +133,7 @@ export default function AccountInfoScreen({ navigation }) {
                     title={item.title}
                     icon={style => <Icon {...style} name={item.icon} />}
                     accessory={style => <Icon {...style} name="chevron-right-outline" />}
+                    onPress={item.callback}
                 />
                 <Divider />
             </Layout>
@@ -153,8 +167,10 @@ export default function AccountInfoScreen({ navigation }) {
                 {getUnCompletedOrdersUI()}
 
                 <Button
-                    style={{ borderRadius: 24 }}
-                    status="danger"
+                    size="tiny"
+                    style={{ borderRadius: 24, position: "absolute", top: 0, left: 0 }}
+                    status="basic"
+                    appearance="outline"
                     onPress={() => dispatch(logout())}
                 >
                     Đăng xuất
