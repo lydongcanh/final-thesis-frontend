@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import { Layout, Text, Button, Icon } from "@ui-kitten/components";
 import { CollectionService } from "../../../../core/services";
 import { FlatList, ScrollView } from "react-native-gesture-handler";
@@ -11,12 +12,15 @@ import { MinimalProduct } from "../../../components/products";
 export default function MainScreen({ navigation }) {
 
     const screenWidth = Dimensions.get("window").width;
+    const auth = useSelector(state => state.authReducer);
+    
     const headCarouselData = [
         "https://images.pexels.com/photos/291762/pexels-photo-291762.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
         "https://images.pexels.com/photos/247204/pexels-photo-247204.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
         "https://images.pexels.com/photos/994523/pexels-photo-994523.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
         "https://images.pexels.com/photos/135620/pexels-photo-135620.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
     ];
+
     const [activeIndex, setActiveIndex] = useState(0);
     const [carouselRef, setCarouslRef] = useState();
 
@@ -50,7 +54,13 @@ export default function MainScreen({ navigation }) {
                     horizontal
                     data={collection.details}
                     keyExtractor={(_, index) => index.toString()}
-                    renderItem={({ item }) => <MinimalProduct product={item.product} navigation={navigation} />}
+                    renderItem={({ item }) => ( 
+                        <MinimalProduct 
+                            product={item.product} 
+                            customer={auth.account !== null ? auth.account.customer : null}
+                            navigation={navigation}
+                        />
+                    )}
                 />
             </Layout>
         );

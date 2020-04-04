@@ -4,6 +4,7 @@ export { default as CustomerService } from "./customerService";
 export { default as CustomerCartService } from "./customerCartService";
 export { default as CustomerOrderService } from "./customerOrderService";
 export { default as CustomerOrderDetailsService } from "./customerOrderDetailsService";
+export { default as CustomerProductDetailsService } from "./customerProductDetailsService";
 export { default as ProductService } from "./productService";
 export { default as ProductDetailsService } from "./productDetailsService";
 export { default as CollectionDetailsService } from "./collectionDetailsService";
