@@ -50,7 +50,7 @@ export default function LoginScreen({ navigation, route }) {
             if (route && route.params && route.params.shouldGoBack) {
                 navigation.goBack();
             } else {
-                const screen = accountType === ACCOUNT_TYPES.Employee ? "EmployeeHome" : "CustomerHome";
+                const screen = result.account.accountType === ACCOUNT_TYPES.Employee ? "EmployeeHome" : "CustomerHome";
                 navigation.navigate(screen);
             }
         }

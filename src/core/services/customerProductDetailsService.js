@@ -37,6 +37,25 @@ class CustomerProductDetailsService extends BaseService {
             productId: productId
         });
     }
+
+    /**
+     * @param {string} customerId 
+     */
+    async getByCustomerId(customerId) {
+        return await super.query({
+            customerId: customerId
+        });
+    }
+
+    /**
+     * @param {string} customerId 
+     */
+    async getFavouriteProductByCustomerId(customerId) {
+        return await super.query({
+            customerId: customerId,
+            liked: true
+        });
+    }
 }
 
 export default new CustomerProductDetailsService();

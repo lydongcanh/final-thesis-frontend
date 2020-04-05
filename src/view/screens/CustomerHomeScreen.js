@@ -1,4 +1,5 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { BottomNavigation, BottomNavigationTab, Icon  } from "@ui-kitten/components";
 import { SafeAreaView } from "react-navigation";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -8,8 +9,15 @@ const Tab = createBottomTabNavigator();
 
 const TabBarComponent = ({ navigation, state }) => {
 
+    const auth = useSelector(state => state.authReducer);
+
     const onSelect = (index) => {
-        navigation.navigate(state.routeNames[index]);
+        const screenName = state.routeNames[index];
+        if (screenName === "Favourite" && !auth.loggedIn) {
+            navigation.navigate("Login");
+        } else {
+            navigation.navigate(screenName);
+        }
     };
 
     const tabIcon = (style, name) => (

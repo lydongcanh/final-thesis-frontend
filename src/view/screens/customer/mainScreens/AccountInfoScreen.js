@@ -202,7 +202,7 @@ export default function AccountInfoScreen({ navigation }) {
                     onPress={() => navigation.navigate("CustomerSignup")}
                 >
                     ĐĂNG KÝ
-                    </Button>
+                </Button>
             </Layout>
         )
     }

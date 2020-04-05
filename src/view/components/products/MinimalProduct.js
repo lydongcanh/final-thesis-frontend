@@ -5,17 +5,20 @@ import { formatCurrency } from "../../../core/utilities";
 import { CustomerProductDetailsService } from "../../../core/services";
 
 /**
- * @param props customer, product, navigation
+ * @param props customer, product, navigation, width, height
  */
-export default function MinimalProduct({ customer, product, navigation }) {
+export default function MinimalProduct({ customer, product, width, height, navigation }) {
 
     const [isLiked, setIsLiked] = useState(false);
     const [isLoaded, setIsLoaded] = useState(false);
     const [hasOldState, setHasOldState] = useState(false);
 
+    const imageWidth = width !== undefined ? width : 150;
+    const imageHeight = height !== undefined ? height: 150;
+
     useEffect(() => {
         loadCustomerProductDetails();
-    }, [customer]);
+    }, []);
 
     async function loadCustomerProductDetails() {
         if (!customer) {
@@ -25,9 +28,10 @@ export default function MinimalProduct({ customer, product, navigation }) {
 
         try {
             const result = await CustomerProductDetailsService.getByProductAndCustomerId(customer.id, product.id);
-            if (result.data && result.data.id) {
+            if (result.data && result.data[0]) {
+                setIsLiked(result.data[0].liked);
                 setHasOldState(true);
-                setIsLoaded(result.data.liked);
+                setIsLoaded(true);
             }
             setIsLoaded(true);
         } catch(e) {
@@ -54,7 +58,10 @@ export default function MinimalProduct({ customer, product, navigation }) {
     function getCardHeader() {
         return (
             <Layout>
-                <Image style={{ width: 150, height: 150 }} source={{ uri: product.mainImage }} />
+                <Image 
+                    style={{ width: imageWidth, height: imageHeight, maxWidth: imageWidth }} 
+                    source={{ uri: product.mainImage }} 
+                />
                 <Button 
                     size="tiny"
                     disabled={!isLoaded}
@@ -69,7 +76,7 @@ export default function MinimalProduct({ customer, product, navigation }) {
 
     return (
         <Card
-            style={{ flex: 1, margin: 8 }}
+            style={{ flex: 1, margin: 8, maxWidth: imageWidth }}
             header={getCardHeader}
             onPress={handleProductClick}
         >
