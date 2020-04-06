@@ -11,12 +11,14 @@ import { CustomerOrderService } from "../../../../core/services";
 export default function CartPurchaseScreen({ navigation, route }) {
 
     const { cartItems, customer, finalPrice } = route.params;
+    const address = customer !== null ? customer.address : null;
+
     const [isLoading, setIsLoading] = useState(false);
 
-    const [addressNumber, setAddressNumber] = useState();
-    const [addressStreet, setAddressStreet] = useState();
-    const [addressDistrict, setAddressDistrict] = useState();
-    const [addressCity, setAddressCity] = useState();
+    const [addressNumber, setAddressNumber] = useState(address !== null ? address.number : "");
+    const [addressStreet, setAddressStreet] = useState(address !== null ? address.street : "");
+    const [addressDistrict, setAddressDistrict] = useState(address !== null ? address.district : "");
+    const [addressCity, setAddressCity] = useState(address !== null ? address.city : "");
 
     async function handlePurchaseButton() {
         try {
