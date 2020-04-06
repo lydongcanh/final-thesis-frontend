@@ -40,7 +40,7 @@ export default function AccountInfoScreen({ navigation }) {
 
     useEffect(() => {
         loadOrders();
-    }, [navigation]);
+    }, [account]);
 
     async function loadOrders() {
         try {
@@ -75,6 +75,12 @@ export default function AccountInfoScreen({ navigation }) {
 
     function handleCompletedOrdersButton() {
 
+    }
+
+    function handleLogoutButton() {
+        setIsLoading(true);
+        dispatch(logout());
+        setIsLoading(false);
     }
 
     function getOrders(completed) {
@@ -119,7 +125,7 @@ export default function AccountInfoScreen({ navigation }) {
         );
 
         function getOrderListUI() {
-            if (!orders || orders.length > 1) {
+            if (!orders || orders.length < 1) {
                 return (
                     <Text
                         appearance="hint"
@@ -185,7 +191,7 @@ export default function AccountInfoScreen({ navigation }) {
                     style={{ borderRadius: 24, position: "absolute", top: 0, left: 0 }}
                     status="basic"
                     appearance="outline"
-                    onPress={() => dispatch(logout())}
+                    onPress={handleLogoutButton}
                 >
                     Đăng xuất
                 </Button>

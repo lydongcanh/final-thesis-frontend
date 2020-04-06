@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { FlatList } from "react-native-gesture-handler";
 import { Layout, Text, Input, Icon, Button, Card } from "@ui-kitten/components";
 import { ActivityIndicator, Divider } from "react-native-paper";
@@ -14,9 +15,12 @@ export default function SearchScreen({ navigation }) {
     const [isLoading, setIsLoading] = useState(true);
     const [isLoaded, setIsLoaded] = useState(false);
 
+    const auth = useSelector(state => state.authReducer);
+    const account = auth.account;
+
     useEffect(() => {
         loadCategories();
-    }, []);
+    }, [account]);
 
     async function loadCategories() {
         setIsLoading(true);

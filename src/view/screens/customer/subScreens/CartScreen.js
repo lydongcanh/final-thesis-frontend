@@ -6,6 +6,7 @@ import { Divider, ActivityIndicator } from "react-native-paper";
 import { formatCurrency } from "../../../../core/utilities";
 import { Space } from "../../../components/others";
 import { CustomerCartService } from "../../../../core/services";
+import { Texts } from "../../../../core/texts";
 
 export default function CartScreen({ navigation, route }) {
 
@@ -70,6 +71,17 @@ export default function CartScreen({ navigation, route }) {
     }
 
     function getCartItemsUI() {
+        if (!cartItems || cartItems.length < 1) {
+            return (
+                <Text
+                    appearance="hint"
+                    style={{ flex: 1, textAlign: "center", textAlignVertical: "center" }}
+                >
+                    {Texts.NO_CART_ITEMS}
+                </Text>
+            );
+        }
+
         return (
             <FlatList
                 data={cartItems}
@@ -119,6 +131,9 @@ export default function CartScreen({ navigation, route }) {
     }
 
     function getBottomPanelUI() {
+        if (!cartItems || cartItems.length < 1) 
+            return;
+
         return (
             <View style={{
                 padding: 24,

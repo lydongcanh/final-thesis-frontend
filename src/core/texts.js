@@ -16,7 +16,8 @@ const DefaultTexts = {
     CART_ITEM_ADDED: "Thêm vào giỏ hàng thành công.",
     NO_AVAILABLE_PRODUCT: "Sản phẩm hiện tại đã hết hàng.",
     NO_UNCOMPLETED_CUSTOMER_ORDER: "Hiện không có hóa đơn nào đang chờ xử lý.",
-    NO_FAVOURITE_PRODUCTS: "Hiện chưa có sản phẩm nào trong danh sách."
+    NO_FAVOURITE_PRODUCTS: "Hiện chưa có sản phẩm nào trong danh sách.",
+    NO_CART_ITEMS: "Hiện chưa có sản phẩm nào trong giỏ hàng."
 }
 
 export const Texts = DefaultTexts;

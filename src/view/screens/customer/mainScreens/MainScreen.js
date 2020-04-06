@@ -13,7 +13,8 @@ export default function MainScreen({ navigation }) {
 
     const screenWidth = Dimensions.get("window").width;
     const auth = useSelector(state => state.authReducer);
-    
+    const account = auth.account;
+
     const headCarouselData = [
         "https://images.pexels.com/photos/291762/pexels-photo-291762.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
         "https://images.pexels.com/photos/247204/pexels-photo-247204.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
@@ -30,7 +31,7 @@ export default function MainScreen({ navigation }) {
 
     useEffect(() => {
         loadCollections();
-    }, []);
+    }, [account]);
 
     async function loadCollections() {
         setIsLoading(true);
@@ -55,9 +56,9 @@ export default function MainScreen({ navigation }) {
                     data={collection.details}
                     keyExtractor={(_, index) => index.toString()}
                     renderItem={({ item }) => ( 
-                        <MinimalProduct 
+                        <MinimalProduct
                             product={item.product} 
-                            customer={auth.account !== null ? auth.account.customer : null}
+                            account={account}
                             navigation={navigation}
                         />
                     )}

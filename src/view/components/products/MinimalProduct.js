@@ -5,9 +5,9 @@ import { formatCurrency } from "../../../core/utilities";
 import { CustomerProductDetailsService } from "../../../core/services";
 
 /**
- * @param props customer, product, navigation, width, height
+ * @param props account, product, navigation, width, height
  */
-export default function MinimalProduct({ customer, product, width, height, navigation }) {
+export default function MinimalProduct({ account, product, width, height, navigation }) {
 
     const [isLiked, setIsLiked] = useState(false);
     const [isLoaded, setIsLoaded] = useState(false);
@@ -18,21 +18,26 @@ export default function MinimalProduct({ customer, product, width, height, navig
 
     useEffect(() => {
         loadCustomerProductDetails();
-    }, []);
+    }, [account]);
 
-    async function loadCustomerProductDetails() {
-        if (!customer) {
+    function loadCustomerProductDetails() {
+        if (!account || !account.customer || !account.customer.customerProductDetails) {
             setIsLoaded(true);
             return;
         }
 
         try {
-            const result = await CustomerProductDetailsService.getByProductAndCustomerId(customer.id, product.id);
-            if (result.data && result.data[0]) {
-                setIsLiked(result.data[0].liked);
-                setHasOldState(true);
-                setIsLoaded(true);
+            for(const details of account.customer.customerProductDetails) {
+                if (details.productId === product.id) {
+                    setHasOldState(true);
+                    setIsLiked(details.liked);
+                    setIsLoaded(true);
+                    return;              
+                }
             }
+
+            setHasOldState(false);
+            setIsLiked(false);
             setIsLoaded(true);
         } catch(e) {
             console.log(e);
@@ -41,12 +46,12 @@ export default function MinimalProduct({ customer, product, width, height, navig
     }
 
     function handleLikeButton() {
-        if (!customer) {
+        if (!account && !account.customer) {
             navigation.navigate("Login", { shouldGoBack: true });
             return;
         }
-
-        CustomerProductDetailsService.toggleCustomerLikedProduct(customer.id, product.id, hasOldState, !isLiked);
+        // TODO: Update info in saved account data.
+        CustomerProductDetailsService.toggleCustomerLikedProduct(account.customer.id, product.id, hasOldState, !isLiked);
         setHasOldState(true);
         setIsLiked(!isLiked);
     }
@@ -74,14 +79,27 @@ export default function MinimalProduct({ customer, product, width, height, navig
         );
     }
 
-    return (
-        <Card
-            style={{ flex: 1, margin: 8, maxWidth: imageWidth }}
-            header={getCardHeader}
-            onPress={handleProductClick}
-        >
-            <Text numberOfLines={1} style={{ width: 100 }}>{product.name}</Text>
-            <Text category="label" appearance="hint" >{formatCurrency(product.unitPrice)}VND</Text>
-        </Card>
-    );
+    if (product) {
+        return (
+            <Card
+                style={{ flex: 1, margin: 8, maxWidth: imageWidth }}
+                header={getCardHeader}
+                onPress={handleProductClick}
+            >
+                <Text numberOfLines={1} style={{ width: 100 }}>{product.name}</Text>
+                <Text category="label" appearance="hint" >{formatCurrency(product.unitPrice)}VND</Text>
+            </Card>
+        );
+    } else {
+        return (
+            <Card style={{ flex: 1, margin: 8, maxWidth: imageWidth }}>
+                <Text 
+                    appearance="hint" 
+                    style={{ flex: 1, textAlignVertical: "center", textAlign: "center"}}
+                >
+                    Lỗi load sản phẩm
+                </Text>
+            </Card>
+        );
+    }
 }

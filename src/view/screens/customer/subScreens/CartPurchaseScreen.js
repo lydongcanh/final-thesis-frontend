@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { Layout, Text, Input, Button, Card, CardHeader } from "@ui-kitten/components";
+import { Layout, Text, Button, Card, CardHeader } from "@ui-kitten/components";
 import { ScrollView } from "react-native-gesture-handler";
 import { Divider, ActivityIndicator } from "react-native-paper";
 import { Image, View } from "react-native";
+import { Toast } from "native-base";
 import { AddressInputPanel, Space } from "../../../components/others";
 import { formatCurrency } from "../../../../core/utilities";
 import { CustomerOrderService } from "../../../../core/services";
-import { Toast } from "native-base";
 
 export default function CartPurchaseScreen({ navigation, route }) {
 

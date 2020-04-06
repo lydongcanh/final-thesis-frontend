@@ -15,17 +15,22 @@ export default function FavouriteScreen({ navigation }) {
     const [favouriteProducts, setFavouriteProducts] = useState();
 
     const auth = useSelector(state => state.authReducer);
+    const account = auth.account;
 
     useEffect(() => {
         loadFavouriteProducts();
-    }, []);
+    }, [account]);
 
-    async function loadFavouriteProducts() {
+    function loadFavouriteProducts() {
         try {
             setIsLoading(true);
             if (auth.loggedIn && auth.account && auth.account.customer) {
-                const result = await CustomerProductDetailsService.getFavouriteProductByCustomerId(auth.account.customer.id);
-                setFavouriteProducts(result.data);
+                const products = [];
+                for(const details of account.customer.customerProductDetails) {
+                    if (details.liked)
+                        products.push(details.product);
+                }
+                setFavouriteProducts(products);
                 setIsLoaded(true);
             } else {
                 navigation.navigate("Login");
@@ -79,8 +84,8 @@ export default function FavouriteScreen({ navigation }) {
                 numColumns={2}
                 renderItem={({ item }) => (
                     <MinimalProduct
-                        customer={(auth.loggedIn && auth.account) ? auth.account.customer : null}
-                        product={item.product}
+                        account={account}
+                        product={item}
                         navigation={navigation}
                         width={170}
                         height={200}
