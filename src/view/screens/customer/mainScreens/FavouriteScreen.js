@@ -79,7 +79,7 @@ export default function FavouriteScreen({ navigation }) {
                 numColumns={2}
                 renderItem={({ item }) => (
                     <MinimalProduct
-                        customer={auth.account.customer}
+                        customer={(auth.loggedIn && auth.account) ? auth.account.customer : null}
                         product={item.product}
                         navigation={navigation}
                         width={170}

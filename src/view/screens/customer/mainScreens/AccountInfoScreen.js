@@ -110,20 +110,34 @@ export default function AccountInfoScreen({ navigation }) {
     }
 
     function getUnCompletedOrdersUI() {
-        if (!orders || orders.length < 1)
-            return <Text>{Texts.NO_UNCOMPLETED_CUSTOMER_ORDER}</Text>
-
         return (
             <Layout style={{ flex: 2, padding: 8 }}>
                 <Text category="label" style={{ fontWeight: "bold" }}>Đơn hàng chờ xử lý</Text>
                 <Divider style={{ marginTop: 4, marginBottom: 4 }} />
+                {getOrderListUI()}
+            </Layout>
+        );
+
+        function getOrderListUI() {
+            if (!orders || orders.length > 1) {
+                return (
+                    <Text
+                        appearance="hint"
+                        style={{ marginTop: 8, textAlign: "center" }}
+                    >
+                        {Texts.NO_UNCOMPLETED_CUSTOMER_ORDER}
+                    </Text>
+                );
+            }
+
+            return (
                 <FlatList
                     data={getOrders(false)}
                     keyExtractor={(_, index) => index.toString()}
                     renderItem={({ item }) => getOrderUI(item)}
                 />
-            </Layout>
-        );
+            );
+        }
     }
 
     function getAccountFunctionUI({ item }) {
