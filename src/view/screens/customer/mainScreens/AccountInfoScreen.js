@@ -8,7 +8,7 @@ import { Divider, ActivityIndicator } from "react-native-paper";
 import { Texts } from "../../../../core/texts";
 import { CustomerOrderService } from "../../../../core/services";
 import { CUSTOMER_ORDER_TYPES } from "../../../../core/types";
-import { formatCurrency } from "../../../../core/utilities";
+import { formatCurrency, formatDate } from "../../../../core/utilities";
 
 export default function AccountInfoScreen({ navigation }) {
 
@@ -55,7 +55,9 @@ export default function AccountInfoScreen({ navigation }) {
                 return;
             }
 
-            setOrders(result.data);
+            setOrders(result.data.sort((a, b) => {
+                return new Date(Date.parse(a.creationDate)) < new Date(Date.parse(b.creationDate));
+            }));
             setIsLoaded(true);
         } catch (e) {
             console.log(e);
@@ -109,7 +111,7 @@ export default function AccountInfoScreen({ navigation }) {
                     Địa chỉ: {order.shipAddress.number}, {order.shipAddress.street}, {order.shipAddress.district}, {order.shipAddress.city}
                 </Text>
                 <Text appearance="hint">
-                    Ngày đặt hàng: {new Date(Date.parse(order.creationDate)).toLocaleDateString()}
+                    Ngày đặt hàng: {formatDate(new Date(Date.parse(order.creationDate)))}
                 </Text>
             </Card>
         );
