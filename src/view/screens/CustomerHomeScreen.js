@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { BottomNavigation, BottomNavigationTab, Icon  } from "@ui-kitten/components";
 import { SafeAreaView } from "react-navigation";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { CustomerAccountInfoScreen, CustomerMainScreen, CustomerFavouriteScreen, CustomerCartScreen, CustomerSearchScreen } from ".";
+import { CustomerAccountInfoScreen, CustomerMainScreen, CustomerFavouriteScreen, CustomerSearchScreen } from ".";
 
 const Tab = createBottomTabNavigator();
 
@@ -52,5 +52,5 @@ export default function CustomerHomeScreen({ navigation }) {
                 <Tab.Screen name="AccountInfo" component={CustomerAccountInfoScreen} />
             </Tab.Navigator>
         </SafeAreaView>
-    )
+    );
 }

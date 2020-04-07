@@ -17,7 +17,7 @@ export default function CustomerScreensHeader({ navigation }) {
     function getRightControl() {
         return ([
             <TopNavigationAction
-                icon={style => <Icon {...style} name="shopping-cart" />}
+                icon={style => <Icon {...style} name="shopping-bag-outline" />}
                 onPress={handleCartButton}
             />
         ]);

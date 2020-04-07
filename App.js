@@ -75,7 +75,7 @@ export default function App(props) {
                         component={CustomerHomeScreen}
                     />
                     <Stack.Screen
-                        //options={{ headerShown: false }}
+                        options={{ headerShown: false }}
                         name="EmployeeHome"
                         component={EmployeeHomeScreen}
                     />

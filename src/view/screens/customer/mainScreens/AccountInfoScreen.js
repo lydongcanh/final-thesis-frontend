@@ -190,9 +190,9 @@ export default function AccountInfoScreen({ navigation }) {
 
                 <Button
                     size="tiny"
-                    style={{ borderRadius: 24, position: "absolute", top: 0, left: 0 }}
-                    status="basic"
-                    appearance="outline"
+                    style={{ borderRadius: 24, position: "absolute", top: -16, left: -16 }}
+                    status="danger"
+                    appearance="ghost"
                     onPress={handleLogoutButton}
                 >
                     Đăng xuất
