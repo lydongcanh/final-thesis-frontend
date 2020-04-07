@@ -9,7 +9,7 @@ import { GENDERS } from "../../../core/types";
 export default function GenderSelector({ gender, setGender }) {
 
     return (
-        <Layout>
+        <Layout style={{ marginBottom: 8 }}>
             <Text category="label" appearance="hint">Giới tính</Text>
             <FlatList 
                 horizontal

@@ -22,6 +22,7 @@ export default function AddressInputPanel(props) {
                     value={value}
                     onChangeText={onChangeText}
                     maxLength={50}
+                    style={{ marginBottom: 8 }}
                 />
             </Layout>
         );
@@ -37,6 +38,7 @@ export default function AddressInputPanel(props) {
 
     return (
         <Card
+            disabled
             status={isPurchasable() ? "success" : "danger"}
             header={() => <CardHeader title={title} />}
         >
