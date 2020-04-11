@@ -4,3 +4,4 @@ export { default as EmployeeScreensHeader } from "./EmployeeScreensHeader";
 export { default as SearchInput } from "./SearchInput";
 export { default as GenderSelector } from "./GenderSelector";
 export { default as AddressInputPanel } from "./AddressInputPanel";
+export { default as LoadErrorPanel } from "./LoadErrorPanel";

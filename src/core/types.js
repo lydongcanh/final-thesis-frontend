@@ -37,3 +37,27 @@ export const CUSTOMER_VIP_LEVELS = {
     VIP_9: "VIP 9",
     VIP_10: "VIP 10"
 };
+
+export const dateTimeLocale = {
+    dayNames: {
+        short: ["Hai", "Ba", "Tư", "Năm", "Sáu", "Bảy", "CN"],
+        long: ["Thứ hai", "Thứ ba", "Thứ tư", "Thứ năm", "Thứ sáu", "Thứ bảy", "Chủ nhật"],
+    },
+    monthNames: {
+        short: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"],
+        long: [
+            "Tháng một",
+            "Tháng hai",
+            "Tháng ba",
+            "Tháng tư",
+            "Tháng năm",
+            "Tháng sáu",
+            "Tháng bảy",
+            "Tháng tám",
+            "Tháng chín",
+            "Tháng mười",
+            "Tháng mười một",
+            "Tháng mười hai"
+        ],
+    },
+}
