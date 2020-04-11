@@ -32,10 +32,10 @@ const TabBarComponent = ({ navigation, state }) => {
                 onSelect={onSelect}
                 style={{ borderTopColor: "#e6e6e6", borderTopWidth: 0.5 }}
             >
-                <BottomNavigationTab icon={(style) => tabIcon(style, "home")} title="Trang chủ" />
-                <BottomNavigationTab icon={(style) => tabIcon(style, "search")} title="Tìm kiếm" />
-                <BottomNavigationTab icon={(style) => tabIcon(style, "heart")} title="Yêu thích" />
-                <BottomNavigationTab icon={(style) => tabIcon(style, "person")} title="Tài khoản" />
+                <BottomNavigationTab icon={(style) => tabIcon(style, "home-outline")} title="Trang chủ" />
+                <BottomNavigationTab icon={(style) => tabIcon(style, "search-outline")} title="Tìm kiếm" />
+                <BottomNavigationTab icon={(style) => tabIcon(style, "heart-outline")} title="Yêu thích" />
+                <BottomNavigationTab icon={(style) => tabIcon(style, "person-outline")} title="Tài khoản" />
             </BottomNavigation>
         </SafeAreaView>
     );

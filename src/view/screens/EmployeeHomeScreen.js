@@ -25,10 +25,10 @@ const TabBarComponent = ({ navigation, state }) => {
                 onSelect={onSelect}
                 style={{ borderTopColor: "#e6e6e6", borderTopWidth: 0.5 }}
             >
-                <BottomNavigationTab icon={(style) => tabIcon(style, "bar-chart")} title="Thống kê" />
-                <BottomNavigationTab icon={(style) => tabIcon(style, "shopping-bag")} title="Đơn hàng" />
-                <BottomNavigationTab icon={(style) => tabIcon(style, "settings-2")} title="Quản lý" />
-                <BottomNavigationTab icon={(style) => tabIcon(style, "person")} title="Tài khoản" />
+                <BottomNavigationTab icon={(style) => tabIcon(style, "bar-chart-outline")} title="Thống kê" />
+                <BottomNavigationTab icon={(style) => tabIcon(style, "shopping-bag-outline")} title="Đơn hàng" />
+                <BottomNavigationTab icon={(style) => tabIcon(style, "settings-2-outline")} title="Quản lý" />
+                <BottomNavigationTab icon={(style) => tabIcon(style, "person-outline")} title="Tài khoản" />
             </BottomNavigation>
         </SafeAreaView>
     );

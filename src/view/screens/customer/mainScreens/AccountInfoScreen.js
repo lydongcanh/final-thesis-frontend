@@ -15,17 +15,17 @@ export default function AccountInfoScreen({ navigation }) {
     const accountFunctionDatas = [
         {
             title: "Thông tin cá nhân",
-            icon: "edit",
+            icon: "edit-outline",
             callback: handleAccountDetailsButton
         },
         {
             title: "Đổi mật khẩu",
-            icon: "lock",
+            icon: "lock-outline",
             callback: handleChangePasswordButton
         },
         {
             title: "Hóa đơn đã hoàn tất",
-            icon: "pricetags",
+            icon: "pricetags-outline",
             callback: handleCompletedOrdersButton
         },
     ];
@@ -72,11 +72,11 @@ export default function AccountInfoScreen({ navigation }) {
     }
 
     function handleChangePasswordButton() {
-
+        // TODO: implement...
     }
 
     function handleCompletedOrdersButton() {
-
+        // TODO: implement...
     }
 
     function handleLogoutButton() {
@@ -164,7 +164,9 @@ export default function AccountInfoScreen({ navigation }) {
 
     function getLoggedInUI() {
         const customer = account.customer;
-
+        if (!customer)
+            return;
+            
         return (
             <Layout style={{ flex: 1, margin: 16, justifyContent: "space-between" }}>
                 <Layout style={{ alignItems: "center" }}>
@@ -190,7 +192,7 @@ export default function AccountInfoScreen({ navigation }) {
 
                 <Button
                     size="tiny"
-                    style={{ borderRadius: 24, position: "absolute", top: -16, left: -16 }}
+                    style={{ borderRadius: 24, position: "absolute", top: 0, left: 0 }}
                     status="danger"
                     appearance="ghost"
                     onPress={handleLogoutButton}
