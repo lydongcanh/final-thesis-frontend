@@ -1,6 +1,7 @@
 import React from "react";
-import { Layout, Text } from "@ui-kitten/components";
+import { Layout, Text, Card } from "@ui-kitten/components";
 import { CollectionService } from "../../../../core/services";
+import { formatDate } from "../../../../core/utilities";
 import ManagementTemplateScreen from "./ManagementTemplateScreen";
 
 export default function CollectionManagementScreen({ navigation }) {
@@ -15,7 +16,14 @@ export default function CollectionManagementScreen({ navigation }) {
 
     function getCollectionListItemUI(collection) {
         return (
-            <Text>{JSON.stringify(collection, null, 2)}</Text>
+            <Card 
+                style={{ margin: 16 }}
+                onPress={() => alert(JSON.stringify(collection, null, 2))}
+            >
+                <Text style={{ fontWeight: "bold" }}>{collection.name}</Text>
+                <Text appearance="hint">Ngày tạo: {formatDate(collection.creationDate)}</Text>
+                <Text appearance="hint">Số sản phẩm: {collection.details.length}</Text>
+            </Card>
         );
     }
 

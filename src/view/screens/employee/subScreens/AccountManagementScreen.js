@@ -1,5 +1,5 @@
 import React from "react";
-import { Layout, Text } from "@ui-kitten/components";
+import { Layout, Text, Card } from "@ui-kitten/components";
 import { AccountService } from "../../../../core/services";
 import ManagementTemplateScreen from "./ManagementTemplateScreen";
 
@@ -9,9 +9,15 @@ export default function CollectionManagementScreen() {
         alert("Đang cập nhật");
     }
 
-    function getAccountListItemUI(collection) {
+    function getAccountListItemUI(account) {
         return (
-            <Text>{JSON.stringify(collection, null, 2)}</Text>
+            <Card 
+                style={{ margin: 16 }}
+                onPress={() => alert(JSON.stringify(account, null, 2))}
+            >
+                <Text style={{ fontWeight: "bold" }}>{account.username}</Text>
+                <Text appearance="hint">{account.accountType}</Text>
+            </Card>
         );
     }
 

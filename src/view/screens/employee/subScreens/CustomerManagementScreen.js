@@ -13,7 +13,7 @@ export default function CustomerManagementScreen() {
     function getCustomerListItemUI(customer) {
         return (
             <Card 
-                style={{ margin: 16, backgroundColor: "white" }}
+                style={{ margin: 16 }}
                 onPress={() => alert(JSON.stringify(customer, null, 2))}
             >
                 <Layout style={{ flexDirection: "row" }}>

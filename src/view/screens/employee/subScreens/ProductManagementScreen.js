@@ -1,6 +1,8 @@
 import React from "react";
-import { Layout, Text } from "@ui-kitten/components";
+import { Image } from "react-native";
+import { Layout, Card, Text } from "@ui-kitten/components";
 import { ProductService } from "../../../../core/services";
+import { formatCurrency } from "../../../../core/utilities";
 import ManagementTemplateScreen from "./ManagementTemplateScreen";
 
 export default function ProductManagementScreen({ navigation }) {
@@ -13,9 +15,23 @@ export default function ProductManagementScreen({ navigation }) {
         alert("Đang cập nhật");
     }
 
-    function getProductListItemUI(employee) {
+    function getProductListItemUI(product) {
         return (
-            <Text>{JSON.stringify(employee, null, 2)}</Text>
+            <Card 
+                style={{ margin: 16 }}
+                onPress={() => alert(JSON.stringify(product, null, 2))}
+            >
+                <Layout style={{ flexDirection: "row" }}>
+                    <Image 
+                        source={{ uri: product.mainImage }}
+                        style={{ borderRadius: 50, width: 50, height: 50 }}
+                    />
+                    <Layout style={{ margin: 8, alignContent: "center" }}>
+                        <Text style={{ fontWeight: "bold" }}>{product.name}</Text>
+                        <Text appearance="hint">{formatCurrency(product.unitPrice)}VND</Text>
+                    </Layout>
+                </Layout>
+            </Card>
         );
     }
 

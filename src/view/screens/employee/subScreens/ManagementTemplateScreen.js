@@ -45,7 +45,7 @@ export default function ManagementTemplateScreen (props) {
 
     function getListUI() {
         return (
-            <FlatList 
+            <FlatList
                 data={data}
                 keyExtractor={(_, item) => item.toString()}
                 renderItem={({ item }) => getListItemUI(item)}
@@ -98,7 +98,7 @@ export default function ManagementTemplateScreen (props) {
             return <LoadErrorPanel onReload={callLoadDataAsync} />
 
         return (
-            <Layout>
+            <Layout style={{ flex: 1 }}>
                 {getConfigPanelUI()}
                 {getListUI()}
             </Layout>
