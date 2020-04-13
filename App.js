@@ -23,7 +23,13 @@ import { WelcomeScreen,
          CustomerCartPurchaseScreen,
          CustomerAccountDetailsScreen,
          EmployeeEmployeeManagementScreen,
-         EmployeeCustomerManagementScreen
+         EmployeeCustomerManagementScreen,
+         EmployeeAddEmployeeScreen,
+         EmployeeProductManagementScreen,
+         EmployeeAccountManagementScreen,
+         EmployeeCollectionManagementScreen,
+         EmployeeAddProductScreen,
+         EmployeeAddCollectionScreen,
         } from "./src/view/screens";
 
 import * as ErrorRecovery from "expo-error-recovery";
@@ -91,6 +97,7 @@ export default function App(props) {
                         name="CustomerSignup"
                         component={CustomerSignupScreen}
                     />
+
                     <Stack.Screen 
                         name="CustomerSubCategory"
                         component={CustomerSubCategoryScreen}
@@ -115,15 +122,46 @@ export default function App(props) {
                         name="CustomerAccountDetails"
                         component={CustomerAccountDetailsScreen}
                     />
+
+                    <Stack.Screen
+                        options={{ title: "Sản phẩm" }}
+                        name="EmployeeProductManagement"
+                        component={EmployeeProductManagementScreen}
+                    />
+                    <Stack.Screen
+                        options={{ title: "Bộ sưu tập" }}
+                        name="EmployeeCollectionManagement"
+                        component={EmployeeCollectionManagementScreen}
+                    />
                     <Stack.Screen
                         options={{ title: "Nhân viên" }}
                         name="EmployeeEmployeeManagement"
                         component={EmployeeEmployeeManagementScreen}
                     />
                     <Stack.Screen
-                        options={{ title: "Nhân viên" }}
+                        options={{ title: "Khách hàng" }}
                         name="EmployeeCustomerManagement"
                         component={EmployeeCustomerManagementScreen}
+                    />
+                    <Stack.Screen
+                        options={{ title: "Tài khoản" }}
+                        name="EmployeeAccountManagement"
+                        component={EmployeeAccountManagementScreen}
+                    />
+                    <Stack.Screen
+                        options={{ title: "Thêm sản phẩm" }}
+                        name="AddProduct"
+                        component={EmployeeAddProductScreen}
+                    />
+                    <Stack.Screen
+                        options={{ title: "Thêm bộ sưu tập" }}
+                        name="AddCollection"
+                        component={EmployeeAddCollectionScreen}
+                    />
+                    <Stack.Screen
+                        options={{ title: "Thêm nhân viên" }}
+                        name="AddEmployee"
+                        component={EmployeeAddEmployeeScreen}
                     />
                 </Stack.Navigator>
             </NavigationContainer>

@@ -53,6 +53,19 @@ export default function ManagementTemplateScreen (props) {
         );
     }
     
+    function getNewButtonUI() {
+        if (handleNewButton) {
+            return (
+                <Button
+                    appearance="ghost"
+                    icon={(style) => <Icon {...style} name="plus-outline" />} 
+                    style={{ borderRadius: 50, flex: 1 }}
+                    onPress={handleNewButton}
+                />
+            )
+        }
+    }   
+
     function getConfigPanelUI() {
         return (
             <Layout>
@@ -70,12 +83,7 @@ export default function ManagementTemplateScreen (props) {
                         style={{ borderRadius: 50, flex: 1 }}
                         onPress={handleConfigButton}
                     />
-                    <Button
-                        appearance="ghost"
-                        icon={(style) => <Icon {...style} name="plus-outline" />} 
-                        style={{ borderRadius: 50, flex: 1 }}
-                        onPress={handleNewButton}
-                    />
+                    {getNewButtonUI()}
                 </Layout>
                 <Divider />
             </Layout>

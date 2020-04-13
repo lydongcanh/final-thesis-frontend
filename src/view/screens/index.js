@@ -18,4 +18,10 @@ export { default as EmployeeAnalystScreen } from "./employee/mainScreens/Analyst
 export { default as EmployeeManagementScreen } from "./employee/mainScreens/ManagementScreen";
 export { default as EmployeeOrderScreen } from "./employee/mainScreens/OrderScreen";
 export { default as EmployeeEmployeeManagementScreen } from "./employee/subScreens/EmployeeManagementScreen";
-export { default as EmployeeCustomerManagementScreen } from "./employee/subScreens/CustomerManagementScreen"; 
+export { default as EmployeeCustomerManagementScreen } from "./employee/subScreens/CustomerManagementScreen";
+export { default as EmployeeProductManagementScreen } from "./employee/subScreens/ProductManagementScreen";
+export { default as EmployeeAccountManagementScreen } from "./employee/subScreens/AccountManagementScreen";
+export { default as EmployeeCollectionManagementScreen } from "./employee/subScreens/CollectionManagementScreen";
+export { default as EmployeeAddEmployeeScreen } from "./employee/subScreens/addScreens/AddEmployeeScreen";
+export { default as EmployeeAddCollectionScreen } from "./employee/subScreens/addScreens/AddCollectionScreen";
+export { default as EmployeeAddProductScreen } from "./employee/subScreens/addScreens/AddProductScreen";

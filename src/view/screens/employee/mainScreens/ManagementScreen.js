@@ -8,33 +8,33 @@ export default function ManagementScreen({ navigation }) {
     const managementFunctionDatas = [
         {
             title: "Sản phẩm",
-            icon: "arrow-right-outline",
-            callback: () => { alert("Đang cập nhật") }
+            icon: "cube-outline",
+            callback: () => navigation.navigate("EmployeeProductManagement")
         },
         {
             title: "Bộ sưu tập",
-            icon: "arrow-right-outline",
-            callback: () => { alert("Đang cập nhật")}
+            icon: "bookmark-outline",
+            callback: () => navigation.navigate("EmployeeCollectionManagement")
         },
         {
             title: "Khuyến mãi",
-            icon: "arrow-right-outline",
+            icon: "scissors-outline",
             callback: () => { alert("Đang cập nhật")}
         },
         {
             title: "Nhân viên",
-            icon: "arrow-right-outline",
+            icon: "people-outline",
             callback: () => navigation.navigate("EmployeeEmployeeManagement")
         },
         {
             title: "Khách hàng",
-            icon: "arrow-right-outline",
+            icon: "person-outline",
             callback: () => navigation.navigate("EmployeeCustomerManagement")
         },
         {
             title: "Tài khoản",
-            icon: "arrow-right-outline",
-            callback: () => { alert("Đang cập nhật")}
+            icon: "lock-outline",
+            callback: () => navigation.navigate("EmployeeAccountManagement")
         },
     ];
 
