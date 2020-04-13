@@ -1,7 +1,6 @@
 import React from "react";
 import { Platform, StatusBar } from "react-native";
-import { Layout, Text, List, ListItem, Icon } from "@ui-kitten/components";
-import { Divider } from "react-native-paper";
+import { Layout, List, ListItem, Icon } from "@ui-kitten/components";
 import { EmployeeScreensHeader } from "../../../components/others";
 
 export default function ManagementScreen({ navigation }) {
@@ -25,12 +24,12 @@ export default function ManagementScreen({ navigation }) {
         {
             title: "Nhân viên",
             icon: "arrow-right-outline",
-            callback: () => { alert("Đang cập nhật")}
+            callback: () => navigation.navigate("EmployeeEmployeeManagement")
         },
         {
             title: "Khách hàng",
             icon: "arrow-right-outline",
-            callback: () => { alert("Đang cập nhật")}
+            callback: () => navigation.navigate("EmployeeCustomerManagement")
         },
         {
             title: "Tài khoản",
