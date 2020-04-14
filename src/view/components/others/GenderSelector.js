@@ -4,12 +4,12 @@ import { FlatList } from "react-native";
 import { GENDERS } from "../../../core/types";
 
 /**
- * @param {*} pros gender, setGender
+ * @param pros gender, setGender
  */
 export default function GenderSelector({ gender, setGender }) {
 
     return (
-        <Layout style={{ marginBottom: 8 }}>
+        <Layout style={{ margin: 8 }}>
             <Text category="label" appearance="hint">Giới tính</Text>
             <FlatList 
                 horizontal

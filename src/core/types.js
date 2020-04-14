@@ -6,9 +6,10 @@ export const GENDERS = [
 
 
 export const JOB_TITLES = [
-    { text: "Nhân viên bán hàng" },
-    { text: "Nhân viên kho hàng" },
-    { text: "Quản lý" }
+    "Bán hàng",
+    "Kho hàng",
+    "Giao hàng",
+    "Quản lý"
 ];
 
 export const ACCOUNT_TYPES = {

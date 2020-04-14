@@ -59,31 +59,31 @@ export default function ManagementTemplateScreen (props) {
                 <Button
                     appearance="ghost"
                     icon={(style) => <Icon {...style} name="plus-outline" />} 
-                    style={{ borderRadius: 50, flex: 1 }}
+                    style={{ marginLeft: 8, borderRadius: 50, flex: 1 }}
                     onPress={handleNewButton}
                 />
             )
         }
-    }   
+    }
 
     function getConfigPanelUI() {
         return (
             <Layout>
-                <Layout style={{ flexDirection: "row", margin: 8, padding: 8 }}>
+                <Layout style={{ flexDirection: "row", marginTop: 8, marginLeft: 8, marginRight: 8, padding: 8 }}>
                     <Input 
                         icon={(style) => <Icon {...style} name="search-outline" />}
                         value={searchValue}
                         onChangeText={setSearchValue}
                         onIconPress={handleOnSearch}
-                        style={{ borderRadius: 50, flex: 10, backgroundColor: "white" }}
+                        style={{ borderRadius: 50, flex: 50, backgroundColor: "white" }}
                     />
+                    {getNewButtonUI()}
                     <Button 
                         appearance="ghost"
                         icon={(style) => <Icon {...style} name="options-2-outline" />}
                         style={{ borderRadius: 50, flex: 1 }}
                         onPress={handleConfigButton}
                     />
-                    {getNewButtonUI()}
                 </Layout>
                 <Divider />
             </Layout>
