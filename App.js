@@ -24,10 +24,11 @@ import { WelcomeScreen,
          CustomerAccountDetailsScreen,
          EmployeeEmployeeManagementScreen,
          EmployeeCustomerManagementScreen,
-         EmployeeAddEmployeeScreen,
          EmployeeProductManagementScreen,
          EmployeeAccountManagementScreen,
          EmployeeCollectionManagementScreen,
+         EmployeeCategoryManagementScreen,
+         EmployeeAddEmployeeScreen,
          EmployeeAddProductScreen,
          EmployeeAddCollectionScreen,
         } from "./src/view/screens";
@@ -147,6 +148,11 @@ export default function App(props) {
                         options={{ title: "Tài khoản" }}
                         name="EmployeeAccountManagement"
                         component={EmployeeAccountManagementScreen}
+                    />
+                    <Stack.Screen
+                        options={{ title: "Loại sản phẩm" }}
+                        name="EmployeeCategoryManagement"
+                        component={EmployeeCategoryManagementScreen}
                     />
                     <Stack.Screen
                         options={{ title: "Thêm sản phẩm" }}

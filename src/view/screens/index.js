@@ -22,6 +22,7 @@ export { default as EmployeeCustomerManagementScreen } from "./employee/subScree
 export { default as EmployeeProductManagementScreen } from "./employee/subScreens/ProductManagementScreen";
 export { default as EmployeeAccountManagementScreen } from "./employee/subScreens/AccountManagementScreen";
 export { default as EmployeeCollectionManagementScreen } from "./employee/subScreens/CollectionManagementScreen";
+export { default as EmployeeCategoryManagementScreen } from "./employee/subScreens/CategoryManagementScreen";
 export { default as EmployeeAddEmployeeScreen } from "./employee/subScreens/addScreens/AddEmployeeScreen";
 export { default as EmployeeAddCollectionScreen } from "./employee/subScreens/addScreens/AddCollectionScreen";
 export { default as EmployeeAddProductScreen } from "./employee/subScreens/addScreens/AddProductScreen";

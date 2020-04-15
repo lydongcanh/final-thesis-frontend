@@ -12,6 +12,11 @@ export default function ManagementScreen({ navigation }) {
             callback: () => navigation.navigate("EmployeeProductManagement")
         },
         {
+            title: "Loại sản phẩm",
+            icon: "layers-outline",
+            callback: () => navigation.navigate("EmployeeCategoryManagement")
+        },
+        {
             title: "Bộ sưu tập",
             icon: "bookmark-outline",
             callback: () => navigation.navigate("EmployeeCollectionManagement")
