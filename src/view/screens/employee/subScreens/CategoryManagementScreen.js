@@ -68,6 +68,10 @@ export default function CategoryManagementScreen({ navigation }) {
 
     }
 
+    async function handleNodeOnPress() {
+        
+    }
+
     function getIndicator(isExpanded, hasChildrenNodes) {
         if (!hasChildrenNodes)
             return;
@@ -154,8 +158,9 @@ export default function CategoryManagementScreen({ navigation }) {
         return (
             <ScrollView>
                 <TreeView
-                    data={categories}
+                    data={categories.sort((a, b) => a.sortOrder > b.sortOrder)}
                     getCollapsedNodeHeight={() => 32}
+                    onNodePress={handleNodeOnPress}
                     renderNode={({ node, level, isExpanded, hasChildrenNodes }) => {
                         return (
                             <Layout style={{ 

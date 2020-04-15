@@ -21,6 +21,9 @@ const DefaultTexts = {
     EMPLOYEE_CREATED: "Thêm nhân viên thành công.",
     CART_ITEM_ADDED: "Thêm vào giỏ hàng thành công.",
     NO_AVAILABLE_PRODUCT: "Sản phẩm hiện tại đã hết hàng.",
+
+    CREATE_PRODUCT_ERROR: "Thêm sản phẩm mới không thành công.",
+    CREATE_PRODUCT_SUCCESS: "Thêm sản phẩm mới thành công."
 }
 
 export const Texts = DefaultTexts;
