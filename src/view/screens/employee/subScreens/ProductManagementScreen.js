@@ -4,11 +4,12 @@ import { Layout, Card, Text } from "@ui-kitten/components";
 import { ProductService } from "../../../../core/services";
 import { formatCurrency } from "../../../../core/utilities";
 import ManagementTemplateScreen from "./ManagementTemplateScreen";
+import { ManagementTypes } from "../../../types";
 
 export default function ProductManagementScreen({ navigation }) {
 
     function handleNewButton() {
-        navigation.navigate("AddProduct");
+        navigation.navigate("ProductDetails", { mode: ManagementTypes.CREATE });
     }
 
     function handleConfigButton() {

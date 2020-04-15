@@ -1,21 +1,32 @@
 import React, { useState } from "react";
 import { Layout, Input, Button, Card, CardHeader } from "@ui-kitten/components";
 import { styles } from "../../../../styles";
+import DetailsManagementTemplateScreen from "./DetailsManagementTemplateScreen";
 
-export default function AddCollectionScreen() {
+export default function CollectionDetailsManagementScreen({ route }) {
 
     const [name, setName] = useState();
-    const [isLoading, setIsLoading] = useState(false);
+    const [products, setProducts] = useState([]);
 
-    async function handleConfirmButton() {
+    async function createCollection() {
         alert(JSON.stringify({
             name, unitPrice, mainImage, subImages
-        }, null, 2))
+        }, null, 2));
+        return { error: "Dang cap nhat" }
+    }
+
+    async function updateCollection() {
+        return { error: "Dang cap nhat" }
+    }
+
+    function resetInputValues() {
+        setName("");
+        setProducts([]);
     }
 
     function canAdd() {
         return name && name !== "" &&
-            !isLoading;
+               products && products.length > 0;
     }
 
     function getProductsUI() {
@@ -30,24 +41,29 @@ export default function AddCollectionScreen() {
         )
     }
 
-    return (
-        <Layout style={{ flex: 1, padding: 16, justifyContent: "space-between" }}>
+    function getContentUI() {
+        return (
             <Layout>
                 <Input
                     value={name}
                     onChangeText={setName}
                     style={styles.input}
                     label="Tên bộ sưu tập"
+                    maxLength={100}
                 />
                 {getProductsUI()}
             </Layout>
-            <Button
-                style={{ borderRadius: 25 }}
-                disabled={!canAdd()}
-                onPress={handleConfirmButton}
-            >
-                Xác nhận
-            </Button>
-        </Layout>
+        );
+    }
+
+    return (
+        <DetailsManagementTemplateScreen 
+            route={route}
+            createFunction={createCollection}
+            updateFunction={updateCollection}
+            resetInputFunction={resetInputValues}
+            canAdd={canAdd}
+            contentUI={getContentUI()}
+        />
     );
 }

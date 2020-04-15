@@ -3,11 +3,12 @@ import { Layout, Text, Card } from "@ui-kitten/components";
 import { CollectionService } from "../../../../core/services";
 import { formatDate } from "../../../../core/utilities";
 import ManagementTemplateScreen from "./ManagementTemplateScreen";
+import { ManagementTypes } from "../../../types";
 
 export default function CollectionManagementScreen({ navigation }) {
 
     function handleNewButton() {
-        navigation.navigate("AddCollection");
+        navigation.navigate("CollectionDetails", { mode: ManagementTypes.CREATE });
     }
 
     function handleConfigButton() {

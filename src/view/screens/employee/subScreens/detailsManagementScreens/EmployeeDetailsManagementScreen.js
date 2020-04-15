@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { ScrollView } from "react-native";
 import { Layout, Input, Button, Card, CardHeader, Datepicker } from "@ui-kitten/components";
 import { styles } from "../../../../styles";
 import { EmployeeJobTitleSelector } from "../../../../components/employees";
 import { GenderSelector, AddressInputPanel } from "../../../../components/others";
+import DetailsManagementTemplateScreen from "./DetailsManagementTemplateScreen";
 
-export default function AddEmployeeScreen() {
+export default function EmployeeDetailsManagementScreen({ route }) {
 
     const [name, setName] = useState("Lý Đông Cảnh");
     const [addressNumber, setAddressNumber] = useState("12/ABC");
@@ -19,33 +19,49 @@ export default function AddEmployeeScreen() {
     const [gender, setGender] = useState("");
     const [jobTitle, setJobTitle] = useState("");
     const [birthdate, setbirthdate] = useState(new Date(1998, 12, 31));
-    const [isLoading, setIsLoading] = useState(false);
 
-    async function handleConfirmButton() {
+    async function createEmployee() {
         alert(JSON.stringify({
-            name, address: { addressNumber, addressCity, addressDistrict, addressCity }, 
+            name, address: { addressNumber, addressCity, addressDistrict, addressCity },
             phoneNumber, email, password, imagePath, gender, jobTitle, birthdate
-        }, null, 2))
+        }, null, 2));
+        return { error: "Dang cap nhat" }
+    }
+
+    async function updateEmployee() {
+        return { error: "Dang cap nhat" }
     }
 
     function canAdd() {
         return name && name !== "" &&
-               addressNumber && addressNumber !== "" &&
-               addressStreet && addressStreet !== "" &&
-               addressDistrict && addressDistrict !== "" &&
-               addressCity && addressCity !== "" &&
-               phoneNumber && phoneNumber !== "" &&
-               email && email !== "" &&
-               password && setPassword !== "" &&
-               imagePath && imagePath !== "" &&
-               gender && gender !== "" &&
-               jobTitle && jobTitle !== "" &&
-               !isLoading;
+            addressNumber && addressNumber !== "" &&
+            addressStreet && addressStreet !== "" &&
+            addressDistrict && addressDistrict !== "" &&
+            addressCity && addressCity !== "" &&
+            phoneNumber && phoneNumber !== "" &&
+            email && email !== "" &&
+            password && setPassword !== "" &&
+            imagePath && imagePath !== "" &&
+            gender && gender !== "" &&
+            jobTitle && jobTitle !== "";
     }
 
-    return (
-        <Layout style={{ flex: 1, padding: 16, justifyContent: "space-between" }}>
-           <ScrollView style={{ flex: 1 }}>
+    function resetInputValues() {
+        setName("")
+        setAddressNumber("");
+        setAddressStreet("");
+        setAddressDistrict("");
+        setAddressCity("");
+        setPhoneNumber("");
+        setEmail("");
+        setImagePath("");
+        setGender("");
+        setJobTitle("");
+    }
+
+    function getContentUI() {
+        return (
+            <Layout>
                 <Input
                     label="Tên"
                     value={name}
@@ -82,6 +98,7 @@ export default function AddEmployeeScreen() {
                     value={imagePath}
                     onChangeText={setImagePath}
                     keyboardType="url"
+                    maxLength={200}
                     style={styles.input}
                 />
                 <EmployeeJobTitleSelector
@@ -101,7 +118,7 @@ export default function AddEmployeeScreen() {
                     style={styles.input}
                 />
                 <Layout style={{ padding: 8 }}>
-                    <AddressInputPanel 
+                    <AddressInputPanel
                         title="Địa chỉ"
                         addressNumber={addressNumber}
                         addressStreet={addressStreet}
@@ -113,14 +130,17 @@ export default function AddEmployeeScreen() {
                         setAddressCity={setAddressCity}
                     />
                 </Layout>
-            </ScrollView>
-            <Button
-                style={{ borderRadius: 25 }}
-                disabled={!canAdd()}
-                onPress={handleConfirmButton}
-            >
-                Xác nhận
-            </Button>
-        </Layout>
+            </Layout>
+        );
+    }
+    return (
+        <DetailsManagementTemplateScreen 
+            route={route}
+            createFunction={createEmployee}
+            updateFunction={updateEmployee}
+            resetInputFunction={resetInputValues}
+            canAdd={canAdd}
+            contentUI={getContentUI()}
+        />
     );
 }

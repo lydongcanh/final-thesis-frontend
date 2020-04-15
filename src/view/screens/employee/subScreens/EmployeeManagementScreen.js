@@ -2,11 +2,12 @@ import React from "react";
 import { Layout, Text } from "@ui-kitten/components";
 import { EmployeeService } from "../../../../core/services";
 import ManagementTemplateScreen from "./ManagementTemplateScreen";
+import { ManagementTypes } from "../../../types";
 
 export default function EmployeeManagementScreen({ navigation }) {
 
     function handleNewButton() {
-        navigation.navigate("AddEmployee");
+        navigation.navigate("EmployeeDetails", { mode: ManagementTypes.CREATE });
     }
 
     function handleConfigButton() {

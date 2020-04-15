@@ -28,9 +28,10 @@ import { WelcomeScreen,
          EmployeeAccountManagementScreen,
          EmployeeCollectionManagementScreen,
          EmployeeCategoryManagementScreen,
-         EmployeeAddEmployeeScreen,
-         EmployeeAddProductScreen,
-         EmployeeAddCollectionScreen,
+         ProductDetailsManagementScreen,
+         CategoryDetailsManagementScreen,
+         CollectionDetailsManagementScreen,
+         EmployeeDetailsManagementScreen
         } from "./src/view/screens";
 
 import * as ErrorRecovery from "expo-error-recovery";
@@ -154,20 +155,26 @@ export default function App(props) {
                         name="EmployeeCategoryManagement"
                         component={EmployeeCategoryManagementScreen}
                     />
+
                     <Stack.Screen
-                        options={{ title: "Thêm sản phẩm" }}
-                        name="AddProduct"
-                        component={EmployeeAddProductScreen}
+                        options={{ title: "Sản phẩm" }}
+                        name="ProductDetails"
+                        component={ProductDetailsManagementScreen}
                     />
                     <Stack.Screen
-                        options={{ title: "Thêm bộ sưu tập" }}
-                        name="AddCollection"
-                        component={EmployeeAddCollectionScreen}
+                        options={{ title: "Loại sản phẩm" }}
+                        name="CategoryDetails"
+                        component={CategoryDetailsManagementScreen}
                     />
                     <Stack.Screen
-                        options={{ title: "Thêm nhân viên" }}
-                        name="AddEmployee"
-                        component={EmployeeAddEmployeeScreen}
+                        options={{ title: "Bộ sưu tập" }}
+                        name="CollectionDetails"
+                        component={CollectionDetailsManagementScreen}
+                    />
+                    <Stack.Screen
+                        options={{ title: "Nhân viên" }}
+                        name="EmployeeDetails"
+                        component={EmployeeDetailsManagementScreen}
                     />
                 </Stack.Navigator>
             </NavigationContainer>

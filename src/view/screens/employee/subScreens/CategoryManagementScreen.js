@@ -5,6 +5,7 @@ import { ActivityIndicator, Divider } from "react-native-paper";
 import TreeView from "react-native-final-tree-view";
 import { CategoryService } from "../../../../core/services";
 import { LoadErrorPanel } from "../../../components/others";
+import { ManagementTypes } from "../../../types";
 
 export default function CategoryManagementScreen({ navigation }) {
 
@@ -47,23 +48,19 @@ export default function CategoryManagementScreen({ navigation }) {
             }
         }
     }
-    
-    async function handleDeleteButton(node) {
-        alert(JSON.stringify(node, null, 2));
-    }
 
     async function handleEditButton(node) {
         alert(JSON.stringify(node, null, 2));
     }
 
     async function handleAddChildButton(node) {
-        alert(JSON.stringify(node, null, 2));
+        const navParam = { mode: ManagementTypes.CREATE };
+        if (node)
+            navParam.parentNode = node;
+        
+        navigation.navigate("CategoryDetails", navParam);
     }
-
-    async function handleNewRootButton() {
-
-    }
-
+    
     async function handleOnSearch() {
 
     }
@@ -125,7 +122,7 @@ export default function CategoryManagementScreen({ navigation }) {
                 appearance="ghost"
                 icon={(style) => <Icon {...style} name="plus-outline" />} 
                 style={{ marginLeft: 8, borderRadius: 50, flex: 1 }}
-                onPress={handleNewRootButton}
+                onPress={() => handleAddChildButton()}
             />
         );
     }
