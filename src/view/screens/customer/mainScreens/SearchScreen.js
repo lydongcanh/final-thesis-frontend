@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { FlatList } from "react-native-gesture-handler";
+import { Image, Platform, StatusBar, FlatList, Dimensions } from "react-native";
 import { Layout, Text, Input, Icon, Button, Card } from "@ui-kitten/components";
 import { ActivityIndicator, Divider } from "react-native-paper";
-import { Image, Platform, StatusBar } from "react-native";
 import { CategoryService } from "../../../../core/services";
 import { Space, CustomerScreensHeader } from "../../../components/others";
 
@@ -15,12 +14,13 @@ export default function SearchScreen({ navigation }) {
     const [isLoading, setIsLoading] = useState(true);
     const [isLoaded, setIsLoaded] = useState(false);
 
+    const screenWidth = Dimensions.get("window").width;
     const auth = useSelector(state => state.authReducer);
     const account = auth.account;
 
     useEffect(() => {
         loadCategories();
-    }, [account]);
+    }, []);
 
     async function loadCategories() {
         setIsLoading(true);
@@ -61,18 +61,6 @@ export default function SearchScreen({ navigation }) {
         setSelectedSubCategory(null);
     }
 
-    function getCategoriesUI() {
-        if (isLoading && !isLoaded)
-            return;
-
-        return (
-            <Layout>
-                {getMainCategoriesUI()}
-                {getSubCategoriesUI()}
-            </Layout>
-        );
-    }
-
     function getMainCategoriesUI() {
         return (
             <Layout>
@@ -83,6 +71,7 @@ export default function SearchScreen({ navigation }) {
                     keyExtractor={(_, index) => index.toString()}
                     renderItem={({ item }) => (
                         <Button
+                            disabled={!item || !item.childrenCategories || item.childrenCategories.length < 1}
                             size="tiny"
                             status={(selectedMainCategory && item.id === selectedMainCategory.id) ? "info" : "basic"}
                             onPress={() => handleMainCategoryClick(item)}
@@ -111,6 +100,7 @@ export default function SearchScreen({ navigation }) {
                     keyExtractor={(_, index) => index.toString()}
                     renderItem={({ item }) => (
                         <Button
+                            disabled={!item || !item.childrenCategories || item.childrenCategories.length < 1}
                             size="tiny"
                             status={(selectedSubCategory && item.id === selectedSubCategory.id) ? "info" : "basic"}
                             onPress={() => handleSubCategoryClick(item)}
@@ -121,6 +111,55 @@ export default function SearchScreen({ navigation }) {
                     )}
                 />
                 <Divider />
+            </Layout>
+        );
+    }
+
+    function getFinalCategoriesUI() {
+        if (!selectedSubCategory ||
+            !selectedSubCategory.childrenCategories ||
+            selectedSubCategory.childrenCategories.length < 1)
+            return;
+
+        return (
+            <FlatList
+                data={selectedSubCategory.childrenCategories.sort((a, b) => a.sortOrder > b.sortOrder)}
+                keyExtractor={(_, index) => index.toString()}
+                renderItem={({ item }) => (
+                    <Card
+                        style={{ margin: 16 }}
+                        header={() => getCardHeader(item) }
+                    >
+                        <Text>{item.name}</Text>
+                    </Card>
+                )}
+            />
+        );
+
+        function getCardHeader(item) {
+            if (!item)
+                return;
+
+            return (
+                <Layout style={{ flex: 1 }}>
+                    <Image 
+                        source={{ uri: item.imagePath }} 
+                        style={{ width: screenWidth, height: 100, justifyContent: "flex-start" }} 
+                    />
+                </Layout>
+            );
+        }
+    }
+
+    function getCategoriesUI() {
+        if (isLoading && !isLoaded)
+            return;
+
+        return (
+            <Layout style={{ flex: 1, justifyContent: "flex-start" }}>
+                {getMainCategoriesUI()}
+                {getSubCategoriesUI()}
+                {getFinalCategoriesUI()}
             </Layout>
         );
     }
@@ -147,7 +186,7 @@ export default function SearchScreen({ navigation }) {
         }
 
         return (
-            <Layout>
+            <Layout style={{ flex: 1 }}>
                 {/* <Input
                     style={{ borderRadius: 24, marginLeft: 8, marginRight: 8 }}
                     icon={(style) => <Icon {...style} name="search" />}

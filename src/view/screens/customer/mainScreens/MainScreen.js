@@ -99,7 +99,7 @@ export default function MainScreen({ navigation }) {
 
     function getHeadCarousel() {
         return (
-            <Layout>
+            <Layout style={{ flex: 1 }}>
                 <Carousel
                     data={headCarouselData}
                     itemWidth={screenWidth}

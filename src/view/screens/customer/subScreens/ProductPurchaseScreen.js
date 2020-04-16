@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Layout, Button, Icon, Text } from "@ui-kitten/components";
-import { ImageBackground, Dimensions, View, FlatList } from "react-native";
+import { ImageBackground, Dimensions, View, FlatList, Platform, StatusBar } from "react-native";
 import { Toast } from "native-base";
 import { ActivityIndicator } from "react-native-paper";
 import { ProductDetailsService, CustomerCartService } from "../../../../core/services";
@@ -181,7 +181,12 @@ export default function ProductPurchaseScreen({ navigation, route }) {
     return (
         <ImageBackground
             source={{ uri: product.mainImage }}
-            style={{ height: screenHeight, width: screenWidth, flex: 1, justifyContent: "flex-end" }}
+            style={{ 
+                height: screenHeight, 
+                width: screenWidth, flex: 1, 
+                marginTop: Platform.OS === "ios" ? 0 : StatusBar.currentHeight,
+                justifyContent: "flex-end" 
+            }}
         >
             <Layout style={{
                 padding: 32,
@@ -191,6 +196,13 @@ export default function ProductPurchaseScreen({ navigation, route }) {
             }}>
                 {getProductDetailsUI()}
             </Layout>
+            <Button 
+                style={{ borderRadius: 50, position: "absolute", top: 0, left: 0, backgroundColor: "rgba(0, 0, 0, 0)" }}
+                onPress={() => navigation.goBack()}
+                appearance="ghost"
+                status="basic"
+                icon={style => <Icon {...style} name="arrow-back" />}
+            />
         </ImageBackground>
     );
 }

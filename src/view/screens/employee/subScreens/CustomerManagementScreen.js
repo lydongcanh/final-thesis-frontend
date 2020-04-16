@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Image } from "react-native";
-import { Layout, Card, Text } from "@ui-kitten/components";
+import { Layout, Card, Text, Button } from "@ui-kitten/components";
 import { CustomerService } from "../../../../core/services";
 import ManagementTemplateScreen from "./ManagementTemplateScreen";
 
@@ -18,13 +18,22 @@ export default function CustomerManagementScreen({ navigation }) {
                 style={{ margin: 16 }}
                 onPress={() => alert(JSON.stringify(customer, null, 2))}
             >
-                <Layout style={{ flexDirection: "row" }}>
+                <Layout style={{ flexDirection: "row", backgroundColor: "rgba(0, 0, 0, 0)", alignItems: "center" }}>
                     <Image 
                         source={{ uri: customer.imagePath }}
                         style={{ borderRadius: 50, width: 50, height: 50 }}
                     />
-                    <Layout style={{ margin: 8, alignContent: "center" }}>
-                        <Text style={{ fontWeight: "bold" }}>{customer.name}</Text>
+                    <Layout style={{ margin: 8, alignContent: "center", backgroundColor: "rgba(0, 0, 0, 0)" }}>
+                        <Layout style={{ flexDirection: "row", alignItems: "center", backgroundColor: "rgba(0, 0, 0, 0)" }}>
+                            <Text style={{ fontWeight: "bold" }}>{customer.name}</Text>
+                            {/* <Button 
+                                disabled
+                                size="tiny"
+                                style={{ borderRadius: 20, marginLeft: 8 }}
+                            > 
+                                {customer.vipLevel}
+                            </Button> */}
+                        </Layout>
                         <Text appearance="hint">{customer.phoneNumber}</Text>
                     </Layout>
                 </Layout>

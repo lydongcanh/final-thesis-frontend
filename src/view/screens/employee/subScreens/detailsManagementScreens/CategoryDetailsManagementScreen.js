@@ -15,11 +15,13 @@ export default function CategoryDetailsManagementScreen({ route }) {
     async function createCategory() {
         const newCategory = {
             name: name,
-            description: description,
+            description: description
         };
 
-        if (parentNode)
+        if (parentNode) {
             newCategory.parentCategoryId = parentNode.id;
+            newCategory.imagePath = imagePath;
+        }
 
         const result = await CategoryService.create(newCategory);
         return result;
