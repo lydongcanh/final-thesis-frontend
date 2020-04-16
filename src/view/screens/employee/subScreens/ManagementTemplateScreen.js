@@ -1,15 +1,15 @@
 import React, { useState, useEffect} from "react";
 import { Layout, Icon, Button, Input } from "@ui-kitten/components";
 import { ActivityIndicator, Divider } from "react-native-paper";
-import { FlatList } from "react-native-gesture-handler";
+import { FlatList } from "react-native";
 import { LoadErrorPanel } from "../../../components/others";
 
 /**
- * @param props loadDataAsync, handleNewButton, handleConfigButton, getListItemUI
+ * @param props loadDataAsync, handleNewButton, handleConfigButton, getListItemUI, navigation
  */
-export default function ManagementTemplateScreen (props) {
-
-    const { loadDataAsync, handleNewButton, handleConfigButton, getListItemUI } = props;
+export default function ManagementTemplateScreen (
+    { loadDataAsync, handleNewButton, handleConfigButton, getListItemUI, navigation }
+) {
 
     const [data, setData] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -19,6 +19,14 @@ export default function ManagementTemplateScreen (props) {
     useEffect(() => {
         callLoadDataAsync();
     }, []);
+
+    useEffect(() => {
+        const unsubscribe = navigation.addListener('focus', () => {
+            callLoadDataAsync();
+        });
+      
+        return unsubscribe;
+    }, [navigation]);
 
     async function callLoadDataAsync() {
         try {

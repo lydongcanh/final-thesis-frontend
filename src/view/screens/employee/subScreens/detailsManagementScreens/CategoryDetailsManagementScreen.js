@@ -1,17 +1,28 @@
 import React, { useState } from "react";
-import { Layout, Text } from "@ui-kitten/components";
+import { Layout, Input, Text } from "@ui-kitten/components";
 import { CategoryService } from "../../../../../core/services";
 import DetailsManagementTemplateScreen from "./DetailsManagementTemplateScreen";
+import { styles } from "../../../../styles";
 
 export default function CategoryDetailsManagementScreen({ route }) {
 
-    //const { parentNode } = route;
+    const { parentNode, level } = route.params;
 
     const [name, setName] = useState();
     const [description, setDescription] = useState();
-    
+    const [imagePath, setImagePath] = useState();
+
     async function createCategory() {
-        return { error: "Dang cap nhat" };
+        const newCategory = {
+            name: name,
+            description: description,
+        };
+
+        if (parentNode)
+            newCategory.parentCategoryId = parentNode.id;
+
+        const result = await CategoryService.create(newCategory);
+        return result;
     }
 
     async function updateCategory() {
@@ -21,17 +32,52 @@ export default function CategoryDetailsManagementScreen({ route }) {
     function resetInputValues() {
         setName("");
         setDescription("");
+        setImagePath("");
     }
 
     function canAdd() {
         return name && name !== "" &&
-               description && description !== "";
+               description && description !== "" &&
+               (hideImagePath() || (imagePath && imagePath !== ""));
+    }
+
+    function hideImagePath() {
+        return !parentNode || !level || level < 2;
+    }
+
+    function getImageInputUI() {
+        if (hideImagePath())
+            return;
+
+        return (
+            <Input
+                label="Ảnh"
+                onChangeText={setImagePath}
+                value={imagePath}
+                maxLength={200}
+                style={styles.input}
+            />
+        );
     }
 
     function getContentUI() {
         return (
             <Layout>
-                <Text>Category</Text>
+                <Input
+                    label="Tên"
+                    onChangeText={setName}
+                    value={name}
+                    maxLength={50}
+                    style={styles.input}
+                />
+                <Input
+                    label="Chú thích"
+                    onChangeText={setDescription}
+                    value={description}
+                    maxLength={100}
+                    style={styles.input}
+                />
+                {getImageInputUI()}
             </Layout>
         );
     }

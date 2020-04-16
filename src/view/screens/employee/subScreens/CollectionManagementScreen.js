@@ -35,6 +35,7 @@ export default function CollectionManagementScreen({ navigation }) {
                 handleNewButton={handleNewButton}
                 handleConfigButton={handleConfigButton}
                 getListItemUI={getCollectionListItemUI}
+                navigation={navigation}
             />
         </Layout>
     );

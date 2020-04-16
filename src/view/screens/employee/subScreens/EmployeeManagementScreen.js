@@ -27,6 +27,7 @@ export default function EmployeeManagementScreen({ navigation }) {
                 handleNewButton={handleNewButton}
                 handleConfigButton={handleConfigButton}
                 getListItemUI={getEmployeeListItemUI}
+                navigation={navigation}
             />
         </Layout>
     );

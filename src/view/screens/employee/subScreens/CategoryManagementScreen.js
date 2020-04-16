@@ -18,6 +18,14 @@ export default function CategoryManagementScreen({ navigation }) {
         loadCategories();
     }, []);
 
+    useEffect(() => {
+        const unsubscribe = navigation.addListener('focus', () => {
+            loadCategories();
+        });
+      
+        return unsubscribe;
+    }, [navigation]);
+
     async function loadCategories() {
         try {
             setIsLoading(true);
@@ -53,12 +61,12 @@ export default function CategoryManagementScreen({ navigation }) {
         alert(JSON.stringify(node, null, 2));
     }
 
-    async function handleAddChildButton(node) {
-        const navParam = { mode: ManagementTypes.CREATE };
-        if (node)
-            navParam.parentNode = node;
-        
-        navigation.navigate("CategoryDetails", navParam);
+    async function handleAddChildButton(node, level) {
+        navigation.navigate("CategoryDetails", {
+            mode: ManagementTypes.CREATE, 
+            parentNode: node,
+            level: level
+        });
     }
     
     async function handleOnSearch() {
@@ -109,7 +117,7 @@ export default function CategoryManagementScreen({ navigation }) {
                     />
                     <Button
                         icon={style => <Icon name="plus-outline" {...style} />}
-                        onPress={async () => await handleAddChildButton(node)}
+                        onPress={async () => await handleAddChildButton(node, level + 1)}
                     />
                 </ButtonGroup>
             );
@@ -122,7 +130,7 @@ export default function CategoryManagementScreen({ navigation }) {
                 appearance="ghost"
                 icon={(style) => <Icon {...style} name="plus-outline" />} 
                 style={{ marginLeft: 8, borderRadius: 50, flex: 1 }}
-                onPress={() => handleAddChildButton()}
+                onPress={() => handleAddChildButton(null, 0)}
             />
         );
     }

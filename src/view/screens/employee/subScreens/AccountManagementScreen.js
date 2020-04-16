@@ -3,7 +3,7 @@ import { Layout, Text, Card } from "@ui-kitten/components";
 import { AccountService } from "../../../../core/services";
 import ManagementTemplateScreen from "./ManagementTemplateScreen";
 
-export default function CollectionManagementScreen() {
+export default function CollectionManagementScreen({ navigation }) {
 
     function handleConfigButton() {
         alert("Đang cập nhật");
@@ -27,6 +27,7 @@ export default function CollectionManagementScreen() {
                 loadDataAsync={async () => await AccountService.getAll()}
                 handleConfigButton={handleConfigButton}
                 getListItemUI={getAccountListItemUI}
+                navigation={navigation}
             />
         </Layout>
     );

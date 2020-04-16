@@ -14,10 +14,10 @@ export default function DetailsManagementTemplateScreen({
 
     const [isLoading, setIsLoading] = useState(false);
 
-    const mode = route ? route.mode : ManagementTypes.CREATE;
+    const mode = route ? route.params.mode : ManagementTypes.CREATE;
     const confirmFunction = mode === ManagementTypes.CREATE ? createFunction : updateFunction
-    const successMessage = mode === ManagementTypes.CREATE ? "Thêm thành công." : "Thêm không thành công.";
-    const errorMessage = mode === ManagementTypes.CREATE ? "Cập nhật thành công." : "Cập nhật không thành công.";
+    const successMessage = mode === ManagementTypes.CREATE ? "Thêm thành công." : "Cập nhật thành công.";
+    const errorMessage = mode === ManagementTypes.CREATE ? "Thêm không thành công." : "Cập nhật không thành công.";
 
     async function handleConfirmButton() {
         try {
@@ -64,7 +64,7 @@ export default function DetailsManagementTemplateScreen({
                     onPress={handleConfirmButton}
                 >
                     Xác nhận
-            </Button>
+                </Button>
             </Layout>
         );
     }

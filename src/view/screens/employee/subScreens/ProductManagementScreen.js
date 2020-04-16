@@ -43,6 +43,7 @@ export default function ProductManagementScreen({ navigation }) {
                 handleNewButton={handleNewButton}
                 handleConfigButton={handleConfigButton}
                 getListItemUI={getProductListItemUI}
+                navigation={navigation}
             />
         </Layout>
     );

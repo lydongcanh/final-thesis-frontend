@@ -4,7 +4,7 @@ import { Layout, Card, Text } from "@ui-kitten/components";
 import { CustomerService } from "../../../../core/services";
 import ManagementTemplateScreen from "./ManagementTemplateScreen";
 
-export default function CustomerManagementScreen() {
+export default function CustomerManagementScreen({ navigation }) {
 
     function handleConfigButton() {
         alert("Đang cập nhật");
@@ -36,6 +36,7 @@ export default function CustomerManagementScreen() {
                 loadDataAsync={async () => await CustomerService.getAll()}
                 handleConfigButton={handleConfigButton}
                 getListItemUI={getCustomerListItemUI}
+                navigation={navigation}
             />
         </Layout>
     );
