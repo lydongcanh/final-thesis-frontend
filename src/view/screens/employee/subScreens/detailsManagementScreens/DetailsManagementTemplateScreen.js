@@ -27,12 +27,14 @@ export default function DetailsManagementTemplateScreen({
                 console.log(result.error);
                 Toast.show({
                     text: errorMessage,
-                    type: "danger"
+                    type: "danger",
+                    duration: 5000
                 });
             } else {
                 Toast.show({
                     text: successMessage,
-                    type: "success"
+                    type: "success",
+                    duration: 5000
                 });
 
                 if (mode && mode === ManagementTypes.CREATE && resetInputFunction)
@@ -42,7 +44,8 @@ export default function DetailsManagementTemplateScreen({
             console.log(error);
             Toast.show({
                 text: errorMessage,
-                type: "danger"
+                type: "danger",
+                duration: 5000
             });
         } finally {
             setIsLoading(false);

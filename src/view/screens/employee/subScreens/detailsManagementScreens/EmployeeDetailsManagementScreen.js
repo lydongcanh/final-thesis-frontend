@@ -1,11 +1,14 @@
 import React, { useState } from "react";
-import { Layout, Input, Button, Card, CardHeader, Datepicker } from "@ui-kitten/components";
+import { Layout, Input, Datepicker } from "@ui-kitten/components";
 import { styles } from "../../../../styles";
 import { EmployeeJobTitleSelector } from "../../../../components/employees";
 import { GenderSelector, AddressInputPanel } from "../../../../components/others";
+import { EmployeeService, AccountService } from "../../../../../core/services";
 import DetailsManagementTemplateScreen from "./DetailsManagementTemplateScreen";
 
 export default function EmployeeDetailsManagementScreen({ route }) {
+
+    const employees = route ? route.params.employees : null;
 
     const [name, setName] = useState("Lý Đông Cảnh");
     const [addressNumber, setAddressNumber] = useState("12/ABC");
@@ -14,18 +17,34 @@ export default function EmployeeDetailsManagementScreen({ route }) {
     const [addressCity, setAddressCity] = useState("TP.HCM");
     const [phoneNumber, setPhoneNumber] = useState("0123456789");
     const [email, setEmail] = useState("abcdefgh@gmail.com");
-    const [password, setPassword] = useState("0123456789");
+    const [password, setPassword] = useState("abcd1234");
     const [imagePath, setImagePath] = useState("https://placeimg.com/480/480/animal");
     const [gender, setGender] = useState("");
     const [jobTitle, setJobTitle] = useState("");
     const [birthdate, setbirthdate] = useState(new Date(1998, 12, 31));
 
     async function createEmployee() {
-        alert(JSON.stringify({
-            name, address: { addressNumber, addressCity, addressDistrict, addressCity },
-            phoneNumber, email, password, imagePath, gender, jobTitle, birthdate
-        }, null, 2));
-        return { error: "Dang cap nhat" }
+        const accountResult = await AccountService.employeeSignup(email, password);
+        if (accountResult.error)
+            return accountResult;
+
+        const result = await EmployeeService.create({
+            name: name, 
+            birthdate: birthdate, 
+            address: { 
+                number: addressNumber, 
+                street: addressStreet, 
+                district : addressDistrict, 
+                city: addressCity 
+            },
+            phoneNumber, email, 
+            email: email,
+            gender: gender,
+            imagePath: imagePath,
+            jobTitle: jobTitle,
+            accountId: accountResult.data.id
+        });
+        return result;
     }
 
     async function updateEmployee() {
@@ -38,7 +57,8 @@ export default function EmployeeDetailsManagementScreen({ route }) {
             addressStreet && addressStreet !== "" &&
             addressDistrict && addressDistrict !== "" &&
             addressCity && addressCity !== "" &&
-            phoneNumber && phoneNumber !== "" &&
+            hasValidPhoneNumber() &&
+            hasValidEmail() &&
             email && email !== "" &&
             password && setPassword !== "" &&
             imagePath && imagePath !== "" &&
@@ -46,6 +66,42 @@ export default function EmployeeDetailsManagementScreen({ route }) {
             jobTitle && jobTitle !== "";
     }
 
+    function hasValidPhoneNumber() {
+        if (!phoneNumber || phoneNumber === "")
+            return false;
+
+        if (!employees || employees.length < 1)
+            return true;
+
+        return !checkExistPhoneNumber();
+    }
+
+    function hasValidEmail() {
+        if (!email || email === "")
+            return false;
+
+        if (!employees || employees.length < 1)
+            return true;
+
+        return !checkExistEmail();
+    }
+
+    function checkExistPhoneNumber() {
+        for(const pn of employees.map(e => e.phoneNumber)) {
+            if (phoneNumber === pn)
+                return true;
+        }   
+        return false;
+    }
+
+    function checkExistEmail() {
+        for(const e of employees.map(e => e.email)) {
+            if (email === e)
+                return true;
+        }   
+        return false;
+    }
+    
     function resetInputValues() {
         setName("")
         setAddressNumber("");
@@ -59,32 +115,25 @@ export default function EmployeeDetailsManagementScreen({ route }) {
         setJobTitle("");
     }
 
+    function getInputUI(label, value, onChangeText, maxLength, keyboardType = "default") {
+        return (
+            <Input
+                label={label}
+                value={value}
+                onChangeText={onChangeText}
+                maxLength={maxLength}
+                keyboardType={keyboardType}
+                style={styles.input}
+            />
+        );
+    }
+
     function getContentUI() {
         return (
             <Layout>
-                <Input
-                    label="Tên"
-                    value={name}
-                    onChangeText={setName}
-                    maxLength={100}
-                    style={styles.input}
-                />
-                <Input
-                    label="Số điện thoại"
-                    value={phoneNumber}
-                    onChangeText={setPhoneNumber}
-                    keyboardType="phone-pad"
-                    maxLength={10}
-                    style={styles.input}
-                />
-                <Input
-                    label="Email"
-                    value={email}
-                    onChangeText={setEmail}
-                    keyboardType="email-address"
-                    maxLength={50}
-                    style={styles.input}
-                />
+                {getInputUI("Tên", name, setName, 100)}
+                {getInputUI("Số điện thoại", phoneNumber, setPhoneNumber, 10, "phone-pad")}
+                {getInputUI("Email", email, setEmail, 50, "email-address")}
                 <Input
                     label="Mật khẩu (mặc định)"
                     disabled
@@ -93,14 +142,7 @@ export default function EmployeeDetailsManagementScreen({ route }) {
                     maxLength={50}
                     style={styles.input}
                 />
-                <Input
-                    label="Ảnh"
-                    value={imagePath}
-                    onChangeText={setImagePath}
-                    keyboardType="url"
-                    maxLength={200}
-                    style={styles.input}
-                />
+                {getInputUI("Ảnh", imagePath, setImagePath, 200, "url")}
                 <EmployeeJobTitleSelector
                     jobTitle={jobTitle}
                     setJobTitle={setJobTitle}

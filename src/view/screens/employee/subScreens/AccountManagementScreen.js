@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { Layout, Text, Card } from "@ui-kitten/components";
 import { AccountService } from "../../../../core/services";
 import ManagementTemplateScreen from "./ManagementTemplateScreen";
 
 export default function CollectionManagementScreen({ navigation }) {
+
+    const [data, setData] = useState([]);
 
     function handleConfigButton() {
         alert("Đang cập nhật");
@@ -27,6 +29,8 @@ export default function CollectionManagementScreen({ navigation }) {
                 loadDataAsync={async () => await AccountService.getAll()}
                 handleConfigButton={handleConfigButton}
                 getListItemUI={getAccountListItemUI}
+                data={data}
+                setData={setData}
                 navigation={navigation}
             />
         </Layout>

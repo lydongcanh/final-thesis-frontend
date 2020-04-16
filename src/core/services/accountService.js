@@ -32,7 +32,7 @@ class AccountService extends BaseService {
             return checkUsername;
 
         if (!validatePassword(password))
-            return Texts.INVALID_PASSWORD;
+            return { error: Texts.INVALID_PASSWORD };
 
         return await this.create({ username, password, accountType, isActive });
     }

@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { Image } from "react-native";
 import { Layout, Card, Text } from "@ui-kitten/components";
 import { CustomerService } from "../../../../core/services";
 import ManagementTemplateScreen from "./ManagementTemplateScreen";
 
 export default function CustomerManagementScreen({ navigation }) {
+
+    const [data, setData] = useState([]);
 
     function handleConfigButton() {
         alert("Đang cập nhật");
@@ -36,6 +38,8 @@ export default function CustomerManagementScreen({ navigation }) {
                 loadDataAsync={async () => await CustomerService.getAll()}
                 handleConfigButton={handleConfigButton}
                 getListItemUI={getCustomerListItemUI}
+                data={data}
+                setData={setData}
                 navigation={navigation}
             />
         </Layout>

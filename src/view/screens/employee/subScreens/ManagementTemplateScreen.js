@@ -7,11 +7,11 @@ import { LoadErrorPanel } from "../../../components/others";
 /**
  * @param props loadDataAsync, handleNewButton, handleConfigButton, getListItemUI, navigation
  */
-export default function ManagementTemplateScreen (
-    { loadDataAsync, handleNewButton, handleConfigButton, getListItemUI, navigation }
-) {
+export default function ManagementTemplateScreen ({ 
+    loadDataAsync, handleNewButton, handleConfigButton, getListItemUI, 
+    data, setData, navigation 
+}) {
 
-    const [data, setData] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [isLoaded, setIsLoaded] = useState(false);
     const [searchValue, setSearchValue] = useState("");

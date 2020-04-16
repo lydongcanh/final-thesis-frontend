@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Layout, Text, Card } from "@ui-kitten/components";
 import { CollectionService } from "../../../../core/services";
 import { formatDate } from "../../../../core/utilities";
@@ -6,6 +6,8 @@ import ManagementTemplateScreen from "./ManagementTemplateScreen";
 import { ManagementTypes } from "../../../types";
 
 export default function CollectionManagementScreen({ navigation }) {
+
+    const [data, setData] = useState([]);
 
     function handleNewButton() {
         navigation.navigate("CollectionDetails", { mode: ManagementTypes.CREATE });
@@ -35,6 +37,8 @@ export default function CollectionManagementScreen({ navigation }) {
                 handleNewButton={handleNewButton}
                 handleConfigButton={handleConfigButton}
                 getListItemUI={getCollectionListItemUI}
+                data={data}
+                setData={setData}
                 navigation={navigation}
             />
         </Layout>

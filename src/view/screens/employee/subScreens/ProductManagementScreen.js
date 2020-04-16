@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Image } from "react-native";
 import { Layout, Card, Text } from "@ui-kitten/components";
 import { ProductService } from "../../../../core/services";
@@ -7,6 +7,8 @@ import ManagementTemplateScreen from "./ManagementTemplateScreen";
 import { ManagementTypes } from "../../../types";
 
 export default function ProductManagementScreen({ navigation }) {
+
+    const [data, setData] = useState([]);
 
     function handleNewButton() {
         navigation.navigate("ProductDetails", { mode: ManagementTypes.CREATE });
@@ -43,6 +45,8 @@ export default function ProductManagementScreen({ navigation }) {
                 handleNewButton={handleNewButton}
                 handleConfigButton={handleConfigButton}
                 getListItemUI={getProductListItemUI}
+                data={data}
+                setData={setData}
                 navigation={navigation}
             />
         </Layout>
