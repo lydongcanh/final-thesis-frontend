@@ -9,7 +9,7 @@ import { ManagementTypes } from "../../../../types";
  * @param param0 mode, createFunction, updateFunction, resetInputFunction,  canAdd, contentUI
  */
 export default function DetailsManagementTemplateScreen({
-    route, createFunction, updateFunction, resetInputFunction, canAdd, contentUI
+    navigation, route, createFunction, updateFunction, resetInputFunction, canAdd, contentUI
 }) {
 
     const [isLoading, setIsLoading] = useState(false);
@@ -37,7 +37,10 @@ export default function DetailsManagementTemplateScreen({
                     duration: 5000
                 });
 
-                if (mode && mode === ManagementTypes.CREATE && resetInputFunction)
+                if (mode && mode === ManagementTypes.UPDATE)
+                    navigation.goBack();
+
+                else if (mode && mode === ManagementTypes.CREATE && resetInputFunction)
                     resetInputFunction();
             }
         } catch (error) {

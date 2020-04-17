@@ -6,7 +6,7 @@ import { LeafCategorySelector } from "../../../../components/categories";
 import { ProductService } from "../../../../../core/services";
 import DetailsManagementTemplateScreen from "./DetailsManagementTemplateScreen";
 
-export default function ProductDetailsManagementScreen({ route }) {
+export default function ProductDetailsManagementScreen({ navigation, route }) {
 
     const product = route ? route.params.product : null;
     const [name, setName] = useState(product ? product.name : "");
@@ -123,6 +123,7 @@ export default function ProductDetailsManagementScreen({ route }) {
 
     return (
         <DetailsManagementTemplateScreen 
+            navigation={navigation}
             route={route}
             createFunction={createProduct}
             updateFunction={updateProduct}

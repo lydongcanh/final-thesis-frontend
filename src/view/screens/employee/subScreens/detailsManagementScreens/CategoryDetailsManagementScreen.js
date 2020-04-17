@@ -4,7 +4,7 @@ import { CategoryService } from "../../../../../core/services";
 import DetailsManagementTemplateScreen from "./DetailsManagementTemplateScreen";
 import { styles } from "../../../../styles";
 
-export default function CategoryDetailsManagementScreen({ route }) {
+export default function CategoryDetailsManagementScreen({ navigation, route }) {
 
     const { parentNode, level } = route.params;
 
@@ -86,6 +86,7 @@ export default function CategoryDetailsManagementScreen({ route }) {
 
     return (
         <DetailsManagementTemplateScreen 
+            navigation={navigation}
             route={route}
             createFunction={createCategory}
             updateFunction={updateCategory}

@@ -6,7 +6,7 @@ import { GenderSelector, AddressInputPanel } from "../../../../components/others
 import { EmployeeService, AccountService } from "../../../../../core/services";
 import DetailsManagementTemplateScreen from "./DetailsManagementTemplateScreen";
 
-export default function EmployeeDetailsManagementScreen({ route }) {
+export default function EmployeeDetailsManagementScreen({ navigation, route }) {
 
     const employees = route ? route.params.employees : null;
 
@@ -177,6 +177,7 @@ export default function EmployeeDetailsManagementScreen({ route }) {
     }
     return (
         <DetailsManagementTemplateScreen 
+            navigation={navigation}
             route={route}
             createFunction={createEmployee}
             updateFunction={updateEmployee}

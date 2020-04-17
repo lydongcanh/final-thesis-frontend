@@ -19,7 +19,10 @@ export default function ProductManagementScreen({ navigation }) {
     }
 
     function handleProductInfoButton(product) {
-        navigation.navigate("ProductDetails", { product: product })
+        navigation.navigate("ProductDetails", { 
+            mode: ManagementTypes.UPDATE,
+            product: product 
+        })
     }
 
     function handleProductDetailsButton(product) {
