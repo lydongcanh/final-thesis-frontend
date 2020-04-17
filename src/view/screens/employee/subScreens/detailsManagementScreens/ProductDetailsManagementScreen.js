@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { FlatList } from "react-native";
-import { Layout, Input, Button, Card, CardHeader } from "@ui-kitten/components";
+import { Layout, Input, Text, Card, CardHeader } from "@ui-kitten/components";
 import { styles } from "../../../../styles";
 import { LeafCategorySelector } from "../../../../components/categories";
 import { ProductService } from "../../../../../core/services";
@@ -8,11 +8,12 @@ import DetailsManagementTemplateScreen from "./DetailsManagementTemplateScreen";
 
 export default function ProductDetailsManagementScreen({ route }) {
 
-    const [name, setName] = useState();
-    const [unitPrice, setUnitPrice] = useState();
-    const [mainImage, setMainImage] = useState();
-    const [subImages, setSubImages] = useState([]);
-    const [category, setCategory] = useState();
+    const product = route ? route.params.product : null;
+    const [name, setName] = useState(product ? product.name : "");
+    const [unitPrice, setUnitPrice] = useState(product ? product.unitPrice.toString() : null);
+    const [mainImage, setMainImage] = useState(product ? product.mainImage : "");
+    const [subImages, setSubImages] = useState(product && product.subImages ? product.subImages : []);
+    const [category, setCategory] = useState(product ? product.category : null);
 
     async function createProduct() {
         const result = await ProductService.create({
@@ -26,7 +27,15 @@ export default function ProductDetailsManagementScreen({ route }) {
     }
 
     async function updateProduct() {
-        return { error: "Đang cập nhật." }
+        const result = await ProductService.update({
+            id: product.id,
+            name: name,
+            unitPrice: unitPrice,
+            mainImage: mainImage,
+            subImages: subImages,
+            categoryId: category.id
+        });
+        return result;
     }
 
     function resetInputValues() {

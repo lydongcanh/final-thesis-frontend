@@ -20,7 +20,7 @@ export default function EmployeeScreensHeader({ navigation }) {
         <TopNavigation 
             title="ĐỒ ÁN TỐT NGHIỆP"
             alignment="center"
-            rightControls={getRightControl()}
+            //rightControls={getRightControl()}
         />
     );
 }

@@ -18,6 +18,18 @@ export default function LeafCategorySelector({ selectedCategory, setSelectedCate
     const [secondLevelCategory, setSecondLevelCategory] = useState();
     //const [thirdLevelCategory, setThirdLevelCategory] = useState();
 
+    function initParentCategories(allCategories) {
+        if (!selectedCategory || !allCategories || allCategories.lenght < 1)
+            return;
+        
+        const secondLevelCategory = allCategories.find(c => c.id === selectedCategory.parentCategoryId);
+        const firstLevelCategory = allCategories.find(c => c.id === secondLevelCategory.parentCategoryId);
+
+        setFirstLevelCategory(firstLevelCategory);
+        setSecondLevelCategory(secondLevelCategory);
+        setSelectLevel(2);
+    }
+
     useEffect(() => {
         loadCategories();
     }, []);
@@ -30,26 +42,18 @@ export default function LeafCategorySelector({ selectedCategory, setSelectedCate
                 console.log(result.error);
                 setIsLoaded(false);
             } else {
-                for (const category of result.data) {
-                    setChildren(category);
-                }
                 setCategories(result.data);
                 setIsLoaded(true);
+                if (selectedCategory) {
+                    const allResult = await CategoryService.getAll();
+                    initParentCategories(allResult.data);
+                }
             }
         } catch(e) {
             console.log(e);
             setIsLoaded(false);
         } finally {
             setIsLoading(false);
-        }
-
-        function setChildren(category) {
-            if (category && category.childrenCategories) {
-                category.children = category.childrenCategories;
-                for(const child of category.children) {
-                    setChildren(child);
-                }
-            }
         }
     }
  

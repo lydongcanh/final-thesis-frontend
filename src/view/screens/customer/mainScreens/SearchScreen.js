@@ -127,8 +127,9 @@ export default function SearchScreen({ navigation }) {
                 keyExtractor={(_, index) => index.toString()}
                 renderItem={({ item }) => (
                     <Card
-                        style={{ margin: 16 }}
-                        header={() => getCardHeader(item) }
+                        style={{ marginTop: 16, marginHorizontal: 16 }}
+                        //header={() => getCardHeader(item) }
+                        onPress={() => alert(JSON.stringify(item, null, 2))}
                     >
                         <Text>{item.name}</Text>
                     </Card>
