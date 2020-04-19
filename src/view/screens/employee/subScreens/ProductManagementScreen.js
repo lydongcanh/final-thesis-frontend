@@ -6,9 +6,18 @@ import { formatCurrency } from "../../../../core/utilities";
 import ManagementTemplateScreen from "./ManagementTemplateScreen";
 import { ManagementTypes } from "../../../types";
 
-export default function ProductManagementScreen({ navigation }) {
+export default function ProductManagementScreen({ navigation, route }) {
 
+    const category = route ? route.params.category : null;
     const [data, setData] = useState([]);
+
+    async function loadProductsAsync() {
+        if (category) {
+            return await ProductService.getByCategoryId(category.id);
+        } else {
+            return await ProductService.getAll();
+        }
+    }
 
     function handleNewButton() {
         navigation.navigate("ProductDetails", { mode: ManagementTypes.CREATE });
@@ -85,7 +94,7 @@ export default function ProductManagementScreen({ navigation }) {
     return (
         <Layout style={{ flex: 1 }}>
             <ManagementTemplateScreen 
-                loadDataAsync={async () => await ProductService.getAll()}
+                loadDataAsync={loadProductsAsync}
                 handleNewButton={handleNewButton}
                 handleConfigButton={handleConfigButton}
                 getListItemUI={getProductListItemUI}

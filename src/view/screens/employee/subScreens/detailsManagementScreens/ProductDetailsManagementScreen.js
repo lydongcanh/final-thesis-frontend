@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { FlatList } from "react-native";
-import { Layout, Input, Text, Card, CardHeader } from "@ui-kitten/components";
+import { Layout, Input, Text, Card, CardHeader, Button } from "@ui-kitten/components";
+import { Switch } from "react-native-paper";
 import { styles } from "../../../../styles";
 import { LeafCategorySelector } from "../../../../components/categories";
 import { ProductService } from "../../../../../core/services";
+import { formatDate } from "../../../../../core/utilities";
 import DetailsManagementTemplateScreen from "./DetailsManagementTemplateScreen";
 
 export default function ProductDetailsManagementScreen({ navigation, route }) {
@@ -14,10 +16,12 @@ export default function ProductDetailsManagementScreen({ navigation, route }) {
     const [mainImage, setMainImage] = useState(product ? product.mainImage : "");
     const [subImages, setSubImages] = useState(product && product.subImages ? product.subImages : []);
     const [category, setCategory] = useState(product ? product.category : null);
-
+    const [isSelling, setIsSelling] = useState(product ? product.isSelling : true);
+    
     async function createProduct() {
         const result = await ProductService.create({
-            name: name, 
+            name: name,
+            isSelling: isSelling,
             unitPrice: unitPrice, 
             mainImage: mainImage, 
             subImages: subImages,
@@ -30,6 +34,7 @@ export default function ProductDetailsManagementScreen({ navigation, route }) {
         const result = await ProductService.update({
             id: product.id,
             name: name,
+            isSelling: isSelling,
             unitPrice: unitPrice,
             mainImage: mainImage,
             subImages: subImages,
@@ -91,8 +96,26 @@ export default function ProductDetailsManagementScreen({ navigation, route }) {
     }
 
     function getContentUI() {
+        if (!product)
+            return;
+
+        const date = product ? new Date(Date.parse(product.creationDate)) : new Date();
         return (
             <Layout>
+                <Layout style={{ justifyContent: "space-between", flexDirection: "row", alignItems: "center", padding: 8 }}>
+                    <Layout style={{ marginTop: 8 }}>
+                        <Text appearance="hint" category="label">Trạng thái kinh doanh:</Text>
+                        <Switch
+                            style={{ marginLeft: 0, alignSelf: "flex-start" }} 
+                            value={isSelling} 
+                            onValueChange={setIsSelling} 
+                        />
+                    </Layout>
+                    <Layout>
+                        <Text appearance="hint" category="label" >Ngày tạo sản phẩm:</Text>
+                        <Text>{formatDate(date)}</Text>
+                    </Layout>
+                </Layout>
                 <Input
                     value={name}
                     onChangeText={setName}

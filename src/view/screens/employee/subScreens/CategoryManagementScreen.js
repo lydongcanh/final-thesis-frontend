@@ -61,6 +61,12 @@ export default function CategoryManagementScreen({ navigation }) {
         alert(JSON.stringify(node, null, 2));
     }
 
+    async function handleProductsButton(node) {
+        navigation.navigate("EmployeeProductManagement", {
+            category: node
+        });
+    }
+
     async function handleAddChildButton(node, level) {
         navigation.navigate("CategoryDetails", {
             mode: ManagementTypes.CREATE, 
@@ -101,6 +107,10 @@ export default function CategoryManagementScreen({ navigation }) {
                     <Button
                         icon={style => <Icon name="edit-2-outline" {...style} />}
                         onPress={async () => await handleEditButton(node)}
+                    />
+                    <Button
+                        icon={style => <Icon name="cube-outline" {...style} />}
+                        onPress={async () => await handleProductsButton(node)}
                     />
                 </ButtonGroup>
             );
