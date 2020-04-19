@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import { Image } from "react-native";
-import { Layout, Card, Text, Button, Icon } from "@ui-kitten/components";
+import { Layout, Card, Button, Icon } from "@ui-kitten/components";
 import { ProductService } from "../../../../core/services";
-import { formatCurrency } from "../../../../core/utilities";
 import ManagementTemplateScreen from "./ManagementTemplateScreen";
 import { ManagementTypes } from "../../../types";
+import { ProductVerticalListItem } from "../../../components/products";
 
 export default function ProductManagementScreen({ navigation, route }) {
 
@@ -20,7 +19,10 @@ export default function ProductManagementScreen({ navigation, route }) {
     }
 
     function handleNewButton() {
-        navigation.navigate("ProductDetails", { mode: ManagementTypes.CREATE });
+        navigation.navigate("ProductDetails", { 
+            mode: ManagementTypes.CREATE,
+            category: category
+        });
     }
 
     function handleConfigButton() {
@@ -36,22 +38,6 @@ export default function ProductManagementScreen({ navigation, route }) {
 
     function handleProductDetailsButton(product) {
         alert(JSON.stringify(product.category, null, 2));
-    }
-
-    function getProductHeader(product) {
-        return (
-            <Layout style={{ flexDirection: "row", marginLeft: 16, marginTop: 8, alignItems: "center" }}>
-                <Image 
-                    source={{ uri: product.mainImage }}
-                    style={{ borderRadius: 50, width: 50, height: 50 }}
-                />
-                <Layout style={{ margin: 8, alignContent: "center" }}>
-                    <Text style={{ fontWeight: "bold" }}>{product.name}</Text>
-                    <Text appearance="hint" category="label">{product.category ? product.category.name : "Chưa chỉnh loại sản phẩm"}</Text>
-                    <Text appearance="hint" category="label">{formatCurrency(product.unitPrice)}VND</Text>
-                </Layout>
-            </Layout>
-        );
     }
 
     function getProductBottomPanel(product) {
@@ -84,7 +70,7 @@ export default function ProductManagementScreen({ navigation, route }) {
             <Card 
                 style={{ margin: 16 }}
                 disabled
-                header={() => getProductHeader(product)}
+                header={() => <ProductVerticalListItem product={product} />}
             >
                 {getProductBottomPanel(product)}
             </Card>

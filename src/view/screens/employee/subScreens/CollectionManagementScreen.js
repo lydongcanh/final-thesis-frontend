@@ -13,6 +13,14 @@ export default function CollectionManagementScreen({ navigation }) {
         navigation.navigate("CollectionDetails", { mode: ManagementTypes.CREATE });
     }
 
+    /** When user click on a card. */
+    function handleCollectionDetailsButton(collection) {
+        navigation.navigate("CollectionDetails", { 
+            mode: ManagementTypes.UPDATE,
+            collection: collection 
+        });
+    }
+
     function handleConfigButton() {
         alert("Đang cập nhật");
     }
@@ -21,7 +29,7 @@ export default function CollectionManagementScreen({ navigation }) {
         return (
             <Card 
                 style={{ margin: 16 }}
-                onPress={() => alert(JSON.stringify(collection, null, 2))}
+                onPress={() => handleCollectionDetailsButton(collection)}
             >
                 <Text style={{ fontWeight: "bold" }}>{collection.name}</Text>
                 <Text appearance="hint">Ngày tạo: {formatDate(collection.creationDate)}</Text>

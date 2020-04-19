@@ -11,13 +11,25 @@ import DetailsManagementTemplateScreen from "./DetailsManagementTemplateScreen";
 export default function ProductDetailsManagementScreen({ navigation, route }) {
 
     const product = route ? route.params.product : null;
+    const fixedCategory = route ? route.params.category : null;
+
     const [name, setName] = useState(product ? product.name : "");
     const [unitPrice, setUnitPrice] = useState(product ? product.unitPrice.toString() : null);
     const [mainImage, setMainImage] = useState(product ? product.mainImage : "");
     const [subImages, setSubImages] = useState(product && product.subImages ? product.subImages : []);
-    const [category, setCategory] = useState(product ? product.category : null);
+    const [category, setCategory] = useState(getDefaultCategory());
     const [isSelling, setIsSelling] = useState(product ? product.isSelling : true);
     
+    function getDefaultCategory() {
+        if (product)
+            return product.category;
+
+        if (fixedCategory)
+            return fixedCategory;
+
+        return null;
+    }
+
     async function createProduct() {
         const result = await ProductService.create({
             name: name,
@@ -80,7 +92,7 @@ export default function ProductDetailsManagementScreen({ navigation, route }) {
         );
     }
 
-    function getCategoryUI() {
+    function getCategoryUI() {        
         return (
             <Card
                 style={{ margin: 8 }}
@@ -96,9 +108,6 @@ export default function ProductDetailsManagementScreen({ navigation, route }) {
     }
 
     function getContentUI() {
-        if (!product)
-            return;
-
         const date = product ? new Date(Date.parse(product.creationDate)) : new Date();
         return (
             <Layout>
