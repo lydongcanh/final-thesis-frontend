@@ -18,7 +18,7 @@ export default function GenderSelector({ gender, setGender }) {
                 renderItem={({ item }) => (
                     <Button
                         style={{ marginRight: 8, marginTop: 4, borderRadius: 24 }}
-                        status={item === gender ? "success" : "basic"}
+                        status={item === gender ? "info" : "basic"}
                         size="tiny"
                         onPress={() => setGender(item)}
                     >

@@ -18,7 +18,7 @@ export default function EmployeeJobTitleSelector({ jobTitle, setJobTitle  }) {
                 renderItem={({ item }) => (
                     <Button
                         style={{ marginRight: 8, marginTop: 4, borderRadius: 24 }}
-                        status={item === jobTitle ? "success" : "basic"}
+                        status={item === jobTitle ? "info" : "basic"}
                         size="tiny"
                         onPress={() => setJobTitle(item)}
                     >

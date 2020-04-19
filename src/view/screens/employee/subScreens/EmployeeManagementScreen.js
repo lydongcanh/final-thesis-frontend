@@ -16,6 +16,14 @@ export default function EmployeeManagementScreen({ navigation }) {
         });
     }
 
+    function handleOnEmployeeClick(employee) {
+        navigation.navigate("EmployeeDetails", { 
+            mode: ManagementTypes.UPDATE,
+            employees: data,
+            employee: employee
+        });
+    }
+
     function handleConfigButton() {
         alert("Đang cập nhật");
     }
@@ -24,7 +32,7 @@ export default function EmployeeManagementScreen({ navigation }) {
         return (
             <Card 
                 style={{ margin: 16 }}
-                onPress={() => alert(JSON.stringify(employee, null, 2))}
+                onPress={() => handleOnEmployeeClick(employee)}
             >
                 <Layout style={{ flexDirection: "row", backgroundColor: "rgba(0, 0, 0, 0)", alignItems: "center" }}>
                     <Image 
