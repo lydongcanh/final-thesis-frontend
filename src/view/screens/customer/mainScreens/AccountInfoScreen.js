@@ -24,7 +24,7 @@ export default function AccountInfoScreen({ navigation }) {
             callback: handleChangePasswordButton
         },
         {
-            title: "Hóa đơn đã hoàn tất",
+            title: "Tất cả hóa đơn",
             icon: "pricetags-outline",
             callback: handleCompletedOrdersButton
         },
@@ -72,11 +72,14 @@ export default function AccountInfoScreen({ navigation }) {
     }
 
     function handleChangePasswordButton() {
-        // TODO: implement...
+        alert("Đang cập nhật...");
     }
 
     function handleCompletedOrdersButton() {
-        // TODO: implement...
+        navigation.navigate("CustomerOrders", { 
+            customer: account.customer,
+            orders: orders
+        })
     }
 
     function handleLogoutButton() {

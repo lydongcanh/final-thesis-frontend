@@ -13,6 +13,7 @@ export { default as CustomerMainScreen } from "./customer/mainScreens/MainScreen
 export { default as CustomerSearchScreen } from "./customer/mainScreens/SearchScreen";
 export { default as CustomerSubCategoryScreen } from "./customer/subScreens/SubCategoryScreen";
 export { default as CustomerProductPurchaseScreen } from "./customer/subScreens/ProductPurchaseScreen";
+export { default as CustomerOrdersScreen } from "./customer/subScreens/OrdersScreen";
 export { default as EmployeeAccountInfoScreen } from "./employee/mainScreens/AccountInfoScreen";
 export { default as EmployeeAnalystScreen } from "./employee/mainScreens/AnalystScreen";
 export { default as EmployeeManagementScreen } from "./employee/mainScreens/ManagementScreen";

@@ -31,7 +31,8 @@ import { WelcomeScreen,
          ProductDetailsManagementScreen,
          CategoryDetailsManagementScreen,
          CollectionDetailsManagementScreen,
-         EmployeeDetailsManagementScreen
+         EmployeeDetailsManagementScreen,
+         CustomerOrdersScreen
         } from "./src/view/screens";
 
 import * as ErrorRecovery from "expo-error-recovery";
@@ -123,6 +124,11 @@ export default function App(props) {
                         options={{ title: "Thông tin cá nhân" }}
                         name="CustomerAccountDetails"
                         component={CustomerAccountDetailsScreen}
+                    />
+                    <Stack.Screen
+                        options={{ title: "Hóa đơn" }}
+                        name="CustomerOrders"
+                        component={CustomerOrdersScreen}
                     />
 
                     <Stack.Screen
