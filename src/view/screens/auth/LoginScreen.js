@@ -24,11 +24,11 @@ export default function LoginScreen({ navigation, route }) {
     );
 
     const cardFooter = () => (
-        <Layout style={{ flexDirection: "row", justifyContent: "flex-end" }}>
+        <Layout>
             <Button
                 disabled={username === "" || password === "" || isLoading}
                 onPress={handleLoginButtonPress}
-                size="small"
+                style={{ borderRadius: 20 }}
             >
                 Đăng nhập
             </Button>

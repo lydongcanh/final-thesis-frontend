@@ -31,11 +31,11 @@ export default function CustomerSignupScreen({ navigation }) {
     );
 
     const cardFooter = () => (
-        <Layout style={{ flexDirection: "row", justifyContent: "flex-end" }}>
+        <Layout>
             <Button
                 disabled={!validUsername || !validPassword || !validConfirmPassword || isLoading}
                 onPress={handleSignupButtonPress}
-                size="small"
+                style={{ borderRadius: 20 }}
             >
                 Tạo tài khoản
             </Button>
