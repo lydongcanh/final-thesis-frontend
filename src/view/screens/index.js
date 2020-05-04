@@ -3,6 +3,7 @@ export { default as EmployeeHomeScreen } from "./EmployeeHomeScreen";
 export { default as ManagementScreen } from "./ManagementScreen";
 export { default as WelcomeScreen } from "./WelcomeScreen";
 export { default as LoginScreen } from "./auth/LoginScreen";
+
 export { default as CustomerSignupScreen } from "./auth/CustomerSignupScreen";
 export { default as CustomerAccountInfoScreen } from "./customer/mainScreens/AccountInfoScreen";
 export { default as CustomerAccountDetailsScreen } from "./customer/subScreens/AccountDetailsScreen";
@@ -14,6 +15,7 @@ export { default as CustomerSearchScreen } from "./customer/mainScreens/SearchSc
 export { default as CustomerSubCategoryScreen } from "./customer/subScreens/SubCategoryScreen";
 export { default as CustomerProductPurchaseScreen } from "./customer/subScreens/ProductPurchaseScreen";
 export { default as CustomerOrdersScreen } from "./customer/subScreens/OrdersScreen";
+
 export { default as EmployeeAccountInfoScreen } from "./employee/mainScreens/AccountInfoScreen";
 export { default as EmployeeAnalystScreen } from "./employee/mainScreens/AnalystScreen";
 export { default as EmployeeManagementScreen } from "./employee/mainScreens/ManagementScreen";
@@ -24,7 +26,9 @@ export { default as EmployeeProductManagementScreen } from "./employee/subScreen
 export { default as EmployeeAccountManagementScreen } from "./employee/subScreens/AccountManagementScreen";
 export { default as EmployeeCollectionManagementScreen } from "./employee/subScreens/CollectionManagementScreen";
 export { default as EmployeeCategoryManagementScreen } from "./employee/subScreens/CategoryManagementScreen";
+export { default as EmployeeProductDetailsListManagementScreen } from "./employee/subScreens/EmployeeProductDetailsListManagementScreen";
 export { default as EmployeeDetailsManagementScreen } from "./employee/subScreens/detailsManagementScreens/EmployeeDetailsManagementScreen";
-export { default as CollectionDetailsManagementScreen } from "./employee/subScreens/detailsManagementScreens/CollectionDetailsManagementScreen";
-export { default as ProductDetailsManagementScreen } from "./employee/subScreens/detailsManagementScreens/ProductDetailsManagementScreen";
-export { default as CategoryDetailsManagementScreen } from "./employee/subScreens/detailsManagementScreens/CategoryDetailsManagementScreen";
+export { default as EmployeeCollectionDetailsManagementScreen } from "./employee/subScreens/detailsManagementScreens/CollectionDetailsManagementScreen";
+export { default as EmployeeProductDetailsManagementScreen } from "./employee/subScreens/detailsManagementScreens/ProductDetailsManagementScreen";
+export { default as EmployeeCategoryDetailsManagementScreen } from "./employee/subScreens/detailsManagementScreens/CategoryDetailsManagementScreen";
+export { default as EmployeeProductDetailsListDetailsManagementScreen } from "./employee/subScreens/detailsManagementScreens/ProductDetailsListDetailsManagementScreen";

@@ -18,6 +18,7 @@ import { WelcomeScreen,
          CustomerHomeScreen, 
          EmployeeHomeScreen, 
          CustomerSubCategoryScreen,
+         CustomerOrdersScreen,
          CustomerProductPurchaseScreen,
          CustomerCartScreen,
          CustomerCartPurchaseScreen,
@@ -28,11 +29,12 @@ import { WelcomeScreen,
          EmployeeAccountManagementScreen,
          EmployeeCollectionManagementScreen,
          EmployeeCategoryManagementScreen,
-         ProductDetailsManagementScreen,
-         CategoryDetailsManagementScreen,
-         CollectionDetailsManagementScreen,
+         EmployeeProductDetailsManagementScreen,
+         EmployeeCategoryDetailsManagementScreen,
+         EmployeeCollectionDetailsManagementScreen,
          EmployeeDetailsManagementScreen,
-         CustomerOrdersScreen
+         EmployeeProductDetailsListManagementScreen,
+         EmployeeProductDetailsListDetailsManagementScreen,
         } from "./src/view/screens";
 
 import * as ErrorRecovery from "expo-error-recovery";
@@ -146,6 +148,11 @@ export default function App(props) {
                         name="EmployeeEmployeeManagement"
                         component={EmployeeEmployeeManagementScreen}
                     />
+                    <Stack.Screen 
+                        options={{ title: "Chi tiết sản phẩm" }}
+                        name="ProductDetailsList"
+                        component={EmployeeProductDetailsListManagementScreen}
+                    />
                     <Stack.Screen
                         options={{ title: "Khách hàng" }}
                         name="EmployeeCustomerManagement"
@@ -165,17 +172,23 @@ export default function App(props) {
                     <Stack.Screen
                         options={{ title: "Sản phẩm" }}
                         name="ProductDetails"
-                        component={ProductDetailsManagementScreen}
+                        component={EmployeeProductDetailsManagementScreen}
+                    />
+
+                    <Stack.Screen
+                        options={{ title: "Chi tiết sản phẩm" }}
+                        name="ProductDetailsListDetails"
+                        component={EmployeeProductDetailsListDetailsManagementScreen}
                     />
                     <Stack.Screen
                         options={{ title: "Loại sản phẩm" }}
                         name="CategoryDetails"
-                        component={CategoryDetailsManagementScreen}
+                        component={EmployeeCategoryDetailsManagementScreen}
                     />
                     <Stack.Screen
                         options={{ title: "Bộ sưu tập" }}
                         name="CollectionDetails"
-                        component={CollectionDetailsManagementScreen}
+                        component={EmployeeCollectionDetailsManagementScreen}
                     />
                     <Stack.Screen
                         options={{ title: "Nhân viên" }}

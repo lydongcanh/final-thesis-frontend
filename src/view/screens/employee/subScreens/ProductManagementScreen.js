@@ -37,7 +37,9 @@ export default function ProductManagementScreen({ navigation, route }) {
     }
 
     function handleProductDetailsButton(product) {
-        alert(JSON.stringify(product.category, null, 2));
+        navigation.navigate("ProductDetailsList", {
+            product: product
+        });
     }
 
     function getProductBottomPanel(product) {

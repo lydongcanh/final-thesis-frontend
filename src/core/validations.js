@@ -27,3 +27,13 @@ export function validatePassword(password) {
 export function validatePhoneNumber(number) {
     return number && number.startsWith("0") && number.length === 10;
 }
+
+/**
+ * Check if a string is an interger.
+ * @param {string} value 
+ */
+export function validateInt(value) {
+    return !isNaN(value) && 
+           parseInt(Number(value)) == value && 
+           !isNaN(parseInt(value, 10));
+  }

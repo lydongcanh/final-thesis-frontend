@@ -9,7 +9,7 @@ import { ManagementTypes } from "../../../../types";
  * @param param0 mode, createFunction, updateFunction, resetInputFunction,  canAdd, contentUI
  */
 export default function DetailsManagementTemplateScreen({
-    navigation, route, createFunction, updateFunction, resetInputFunction, canAdd, contentUI
+    navigation, route, createFunction, updateFunction, resetInputFunction, canAdd, contentUI, buttonText = "Xác nhận"
 }) {
 
     const [isLoading, setIsLoading] = useState(false);
@@ -69,7 +69,7 @@ export default function DetailsManagementTemplateScreen({
                     disabled={!canAdd()}
                     onPress={handleConfirmButton}
                 >
-                    Xác nhận
+                    {buttonText}
                 </Button>
             </Layout>
         );
