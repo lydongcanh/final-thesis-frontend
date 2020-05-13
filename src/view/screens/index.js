@@ -12,9 +12,9 @@ export { default as CustomerCartPurchaseScreen } from "./customer/subScreens/Car
 export { default as CustomerFavouriteScreen } from "./customer/mainScreens/FavouriteScreen";
 export { default as CustomerMainScreen } from "./customer/mainScreens/MainScreen";
 export { default as CustomerSearchScreen } from "./customer/mainScreens/SearchScreen";
-export { default as CustomerSubCategoryScreen } from "./customer/subScreens/SubCategoryScreen";
 export { default as CustomerProductPurchaseScreen } from "./customer/subScreens/ProductPurchaseScreen";
 export { default as CustomerOrdersScreen } from "./customer/subScreens/OrdersScreen";
+export { default as CustomerProductByCategoryScreen } from "./customer/subScreens/ProductByCategoryScreen";
 
 export { default as EmployeeAccountInfoScreen } from "./employee/mainScreens/AccountInfoScreen";
 export { default as EmployeeAnalystScreen } from "./employee/mainScreens/AnalystScreen";

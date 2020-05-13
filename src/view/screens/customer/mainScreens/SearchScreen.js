@@ -52,6 +52,13 @@ export default function SearchScreen({ navigation }) {
         }
     }
 
+    function handleFinalCategoryClick(category) {
+        navigation.navigate("CustomerProductByCategory", {
+            category: category,
+            account: account
+        })
+    }
+
     function handleSubCategoryClick(category) {
         setSelectedSubCategory(category);
     }
@@ -129,7 +136,7 @@ export default function SearchScreen({ navigation }) {
                     <Card
                         style={{ marginTop: 16, marginHorizontal: 16 }}
                         //header={() => getCardHeader(item) }
-                        onPress={() => alert(JSON.stringify(item, null, 2))}
+                        onPress={() => handleFinalCategoryClick(item)}
                     >
                         <Text>{item.name}</Text>
                     </Card>
@@ -166,9 +173,8 @@ export default function SearchScreen({ navigation }) {
     }
 
     function getContentUI() {
-        if (isLoading) {
+        if (isLoading)
             return <ActivityIndicator style={{ margin: 8, flex: 1, alignContent: "center" }} />
-        }
 
         if (!isLoaded) {
             return (

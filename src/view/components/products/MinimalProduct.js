@@ -46,7 +46,7 @@ export default function MinimalProduct({ account, product, width, height, naviga
     }
 
     function handleLikeButton() {
-        if (!account && !account.customer) {
+        if (!account || !account.customer) {
             navigation.navigate("Login", { shouldGoBack: true });
             return;
         }

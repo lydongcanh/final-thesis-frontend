@@ -17,12 +17,12 @@ import { WelcomeScreen,
          CustomerSignupScreen, 
          CustomerHomeScreen, 
          EmployeeHomeScreen, 
-         CustomerSubCategoryScreen,
          CustomerOrdersScreen,
          CustomerProductPurchaseScreen,
          CustomerCartScreen,
          CustomerCartPurchaseScreen,
          CustomerAccountDetailsScreen,
+         CustomerProductByCategoryScreen,
          EmployeeEmployeeManagementScreen,
          EmployeeCustomerManagementScreen,
          EmployeeProductManagementScreen,
@@ -79,7 +79,7 @@ export default function App(props) {
                 <Stack.Navigator initialRouteName="Welcome">
                     <Stack.Screen
                         options={{ headerShown: false }}
-                        name="Welcome"
+                        name="Welcome" 
                         component={WelcomeScreen}
                     />
                     <Stack.Screen
@@ -103,14 +103,14 @@ export default function App(props) {
                         component={CustomerSignupScreen}
                     />
 
-                    <Stack.Screen 
-                        name="CustomerSubCategory"
-                        component={CustomerSubCategoryScreen}
-                    />
                     <Stack.Screen
                         options={{ headerShown: false }}
                         name="CustomerProductPurchase"
                         component={CustomerProductPurchaseScreen}
+                    />
+                    <Stack.Screen 
+                        name="CustomerProductByCategory"
+                        component={CustomerProductByCategoryScreen}
                     />
                     <Stack.Screen
                         options={{ title: "Giỏ hàng" }}
