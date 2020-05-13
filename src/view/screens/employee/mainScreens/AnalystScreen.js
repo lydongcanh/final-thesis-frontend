@@ -1,6 +1,6 @@
 import React from "react";
 import { Platform, StatusBar, Dimensions } from "react-native";
-import { Layout, Text } from "@ui-kitten/components";
+import { Button, Layout, Text } from "@ui-kitten/components";
 import { LineChart, PieChart } from "react-native-chart-kit";
 import { Divider } from "react-native-paper";
 import { EmployeeScreensHeader, Space } from "../../../components/others";
@@ -10,7 +10,17 @@ export default function AnalystScreen({ navigation }) {
     function getRevenueUI() {
         return (
             <Layout>
-                <Text category="h6" style={{ marginLeft: 8 }}>Doanh thu theo quý</Text>
+                <Layout style={{ flexDirection: "row", justifyContent: "space-between" }}>
+                    <Text category="h6" style={{ marginLeft: 8 }}>Doanh thu theo quý</Text>
+                    <Button 
+                        size="tiny"
+                        appearance="ghost"
+                        style={{ marginRight: 8 }}
+                        onPress={() => alert("Đang cập nhật...")}
+                    >
+                        Chi tiết
+                    </Button>
+                </Layout>
                 <Divider style={{ margin: 8 }} />
                 <LineChart
                     data={{
@@ -53,7 +63,17 @@ export default function AnalystScreen({ navigation }) {
     function getTrendingProductUI() {
         return (
             <Layout>
-                <Text category="h6" style={{ marginLeft: 8 }}>Sản phẩm bán chạy</Text>
+                <Layout style={{ flexDirection: "row", justifyContent: "space-between" }}>
+                    <Text category="h6" style={{ marginLeft: 8 }}>Sản phẩm bán chạy</Text>
+                    <Button 
+                        size="tiny"
+                        appearance="ghost"
+                        style={{ marginRight: 8 }}
+                        onPress={() => alert("Đang cập nhật...")}
+                    >
+                        Chi tiết
+                    </Button>
+                </Layout>
                 <Divider style={{ margin: 8 }} />
                 <PieChart
                     data={[
@@ -100,7 +120,7 @@ export default function AnalystScreen({ navigation }) {
         return (
             <Layout style={{ flex: 1 }}>
                 {getRevenueUI()}
-                <Space />
+                <Space value={16}/>
                 {getTrendingProductUI()}
             </Layout>
         )
