@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Button, Card, Layout, Icon, Input } from "@ui-kitten/components";
+import { ActivityIndicator } from "react-native-paper";
+import { Toast } from "native-base";
 import { Texts } from "../../../core/texts";
 import { login } from "../../redux/actions/authActions";
 import { AccountService } from "../../../core/services";
-import { Toast } from "native-base";
 import { ACCOUNT_TYPES } from "../../../core/types";
 
 /**
@@ -55,8 +56,13 @@ export default function LoginScreen({ navigation, route }) {
             }
         }
 
+        setUsername("");
+        setPassword("");
         setIsLoading(false);
     }
+
+    if (isLoading)
+        return <ActivityIndicator style={{ flex: 1, alignContent: "center", margin: 8 }} />
 
     return (
         <Layout style={{ flex: 1, justifyContent: "space-between" }}>

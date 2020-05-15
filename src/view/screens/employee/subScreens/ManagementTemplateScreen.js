@@ -9,7 +9,8 @@ import { LoadErrorPanel } from "../../../components/others";
  */
 export default function ManagementTemplateScreen ({ 
     loadDataAsync, handleNewButton, handleConfigButton = () => {}, getListItemUI, getConfigUI = () => {},
-    data, setData, navigation 
+    data, setData, navigation,
+    getOverrideListUI
 }) {
 
     const [isLoading, setIsLoading] = useState(true);
@@ -53,6 +54,9 @@ export default function ManagementTemplateScreen ({
     }
 
     function getListUI() {
+        if (getOverrideListUI)
+            return getOverrideListUI();
+
         return (
             <FlatList
                 data={data}
