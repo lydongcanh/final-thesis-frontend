@@ -1,5 +1,5 @@
 import React, { useState, useEffect} from "react";
-import { Layout, Icon, Button, Input } from "@ui-kitten/components";
+import { Layout, Modal, Icon, Button, Input, Card, CardHeader } from "@ui-kitten/components";
 import { ActivityIndicator, Divider } from "react-native-paper";
 import { FlatList } from "react-native";
 import { LoadErrorPanel } from "../../../components/others";
@@ -8,13 +8,14 @@ import { LoadErrorPanel } from "../../../components/others";
  * @param props loadDataAsync, handleNewButton, handleConfigButton, getListItemUI, navigation
  */
 export default function ManagementTemplateScreen ({ 
-    loadDataAsync, handleNewButton, handleConfigButton, getListItemUI, 
+    loadDataAsync, handleNewButton, handleConfigButton = () => {}, getListItemUI, getConfigUI = () => {},
     data, setData, navigation 
 }) {
 
     const [isLoading, setIsLoading] = useState(true);
     const [isLoaded, setIsLoaded] = useState(false);
     const [searchValue, setSearchValue] = useState("");
+    const [isShowingConfig, setIsShowingConfig] = useState(false);
 
     useEffect(() => {
         callLoadDataAsync();
@@ -90,10 +91,45 @@ export default function ManagementTemplateScreen ({
                         appearance="ghost"
                         icon={(style) => <Icon {...style} name="options-2-outline" />}
                         style={{ borderRadius: 50, flex: 1 }}
-                        onPress={handleConfigButton}
+                        //onPress={handleConfigButton}
+                        onPress={() => setIsShowingConfig(true)}
                     />
                 </Layout>
                 <Divider />
+                <Modal 
+                    onBackdropPress={() => setIsShowingConfig(false)}
+                    backdropStyle={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}
+                    visible={isShowingConfig}
+                >
+                    <Card 
+                        disabled
+                        header={() => <CardHeader title="Lọc"/>}
+                        footer={() => 
+                            <Layout style={{ flexDirection: "row", justifyContent: "flex-end" }}>
+                                <Button
+                                    style={{ marginHorizontal: 4 }}
+                                    size="small"
+                                    onPress={() => { 
+                                        setIsShowingConfig(false);
+                                        handleConfigButton();
+                                    }}
+                                >
+                                    OK
+                                </Button>
+                                <Button
+                                    style={{ marginHorizontal: 4 }}
+                                    size="small"
+                                    status="basic"
+                                    onPress={() => setIsShowingConfig(false)}
+                                >
+                                    Hủy
+                                </Button>
+                            </Layout>
+                        }
+                    >
+                        {getConfigUI()}
+                    </Card>
+                </Modal>
             </Layout>
         );
     }
