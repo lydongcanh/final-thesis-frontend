@@ -177,7 +177,7 @@ export default function EmployeeDetailsManagementScreen({ navigation, route }) {
         return (
             <Layout>
                 {getInputUI("Tên", name, setName, 100)}
-                {getInputUI("Số điện thoại", phoneNumber, setPhoneNumber, 10, "phone-pad", (employee != null))}
+                {getInputUI("Số điện thoại", phoneNumber, setPhoneNumber, 10, "phone-pad")}
                 {getInputUI("Email", email, setEmail, 50, "email-address", (employee != null))}
                 {getPasswordUI()}
                 {getInputUI("Ảnh", imagePath, setImagePath, 200, "url")}

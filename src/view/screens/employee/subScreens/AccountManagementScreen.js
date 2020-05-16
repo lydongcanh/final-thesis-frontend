@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { FlatList } from "react-native";
-import { Button, Layout, Text, Card, TabView, Tab } from "@ui-kitten/components";
+import { Button, Layout, Text, Card, TabView, Tab, CardHeader } from "@ui-kitten/components";
 import { AccountService } from "../../../../core/services";
 import ManagementTemplateScreen from "./ManagementTemplateScreen";
 import { ACCOUNT_TYPES } from "../../../../core/types";
@@ -18,10 +18,11 @@ export default function CollectionManagementScreen({ navigation }) {
         return (
             <Card 
                 style={{ margin: 16 }}
+                status={account.isActive ? "success" : "danger"}
                 onPress={() => alert(JSON.stringify(account, null, 2))}
+                header={() => <CardHeader title="" />}
             >
                 <Text style={{ fontWeight: "bold" }}>{account.username}</Text>
-                <Text appearance="hint">{account.accountType}</Text>
             </Card>
         );
     }

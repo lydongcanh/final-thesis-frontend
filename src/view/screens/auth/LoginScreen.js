@@ -45,6 +45,12 @@ export default function LoginScreen({ navigation, route }) {
                 text: result.error,
                 type: "danger"
             });
+        } else if (!result.account.isActive) {
+            Toast.show({
+                text: `Tài khoản đã bị khóa với lý do: ${result.account.description}`,
+                type: "warning",
+                duration: 6000
+            });
         }
         else {
             dispatch(login(result.account, true));
@@ -54,10 +60,10 @@ export default function LoginScreen({ navigation, route }) {
                 const screen = result.account.accountType === ACCOUNT_TYPES.Employee ? "EmployeeHome" : "CustomerHome";
                 navigation.navigate(screen);
             }
+            setUsername("");
+            setPassword("");
         }
 
-        setUsername("");
-        setPassword("");
         setIsLoading(false);
     }
 

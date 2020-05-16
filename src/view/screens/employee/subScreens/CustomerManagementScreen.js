@@ -1,15 +1,51 @@
 import React, { useState } from "react";
 import { Image } from "react-native";
-import { Layout, Card, Text, Button } from "@ui-kitten/components";
+import { Layout, Card, Text, Button, Icon } from "@ui-kitten/components";
 import { CustomerService } from "../../../../core/services";
 import ManagementTemplateScreen from "./ManagementTemplateScreen";
+import { LockAccountModal } from "../../../components/others/LockAccountModal";
 
 export default function CustomerManagementScreen({ navigation }) {
 
     const [data, setData] = useState([]);
+    const [lockAccountModalVisible, setLockAccountModalVisible] = useState(false);
+    const [selectedCustomer, setSelectedCustomer] = useState();
 
     function handleConfigButton() {
         alert("Đang cập nhật");
+    }
+
+    function handleOnCustomerDetailClick(customer) {
+        setSelectedCustomer(customer);
+    }
+
+    function handleOnCustomerLockClick(customer) {
+        setSelectedCustomer(customer);
+        setLockAccountModalVisible(true);
+    }
+
+    function getFooterUI(customer) {
+        return (
+            <Layout style={{ flexDirection: "row" ,justifyContent: "flex-end" }}>
+                <Button 
+                    appearance="ghost"
+                    size="tiny"
+                    icon={style => <Icon {...style} name="edit-2-outline" />}
+                    onPress={() => handleOnCustomerDetailClick(customer)}
+                >
+                    Chi tiết
+                </Button>
+                <Button
+                    status="danger"
+                    appearance="ghost"
+                    size="tiny"
+                    icon={style => <Icon {...style} name="trash-2-outline" />}
+                    onPress={() => handleOnCustomerLockClick(customer)}
+                >
+                    {customer.account.isActive ? "Khóa" : "Mở khóa"}
+                </Button>
+            </Layout>
+        );
     }
 
     function getCustomerListItemUI(customer) {
@@ -17,6 +53,7 @@ export default function CustomerManagementScreen({ navigation }) {
             <Card 
                 style={{ margin: 16 }}
                 onPress={() => alert(JSON.stringify(customer, null, 2))}
+                footer={() => getFooterUI(customer)}
             >
                 <Layout style={{ flexDirection: "row", backgroundColor: "rgba(0, 0, 0, 0)", alignItems: "center" }}>
                     <Image 
@@ -26,15 +63,8 @@ export default function CustomerManagementScreen({ navigation }) {
                     <Layout style={{ margin: 8, alignContent: "center", backgroundColor: "rgba(0, 0, 0, 0)" }}>
                         <Layout style={{ flexDirection: "row", alignItems: "center", backgroundColor: "rgba(0, 0, 0, 0)" }}>
                             <Text style={{ fontWeight: "bold" }}>{customer.name}</Text>
-                            {/* <Button 
-                                disabled
-                                size="tiny"
-                                style={{ borderRadius: 20, marginLeft: 8 }}
-                            > 
-                                {customer.vipLevel}
-                            </Button> */}
                         </Layout>
-                        <Text appearance="hint">{customer.phoneNumber}</Text>
+                        <Text appearance="hint" category="label">{customer.phoneNumber}</Text>
                     </Layout>
                 </Layout>
             </Card>
@@ -50,6 +80,11 @@ export default function CustomerManagementScreen({ navigation }) {
                 data={data}
                 setData={setData}
                 navigation={navigation}
+            />
+            <LockAccountModal 
+                account={selectedCustomer ? selectedCustomer.account : null}
+                visible={lockAccountModalVisible}
+                setVisible={setLockAccountModalVisible}
             />
         </Layout>
     );

@@ -1,13 +1,18 @@
 import React, { useState } from "react";
-import { Image } from "react-native";
-import { Layout, Text, Card, Button } from "@ui-kitten/components";
+import { Image, FlatList } from "react-native";
+import { Layout, Text, Card, Button, Tab, TabView, Icon } from "@ui-kitten/components";
 import { EmployeeService } from "../../../../core/services";
 import ManagementTemplateScreen from "./ManagementTemplateScreen";
 import { ManagementTypes } from "../../../types";
+import { JOB_TITLES } from "../../../../core/types";
+import { LockAccountModal } from "../../../components/others/LockAccountModal";
 
 export default function EmployeeManagementScreen({ navigation }) {
 
     const [data, setData] = useState([]);
+    const [tabViewIndex, setTabViewIndex] = useState();
+    const [lockAccountModalVisible, setLockAccountModalVisible] = useState(false);
+    const [selectedAccount, setSelectedAccount] = useState();
 
     function handleNewButton() {
         navigation.navigate("EmployeeDetails", { 
@@ -16,7 +21,7 @@ export default function EmployeeManagementScreen({ navigation }) {
         });
     }
 
-    function handleOnEmployeeClick(employee) {
+    function handleOnEmployeeDetailClick(employee) {
         navigation.navigate("EmployeeDetails", { 
             mode: ManagementTypes.UPDATE,
             employees: data,
@@ -24,15 +29,45 @@ export default function EmployeeManagementScreen({ navigation }) {
         });
     }
 
+    function handleOnEmployeeLockClick(employee) {
+        setSelectedAccount(employee.account);
+        setLockAccountModalVisible(true);
+    }
+
     function handleConfigButton() {
         alert("Đang cập nhật");
     }
 
+    function getFooterUI(employee) {
+        return (
+            <Layout style={{ flexDirection: "row" ,justifyContent: "flex-end" }}>
+                <Button 
+                    appearance="ghost"
+                    size="tiny"
+                    icon={style => <Icon {...style} name="edit-2-outline" />}
+                    onPress={() => handleOnEmployeeDetailClick(employee)}
+                >
+                    Chi tiết
+                </Button>
+                <Button
+                    status="danger"
+                    appearance="ghost"
+                    size="tiny"
+                    icon={style => <Icon {...style} name="trash-2-outline" />}
+                    onPress={() => handleOnEmployeeLockClick(employee)}
+                >
+                    {employee.account.isActive ? "Khóa" : "Mở khóa"}
+                </Button>
+            </Layout>
+        );
+    }
+    
     function getEmployeeListItemUI(employee) {
         return (
             <Card 
+                disabled
                 style={{ margin: 16 }}
-                onPress={() => handleOnEmployeeClick(employee)}
+                footer={() => getFooterUI(employee)}
             >
                 <Layout style={{ flexDirection: "row", backgroundColor: "rgba(0, 0, 0, 0)", alignItems: "center" }}>
                     <Image 
@@ -42,18 +77,38 @@ export default function EmployeeManagementScreen({ navigation }) {
                     <Layout style={{ margin: 8, alignContent: "center", backgroundColor: "rgba(0, 0, 0, 0)" }}>
                         <Layout style={{ flexDirection: "row", alignItems: "center", backgroundColor: "rgba(0, 0, 0, 0)" }}>
                             <Text style={{ fontWeight: "bold" }}>{employee.name}</Text>
-                            <Button 
-                                disabled
-                                size="tiny"
-                                style={{ borderRadius: 20, marginLeft: 8 }}
-                            >
-                                {employee.jobTitle}
-                            </Button>
                         </Layout>
-                        <Text appearance="hint">{employee.phoneNumber}</Text>
+                        <Text appearance="hint" category="label">{employee.phoneNumber}</Text>
                     </Layout>
                 </Layout>
             </Card>
+        );
+    }
+
+    function getListUI(listData) {
+        return (
+            <FlatList
+                data={listData}
+                keyExtractor={(_, item) => item.toString()}
+                renderItem={({ item }) => getEmployeeListItemUI(item)}
+            />
+        );
+    }
+
+    function getTabViewUI() {
+        return (
+            <TabView
+                indicatorStyle={{ backgroundColor: "rgba(0, 0, 0, 0)" }}
+                selectedIndex={tabViewIndex}
+                onSelect={setTabViewIndex}
+            >
+                <Tab title={JOB_TITLES[0]}>
+                    {getListUI(data.filter(e => e.jobTitle === JOB_TITLES[0]))}
+                </Tab>
+                <Tab title={JOB_TITLES[1]}>
+                    {getListUI(data.filter(e => e.jobTitle === JOB_TITLES[1]))}
+                </Tab>
+            </TabView>
         );
     }
 
@@ -64,9 +119,15 @@ export default function EmployeeManagementScreen({ navigation }) {
                 handleNewButton={handleNewButton}
                 handleConfigButton={handleConfigButton}
                 getListItemUI={getEmployeeListItemUI}
+                getOverrideListUI={getTabViewUI}
                 data={data}
                 setData={setData}
                 navigation={navigation}
+            />
+            <LockAccountModal 
+                account={selectedAccount}
+                visible={lockAccountModalVisible}
+                setVisible={setLockAccountModalVisible}
             />
         </Layout>
     );

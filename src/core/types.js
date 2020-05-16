@@ -7,8 +7,8 @@ export const GENDERS = [
 
 export const JOB_TITLES = [
     "Bán hàng",
-    "Kho hàng",
-    "Giao hàng",
+    //"Kho hàng",
+    //"Giao hàng",
     "Quản lý"
 ];
 

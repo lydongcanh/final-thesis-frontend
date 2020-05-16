@@ -6,11 +6,6 @@ import { EmployeeScreensHeader } from "../../../components/others";
 export default function ManagementScreen({ navigation }) {
 
     const managementFunctionDatas = [
-        // {
-        //     title: "Sản phẩm",
-        //     icon: "cube-outline",
-        //     callback: () => navigation.navigate("EmployeeProductManagement")
-        // },
         {
             title: "Sản phẩm & Loại sản phẩm",
             icon: "layers-outline",
@@ -35,11 +30,6 @@ export default function ManagementScreen({ navigation }) {
             title: "Khách hàng",
             icon: "person-outline",
             callback: () => navigation.navigate("EmployeeCustomerManagement")
-        },
-        {
-            title: "Tài khoản",
-            icon: "lock-outline",
-            callback: () => navigation.navigate("EmployeeAccountManagement")
         },
     ];
 
