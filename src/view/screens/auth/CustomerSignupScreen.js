@@ -7,6 +7,8 @@ import { login } from "../../redux/actions/authActions";
 import { AccountService, CustomerService } from "../../../core/services";
 import { Toast } from "native-base";
 import { Space } from "../../components/others";
+import { ActivityIndicator } from "react-native-paper";
+import { CUSTOMER_VIP_LEVELS } from "../../../core/types";
 
 export default function CustomerSignupScreen({ navigation }) {
     const [customerName, setCustomerName] = useState("");
@@ -88,13 +90,13 @@ export default function CustomerSignupScreen({ navigation }) {
         const customerResult = await CustomerService.create({
             accountId: account.id,
             name: customerName,
-            email: username
+            email: username,
+            vipLevel: CUSTOMER_VIP_LEVELS.VIP_0 
         });
         console.log(customerResult);
 
         account.customerId = customerResult.data.id;
         const updateAccountResult = await AccountService.update(account);
-
         console.log(updateAccountResult);
 
         dispatch(login(account, true));
@@ -102,8 +104,11 @@ export default function CustomerSignupScreen({ navigation }) {
         setIsLoading(false);
     }
 
-    return (
-        <Layout style={{ flex: 1, justifyContent: "space-between" }}>
+    function getContentUI() {
+        if (isLoading)
+            return <ActivityIndicator style={{ flex: 1, alignContent: "center", margin: 8 }} />
+          
+        return (
             <Card
                 appearance="filled"
                 footer={cardFooter}
@@ -117,6 +122,7 @@ export default function CustomerSignupScreen({ navigation }) {
                     status={editingCustomerName ? validCustomerName ? "success" : "danger" : "basic"}
                     value={customerName}
                 />
+                <Space />
 
                 <Input
                     caption={editingUsername ? validUsername ? "" : Texts.INVALID_USERNAME : ""}
@@ -127,6 +133,7 @@ export default function CustomerSignupScreen({ navigation }) {
                     status={editingUsername ? validUsername ? "success" : "danger" : "basic"}
                     value={username}
                 />
+                <Space />
 
                 <Input
                     caption={editingPassword ? validPassword ? "" : Texts.INVALID_PASSWORD : ""}
@@ -140,6 +147,7 @@ export default function CustomerSignupScreen({ navigation }) {
                     status={editingPassword ? validPassword ? "success" : "danger" : "basic"}
                     value={password}
                 />
+                <Space />
 
                 <Input
                     caption={editingConfirmPassword ? validConfirmPassword ? "" : Texts.INVALID_CONFIRM_PASSWORD : ""}
@@ -151,7 +159,13 @@ export default function CustomerSignupScreen({ navigation }) {
                     status={editingConfirmPassword ? validConfirmPassword ? "success" : "danger" : "basic"}
                     value={confirmPassword}
                 />
+                <Space />
             </Card>
+        );
+    }
+    return (
+        <Layout style={{ flex: 1, justifyContent: "space-between" }}>
+            {getContentUI()}
         </Layout>
     );
 }

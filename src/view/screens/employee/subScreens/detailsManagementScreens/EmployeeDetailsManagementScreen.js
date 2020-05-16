@@ -29,6 +29,7 @@ export default function EmployeeDetailsManagementScreen({ navigation, route }) {
         if (accountResult.error)
             return accountResult;
 
+        const account = accountResult.data;
         const result = await EmployeeService.create({
             name: name, 
             birthdate: birthdate, 
@@ -43,8 +44,13 @@ export default function EmployeeDetailsManagementScreen({ navigation, route }) {
             gender: gender,
             imagePath: imagePath,
             jobTitle: jobTitle,
-            accountId: accountResult.data.id
+            accountId: account.id
         });
+
+        account.employeeId = result.data.id;
+        const updateAccountResult = await AccountService.update(account);
+        console.log(updateAccountResult);
+
         return result;
     }
 
