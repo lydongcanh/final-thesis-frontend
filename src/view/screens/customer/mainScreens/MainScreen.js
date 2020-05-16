@@ -101,6 +101,10 @@ export default function MainScreen({ navigation }) {
         return (
             <Layout style={{ flex: 1 }}>
                 <Carousel
+                    autoplay={true}
+                    autoplayDelay={3000}
+                    autoplayInterval={10000}
+                    loop={true}
                     data={headCarouselData}
                     itemWidth={screenWidth}
                     onSnapToItem={setActiveIndex}
