@@ -1,14 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Platform, StatusBar, Image, View, FlatList } from "react-native";
-import { Layout, Text, Button, List, ListItem, Icon, Card, CardHeader } from "@ui-kitten/components";
+import { Platform, StatusBar, Image, View } from "react-native";
+import { Layout, Text, Button, List, ListItem, Icon } from "@ui-kitten/components";
 import { useSelector, useDispatch } from "react-redux";
 import { Space, CustomerScreensHeader } from "../../../components/others";
 import { logout } from "../../../redux/actions/authActions";
 import { Divider, ActivityIndicator } from "react-native-paper";
-import { Texts } from "../../../../core/texts";
 import { CustomerOrderService } from "../../../../core/services";
-import { CUSTOMER_ORDER_TYPES } from "../../../../core/types";
-import { formatCurrency, formatDate } from "../../../../core/utilities";
 
 export default function AccountInfoScreen({ navigation }) {
 
@@ -88,69 +85,6 @@ export default function AccountInfoScreen({ navigation }) {
         setIsLoading(false);
     }
 
-    function getOrders(completed) {
-        if (!orders || orders.length < 1)
-            return [];
-
-        // TODO: recheck business logic...
-        return orders.filter(order => {
-            return (order.orderState === CUSTOMER_ORDER_TYPES.Completed) === completed;
-        });
-    }
-
-    function getOrderUI(order) {
-        return (
-            <Card
-                onPress={() => alert(JSON.stringify(order, null, 2))}
-                style={{ flex: 1, margin: 4, borderRadius: 8 }}
-            >
-                <Text appearance="hint">
-                    Trạng thái: {order.orderState}
-                </Text>
-                <Text appearance="hint">
-                    Giá: {formatCurrency(CustomerOrderService.calculateFinalPrice(order))}VND
-                </Text>
-                <Text appearance="hint">
-                    Địa chỉ: {order.shipAddress.number}, {order.shipAddress.street}, {order.shipAddress.district}, {order.shipAddress.city}
-                </Text>
-                <Text appearance="hint">
-                    Ngày đặt hàng: {formatDate(new Date(Date.parse(order.creationDate)))}
-                </Text>
-            </Card>
-        );
-    }
-
-    function getUnCompletedOrdersUI() {
-        return (
-            <Layout style={{ flex: 2, padding: 8 }}>
-                <Text category="label" style={{ fontWeight: "bold" }}>Đơn hàng chờ xử lý</Text>
-                <Divider style={{ marginTop: 4, marginBottom: 4 }} />
-                {getOrderListUI()}
-            </Layout>
-        );
-
-        function getOrderListUI() {
-            if (!orders || orders.length < 1) {
-                return (
-                    <Text
-                        appearance="hint"
-                        style={{ marginTop: 8, textAlign: "center" }}
-                    >
-                        {Texts.NO_UNCOMPLETED_CUSTOMER_ORDER}
-                    </Text>
-                );
-            }
-
-            return (
-                <FlatList
-                    data={getOrders(false)}
-                    keyExtractor={(_, index) => index.toString()}
-                    renderItem={({ item }) => getOrderUI(item)}
-                />
-            );
-        }
-    }
-
     function getAccountFunctionUI({ item }) {
         return (
             <Layout>
@@ -190,8 +124,6 @@ export default function AccountInfoScreen({ navigation }) {
                         renderItem={getAccountFunctionUI}
                     />
                 </Layout>
-
-                {getUnCompletedOrdersUI()}
 
                 <Button
                     size="tiny"

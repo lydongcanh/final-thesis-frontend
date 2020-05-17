@@ -128,8 +128,7 @@ export default function OrderDetailsModal({ visible, setVisible, order, showCust
                 <Text>Giá: {formatCurrency(CustomerOrderService.calculateFinalPrice(order))}VND</Text>
                 <Text>Trạng thái: {order.orderState}</Text>
                 <Text>Ngày tạo: {formatDate(order.creationDate)}</Text>
-                <Text>Chú thích: {order.description}</Text>
-
+                {getDescriptionUI()}
                 <Space />
                 {getCustomerInfoUI()}
 
@@ -140,6 +139,11 @@ export default function OrderDetailsModal({ visible, setVisible, order, showCust
                 </Layout>
             </Layout>
         );
+
+        function getDescriptionUI() {
+            if (order.description && order.description !== "")
+                return <Text>Chú thích: {order.description}</Text>
+        }
     }
 
     return (

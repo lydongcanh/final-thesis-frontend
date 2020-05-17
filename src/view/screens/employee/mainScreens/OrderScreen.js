@@ -146,8 +146,18 @@ export default function OrderScreen({ navigation }) {
                 <Text appearance="hint">
                     Ngày đặt hàng: {formatDate(new Date(Date.parse(order.creationDate)))}
                 </Text>
+                {getDescriptionUI()}
             </Card>
         );
+
+        function getDescriptionUI() {
+            if (order.description && order.description !== "")
+                return (
+                    <Text appearance="hint">
+                        Chú thích: {order.description}
+                    </Text>
+                );
+        }
     }
 
     function getConfigPanel() {
