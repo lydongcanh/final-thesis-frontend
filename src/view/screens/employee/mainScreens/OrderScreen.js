@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Platform, StatusBar, FlatList } from "react-native";
-import { Layout, Text, Card, RangeDatepicker, CalendarViewModes, NativeDateService, Select } from "@ui-kitten/components";
-import { ActivityIndicator, Switch } from "react-native-paper";
-import { EmployeeScreensHeader, LoadErrorPanel, Space } from "../../../components/others";
+import { Layout, Text, Card, RangeDatepicker, Button, Icon,
+         CalendarViewModes, NativeDateService, Select, Tab, TabView } from "@ui-kitten/components";
+import { ActivityIndicator } from "react-native-paper";
+import { EmployeeScreensHeader, LoadErrorPanel, OrderChangeStateModal, OrderDetailsModal } from "../../../components/others";
 import { CUSTOMER_ORDER_TYPES, dateTimeLocale } from "../../../../core/types";
 import { CustomerOrderService } from "../../../../core/services";
 import { formatCurrency, formatDate } from "../../../../core/utilities";
@@ -18,9 +19,13 @@ export default function OrderScreen({ navigation }) {
     const [orders, setOrders] = useState();
     const [isLoading, setIsLoading] = useState(true);
     const [isLoaded, setIsLoaded] = useState(false);
-    const [showCompletedOrder, setShowCompletedOrder] = useState(false);
     const [dateRange, setDateRange] = useState({});
     const [dateRangeMode, setDateRangeMode] = useState(dateData[0]);
+    const [selectedTabIndex, setSelectedTabIndex] = useState(0);
+    const [selectedOrder, setSelectedOrder] = useState();
+    const [changeStateModalVisible, setChangeStateModalVisible] = useState(false);
+    const [changeOrderNextState, setChangeOrderNextState] = useState();
+    const [orderDetailsModalVisible, setOrderDetailsModalVisible] = useState(false);
 
     const localeDateService = new NativeDateService("vi_VN", { dateTimeLocale, startDayOfWeek: 1 });
 
@@ -49,14 +54,80 @@ export default function OrderScreen({ navigation }) {
         }
     }
 
-    function getOrders() {
-        if (showCompletedOrder)
-            return orders;
+    function getOrders(type) {
+        return orders.filter(o => o.orderState === type);
+    }
 
-        return orders.filter(o => {
-            return o.orderState !== CUSTOMER_ORDER_TYPES.Completed &&
-                   o.orderState !== CUSTOMER_ORDER_TYPES.Cancelled;
-        });
+    function handleOrderDetailClick(order) {
+        setSelectedOrder(order);
+        setOrderDetailsModalVisible(true);
+    }
+
+    function handleOrderChangeState(order, nextState) {
+        setSelectedOrder(order);
+        setChangeOrderNextState(nextState);
+        setChangeStateModalVisible(true);
+    }
+
+    function getHandleButtons(order) {
+        if (order.orderState === CUSTOMER_ORDER_TYPES.Pending)
+            return (
+                <Layout style={{ flexDirection: "row", justifyContent: "flex-end" }}>
+                    {getHandleButton(order, CUSTOMER_ORDER_TYPES.Delivering)}
+                    {getCancelButton(order)}
+                </Layout>
+            );
+
+        if (order.orderState === CUSTOMER_ORDER_TYPES.Delivering)
+            return (
+                <Layout style={{ flexDirection: "row", justifyContent: "flex-end" }}>
+                    {getHandleButton(order, CUSTOMER_ORDER_TYPES.Completed)}
+                    {getCancelButton(order)}
+                </Layout>
+            );
+
+        function getCancelButton(order) {
+            return (
+                <Button 
+                    appearance="ghost"
+                    size="tiny"
+                    status="danger"
+                    icon={style => <Icon {...style} name="trash-outline" />}
+                    onPress={() => handleOrderChangeState(order, CUSTOMER_ORDER_TYPES.Cancelled)}
+                >
+                    Hủy
+                </Button>
+            );
+        }
+
+        function getHandleButton(order, nextState) {
+            return (
+                <Button 
+                    appearance="ghost"
+                    size="tiny"
+                    icon={style => <Icon {...style} name="arrow-right-outline" />}
+                    onPress={() => handleOrderChangeState(order, nextState)}
+                >
+                    {nextState}
+                </Button>
+            );
+        }
+    }
+
+    function getOrderFooterUI(order) {
+        return (
+            <Layout style={{ flexDirection: "row", justifyContent: "flex-end" }}>
+                <Button 
+                    appearance="ghost"
+                    size="tiny"
+                    icon={style => <Icon {...style} name="edit-2-outline" />}
+                    onPress={() => handleOrderDetailClick(order)}
+                >
+                    Chi tiết
+                </Button>
+                {getHandleButtons(order)}
+            </Layout>
+        );
     }
 
     function getOrderUI(order) {
@@ -64,10 +135,8 @@ export default function OrderScreen({ navigation }) {
             <Card
                 onPress={() => alert(JSON.stringify(order, null, 2))}
                 style={{ flex: 1, margin: 4, borderRadius: 8 }}
+                footer={() => getOrderFooterUI(order)}
             >
-                <Text appearance="hint">
-                    Trạng thái: {order.orderState}
-                </Text>
                 <Text appearance="hint">
                     Giá: {formatCurrency(CustomerOrderService.calculateFinalPrice(order))}VND
                 </Text>
@@ -84,10 +153,6 @@ export default function OrderScreen({ navigation }) {
     function getConfigPanel() {
         return (
             <Layout>
-                <Layout style={{ justifyContent: "flex-start", flexDirection: "row", alignItems: "center", margin: 4 }}>
-                    <Text appearance="hint" category="label">Hiện hóa đơn đã xử lý</Text>
-                    <Switch style={{ marginLeft: 4 }} value={showCompletedOrder} onValueChange={setShowCompletedOrder} />
-                </Layout>
                 <Layout style={{ justifyContent: "flex-start", flexDirection: "column", margin: 4 }}>
                     <Text appearance="hint" category="label">Thời gian</Text>
                     <Layout style={{ justifyContent: "space-between", flexDirection: "row", alignItems: "flex-start", margin: 4 }}>
@@ -112,10 +177,10 @@ export default function OrderScreen({ navigation }) {
         );
     }
 
-    function getOrderList() {
+    function getOrderList(orders) {
         return (
             <FlatList
-                data={getOrders()}
+                data={orders}
                 keyExtractor={(_, index) => index.toString()}
                 renderItem={({ item }) => getOrderUI(item)}
             />
@@ -131,9 +196,26 @@ export default function OrderScreen({ navigation }) {
 
         return (
             <Layout style={{ padding: 8 }}>
-                {getConfigPanel()}
-                <Space />
-                {getOrderList()}
+                {/* {getConfigPanel()}
+                <Space /> */}
+                <TabView
+                    indicatorStyle={{ backgroundColor: "rgba(0, 0, 0, 0)" }}
+                    selectedIndex={selectedTabIndex}
+                    onSelect={setSelectedTabIndex}
+                >
+                    <Tab title={CUSTOMER_ORDER_TYPES.Pending}>
+                        {getOrderList(getOrders(CUSTOMER_ORDER_TYPES.Pending))}
+                    </Tab>
+                    <Tab title={CUSTOMER_ORDER_TYPES.Delivering}>
+                        {getOrderList(getOrders(CUSTOMER_ORDER_TYPES.Delivering))}
+                    </Tab>
+                    <Tab title={CUSTOMER_ORDER_TYPES.Completed}>
+                        {getOrderList(getOrders(CUSTOMER_ORDER_TYPES.Completed))}
+                    </Tab>
+                    <Tab title={CUSTOMER_ORDER_TYPES.Cancelled}>
+                        {getOrderList(getOrders(CUSTOMER_ORDER_TYPES.Cancelled))}
+                    </Tab>
+                </TabView>
             </Layout>
         );
     }
@@ -142,6 +224,18 @@ export default function OrderScreen({ navigation }) {
         <Layout style={{ flex: 1, marginTop: Platform.OS === "ios" ? 0 : StatusBar.currentHeight }}>
             <EmployeeScreensHeader navigation={navigation} />
             {getContentUI()}
+            <OrderChangeStateModal 
+                order={selectedOrder}
+                visible={changeStateModalVisible}
+                setVisible={setChangeStateModalVisible}
+                nextState={changeOrderNextState}
+            />
+            <OrderDetailsModal 
+                visible={orderDetailsModalVisible}
+                setVisible={setOrderDetailsModalVisible}
+                order={selectedOrder}
+                showCustomerData={true}
+            />
         </Layout>
     );
 }

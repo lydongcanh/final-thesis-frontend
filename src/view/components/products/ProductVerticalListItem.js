@@ -1,13 +1,13 @@
 import React from "react";
 import { Image } from "react-native";
-import { Layout, Text } from "@ui-kitten/components";
+import { Layout, Text, Button } from "@ui-kitten/components";
 import { formatCurrency } from "../../../core/utilities";
 
 /**
  * 
  * @param param0 product
  */
-export default function ProductVerticalListItem({ product, showCategory = true }) {
+export default function ProductVerticalListItem({ product, showCategory = true, showRemoveButton = false }) {
     
     function getCategory() {
         if (showCategory) {
@@ -32,6 +32,11 @@ export default function ProductVerticalListItem({ product, showCategory = true }
                 {getCategory()}
                 <Text appearance="hint" category="label">{formatCurrency(product.unitPrice)}VND</Text>
             </Layout>
+            <Button
+                style={{ position: "absolute", right: 0 }}
+                size="tiny"
+                appearance="ghost"
+            />
         </Layout>
     );
 }

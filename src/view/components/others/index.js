@@ -5,3 +5,5 @@ export { default as GenderSelector } from "./GenderSelector";
 export { default as AddressInputPanel } from "./AddressInputPanel";
 export { default as LoadErrorPanel } from "./LoadErrorPanel";
 export { default as LockAccountModal } from "./LockAccountModal";
+export { default as OrderChangeStateModal } from "./OrderChangeStateModal";
+export { default as OrderDetailsModal } from "./OrderDetailsModal";

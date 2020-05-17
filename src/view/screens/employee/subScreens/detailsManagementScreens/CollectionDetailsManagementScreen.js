@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Layout, Input, Button, Text, Card, CardHeader } from "@ui-kitten/components";
+import { Layout, Input, Button, Text, Card, CardHeader, Icon } from "@ui-kitten/components";
 import { Switch, Divider } from "react-native-paper";
 import { styles } from "../../../../styles";
 import DetailsManagementTemplateScreen from "./DetailsManagementTemplateScreen";
@@ -36,6 +36,20 @@ export default function CollectionDetailsManagementScreen({ route }) {
         return name && name !== "";
     }
 
+    function getHeader() {
+        return (
+            <Layout style={{ flexDirection: "row", justifyContent: "space-between", padding: 8 }}>
+                <Text category="c6">Sản phẩm</Text>
+                <Button 
+                    size="tiny"
+                    appearance="ghost"
+                    icon={(style) => <Icon {...style} name="plus-outline" />}
+                    onPress={() => alert("")}
+                />
+            </Layout>
+        );
+    }
+
     // TODO: Add, remove products...
     function getProductsUI() {
         if (!collection)
@@ -45,7 +59,7 @@ export default function CollectionDetailsManagementScreen({ route }) {
             <Card
                 style={{ margin: 8 }}
                 disabled
-                header={style => <CardHeader {...style} title="Sản phẩm" />}
+                header={getHeader}
             >
                 {details.map(d => (
                     <Layout key={d.id}>

@@ -18,9 +18,8 @@ export const ACCOUNT_TYPES = {
 };
 
 export const CUSTOMER_ORDER_TYPES = {
-    Pending: "Chờ xử lý",
-    Resolved: "Đã xử lý",
-    Delivering: "Đang giao hàng",
+    Pending: "Chờ xác nhận",
+    Delivering: "Đang giao",
     Completed: "Hoàn thành",
     Cancelled: "Bị hủy"
 };
