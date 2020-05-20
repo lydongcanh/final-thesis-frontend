@@ -32,6 +32,7 @@ export default function CartPurchaseScreen({ navigation, route }) {
                     type: "danger",
                     duration: 3000
                 });
+                alert(JSON.stringify(result.error, null, 2));
             } else {
                 navigation.navigate("CustomerHome");
                 Toast.show({

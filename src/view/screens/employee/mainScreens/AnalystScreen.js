@@ -1,11 +1,90 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Platform, StatusBar, Dimensions } from "react-native";
 import { Button, Layout, Text } from "@ui-kitten/components";
 import { LineChart, PieChart } from "react-native-chart-kit";
-import { Divider } from "react-native-paper";
-import { EmployeeScreensHeader, Space } from "../../../components/others";
+import { Divider, ActivityIndicator } from "react-native-paper";
+import randomFlatColors from "random-flat-colors"
+import { EmployeeScreensHeader, Space, LoadErrorPanel } from "../../../components/others";
+import { CustomerOrderDetailsService } from "../../../../core/services";
 
 export default function AnalystScreen({ navigation }) {
+
+    const [isLoading, setIsLoading] = useState(false);
+    const [isLoaded, setIsLoaded] = useState(false);
+    const [orderDetails, setOrderDetails] = useState([]);
+    const [trendingData, setTrendingData] = useState([]);
+
+    useEffect(() => {
+        loadOrderDetails();
+    }, []);
+
+    async function loadOrderDetails() {
+        try {
+            setIsLoading(true);
+            const result = await CustomerOrderDetailsService.getAll();
+            if (result.error) {
+                console.log(result.error);
+                setIsLoaded(false);
+            } else {
+                setOrderDetails(result.data);
+                await updateTrendingData();
+                setIsLoaded(true);
+            }
+        } catch (e) {
+            console.log(e);
+            setIsLoaded(false);
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
+    async function updateTrendingData() {
+        if (!orderDetails || orderDetails.length < 1) {
+            setTrendingData([]);
+            return;
+        }
+
+        let rawData = [];
+        for (const detail of orderDetails) {
+            let existFlag = false;
+            for (let i = 0; i < rawData.length; i++) {
+                if (rawData[i].id === detail.productDetails.product.id) {
+                    rawData[i].unit += detail.quantity;
+                    existFlag = true;
+                    break;
+                }
+            }
+
+            if (!existFlag)
+                rawData.push({
+                    id: detail.productDetails.product.id,
+                    name: detail.productDetails.product.name,
+                    unit: 0,
+                });
+        }
+
+        const data = [];
+        rawData = rawData.sort((a, b) => a.unit - b.unit);
+
+        let otherProductSum = 0;
+        for (let i = 0; i < rawData.length; i++) {
+            if (i < 5) {
+                data.push({
+                    name: rawData[i].name,
+                    unit: rawData[i].unit,
+                    color: randomFlatColors()
+                })
+            } else {
+                otherProductSum += rawData[i].unit;
+            }
+        }
+        data.push({
+            name: "Khác",
+            unit: otherProductSum,
+            color: randomFlatColors()
+        });
+        setTrendingData(data);
+    }
 
     function getRevenueUI() {
         return (
@@ -69,35 +148,15 @@ export default function AnalystScreen({ navigation }) {
                         size="tiny"
                         appearance="ghost"
                         style={{ marginRight: 8 }}
-                        onPress={() => alert("Đang cập nhật...")}
+                        //onPress={() => alert("Đang cập nhật...")}
+                        onPress={() => alert(JSON.stringify(trendingData, null, 2))}
                     >
                         Chi tiết
                     </Button>
                 </Layout>
                 <Divider style={{ margin: 8 }} />
                 <PieChart
-                    data={[
-                        {
-                            name: 'Áo thun',
-                            unit: 230,
-                            color: '#e3fdfd',
-                        },
-                        {
-                            name: 'Áo khoác da',
-                            unit: 186,
-                            color: '#cbf1f5',
-                        },
-                        {
-                            name: 'Đầm dạ hội',
-                            unit: 99,
-                            color: '#a6e3e9',
-                        },
-                        {
-                            name: 'Khác',
-                            unit: 678,
-                            color: '#71c9ce',
-                        },
-                    ]}
+                    data={trendingData}
                     width={Dimensions.get('window').width - 16}
                     height={220}
                     chartConfig={{
@@ -117,6 +176,12 @@ export default function AnalystScreen({ navigation }) {
     }
 
     function getContentUI() {
+        if (isLoading)
+            return <ActivityIndicator style={{ flex: 1, alignContent: "center", margin: 8 }} />;
+
+        if (!isLoaded)
+            return <LoadErrorPanel onReload={loadOrderDetails} />;
+
         return (
             <Layout style={{ flex: 1 }}>
                 {getRevenueUI()}

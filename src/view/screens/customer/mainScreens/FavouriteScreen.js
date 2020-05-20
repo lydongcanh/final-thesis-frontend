@@ -19,7 +19,15 @@ export default function FavouriteScreen({ navigation }) {
 
     useEffect(() => {
         loadFavouriteProducts();
-    }, [account]);
+    }, []);
+
+    useEffect(() => {
+        const unsubscribe = navigation.addListener('focus', () => {
+            loadFavouriteProducts();
+        });
+      
+        return unsubscribe;
+    }, []);
 
     function loadFavouriteProducts() {
         try {
