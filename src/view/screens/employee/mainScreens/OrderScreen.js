@@ -133,7 +133,7 @@ export default function OrderScreen({ navigation }) {
     function getOrderUI(order) {
         return (
             <Card
-                onPress={() => alert(JSON.stringify(order, null, 2))}
+                disabled
                 style={{ flex: 1, margin: 4, borderRadius: 8 }}
                 footer={() => getOrderFooterUI(order)}
             >
@@ -205,13 +205,14 @@ export default function OrderScreen({ navigation }) {
             return <LoadErrorPanel onReload={loadOrders} />
 
         return (
-            <Layout style={{ padding: 8 }}>
+            <Layout style={{ flex: 1, padding: 8 }}>
                 {/* {getConfigPanel()}
                 <Space /> */}
                 <TabView
                     indicatorStyle={{ backgroundColor: "rgba(0, 0, 0, 0)" }}
                     selectedIndex={selectedTabIndex}
                     onSelect={setSelectedTabIndex}
+                    style={{ flex: 1 }}
                 >
                     <Tab title={CUSTOMER_ORDER_TYPES.Pending}>
                         {getOrderList(getOrders(CUSTOMER_ORDER_TYPES.Pending))}

@@ -4,7 +4,7 @@ import { Layout, Button, Tab, TabView, Text, Card, Icon } from "@ui-kitten/compo
 import { CustomerOrderService } from "../../../../core/services";
 import { formatDate, formatCurrency } from "../../../../core/utilities";
 import { CUSTOMER_ORDER_TYPES } from "../../../../core/types";
-import { OrderDetailsModal } from "../../../components/others";
+import { OrderDetailsModal, OrderChangeStateModal } from "../../../components/others";
 
 export default function OrdersScreen({ navigation, route }) {
 
@@ -14,6 +14,8 @@ export default function OrdersScreen({ navigation, route }) {
     const [selectedOrder, setSelectedOrder] = useState();
     const [orderDetailsModalVisible, setOrderDetailsModalVisible] = useState(false);
     const [selectedTabIndex, setSelectedTabIndex] = useState(0);
+    const [changeStateModalVisible, setChangeStateModalVisible] = useState(false);
+    const [changeOrderNextState, setChangeOrderNextState] = useState();
 
     function handleOrderDetailClick(order) {
         setSelectedOrder(order);
@@ -22,6 +24,29 @@ export default function OrdersScreen({ navigation, route }) {
 
     function getOrders(type) {
         return orders.filter(o => o.orderState === type);
+    }
+
+    function handleCancelOrderClick(order) {
+        setSelectedOrder(order);
+        setChangeOrderNextState(CUSTOMER_ORDER_TYPES.Cancelled);
+        setChangeStateModalVisible(true);
+    }
+
+    function getCancelButton(order) {
+        if (order.orderState != CUSTOMER_ORDER_TYPES.Pending)
+            return;
+
+        return (
+            <Button 
+                appearance="ghost"
+                size="tiny"
+                status="danger"
+                icon={style => <Icon {...style} name="trash-outline" />}
+                onPress={() => handleCancelOrderClick(order)}
+            >
+                Hủy
+            </Button>
+        );
     }
 
     function getOrderFooterUI(order) {
@@ -35,6 +60,7 @@ export default function OrdersScreen({ navigation, route }) {
                 >
                     Chi tiết
                 </Button>
+                {getCancelButton(order)}
             </Layout>
         );
     }
@@ -42,7 +68,7 @@ export default function OrdersScreen({ navigation, route }) {
     function getOrderUI(order) {
         return (
             <Card
-                onPress={() => alert(JSON.stringify(order, null, 2))}
+                disabled
                 style={{ flex: 1, margin: 4, borderRadius: 8 }}
                 footer={() => getOrderFooterUI(order)}
             >
@@ -85,6 +111,7 @@ export default function OrdersScreen({ navigation, route }) {
                 indicatorStyle={{ backgroundColor: "rgba(0, 0, 0, 0)" }}
                 selectedIndex={selectedTabIndex}
                 onSelect={setSelectedTabIndex}
+                style={{ flex: 1 }}
             >
                 <Tab title={CUSTOMER_ORDER_TYPES.Pending}>
                     {getOrderList(getOrders(CUSTOMER_ORDER_TYPES.Pending))}
@@ -99,6 +126,12 @@ export default function OrdersScreen({ navigation, route }) {
                     {getOrderList(getOrders(CUSTOMER_ORDER_TYPES.Cancelled))}
                 </Tab>
             </TabView>
+            <OrderChangeStateModal 
+                order={selectedOrder}
+                visible={changeStateModalVisible}
+                setVisible={setChangeStateModalVisible}
+                nextState={changeOrderNextState}
+            />
             <OrderDetailsModal 
                 visible={orderDetailsModalVisible}
                 setVisible={setOrderDetailsModalVisible}
