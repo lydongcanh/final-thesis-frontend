@@ -5,8 +5,9 @@ import { styles } from "../../../../styles";
 import DetailsManagementTemplateScreen from "./DetailsManagementTemplateScreen";
 import { formatDate } from "../../../../../core/utilities";
 import { ProductVerticalListItem } from "../../../../components/products";
+import { CollectionService, CollectionDetailsService } from "../../../../../core/services";
 
-export default function CollectionDetailsManagementScreen({ route }) {
+export default function CollectionDetailsManagementScreen({ route, navigation }) {
 
     const collection = route ? route.params.collection : null;
     const [name, setName] = useState(collection ? collection.name : null);
@@ -21,10 +22,21 @@ export default function CollectionDetailsManagementScreen({ route }) {
     }
 
     async function updateCollection() {
-        alert(JSON.stringify({
-            name, showOnMainPage, details
-        }, null, 2));
-        return { error: "Dang cap nhat" };
+
+        for(const detail of collection.details) {
+            if (!details.includes(detail))
+                CollectionDetailsService.delete(detail.id);
+        }
+
+        collection.name = name;
+        collection.showOnMainPage = showOnMainPage;
+        collection.details = details;
+        const result = await CollectionService.update(collection);
+        return result;
+    }
+
+    function removeDetail(detail) {
+        setDetails(details.filter(d => d.id !== detail.id));
     }
 
     function resetInputValues() {
@@ -39,22 +51,18 @@ export default function CollectionDetailsManagementScreen({ route }) {
     function getHeader() {
         return (
             <Layout style={{ flexDirection: "row", justifyContent: "space-between", padding: 8 }}>
-                <Text category="c6">Sản phẩm</Text>
+                <Text>Sản phẩm</Text>
                 <Button 
                     size="tiny"
                     appearance="ghost"
                     icon={(style) => <Icon {...style} name="plus-outline" />}
-                    onPress={() => alert("")}
+                    onPress={() => alert("Đang cập nhật...")}
                 />
             </Layout>
         );
     }
 
-    // TODO: Add, remove products...
     function getProductsUI() {
-        if (!collection)
-            return;
-
         return (
             <Card
                 style={{ margin: 8 }}
@@ -69,6 +77,14 @@ export default function CollectionDetailsManagementScreen({ route }) {
                             product={d.product}
                         />
                         <Divider style={{ margin: 8 }} />
+                        <Button 
+                            appearance="ghost"
+                            status="danger"
+                            size="tiny"
+                            icon={(style) => <Icon {...style} name="trash-outline" />}
+                            style={{ position: "absolute", right: 0, top: 16 }}
+                            onPress={() => removeDetail(d)}
+                        />
                     </Layout>
                 ))}
             </Card>
@@ -107,6 +123,7 @@ export default function CollectionDetailsManagementScreen({ route }) {
 
     return (
         <DetailsManagementTemplateScreen
+            navigation={navigation}
             route={route}
             createFunction={createCollection}
             updateFunction={updateCollection}

@@ -129,6 +129,7 @@ export default function OrderDetailsModal({ visible, setVisible, order, showCust
                 <Text>Trạng thái: {order.orderState}</Text>
                 <Text>Ngày tạo: {formatDate(order.creationDate)}</Text>
                 {getDescriptionUI()}
+                
                 <Space />
                 {getCustomerInfoUI()}
 

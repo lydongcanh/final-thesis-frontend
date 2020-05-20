@@ -28,7 +28,7 @@ export default function ProductVerticalListItem({ product, showCategory = true, 
                 style={{ borderRadius: 50, width: 50, height: 50 }}
             />
             <Layout style={{ margin: 8, alignContent: "center" }}>
-                <Text style={{ fontWeight: "bold" }}>{product.name}</Text>
+                <Text numberOfLines={1} style={{ fontWeight: "bold", width: 190 }}>{product.name}</Text>
                 {getCategory()}
                 <Text appearance="hint" category="label">{formatCurrency(product.unitPrice)}VND</Text>
             </Layout>
