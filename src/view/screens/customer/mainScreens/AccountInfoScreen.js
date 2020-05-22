@@ -117,7 +117,7 @@ export default function AccountInfoScreen({ navigation }) {
                     <Text appearance="hint" >{customer.vipLevel}</Text>
                 </Layout>
 
-                <Layout style={{ flex: 1, padding: 4 }}>
+                <Layout style={{ flex: 1, padding: 4, marginTop: 16  }}>
                     <List
                         style={{ backgroundColor: "white" }}
                         data={accountFunctionDatas}
