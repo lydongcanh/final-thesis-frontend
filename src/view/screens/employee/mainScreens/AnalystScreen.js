@@ -9,10 +9,11 @@ import { CustomerOrderDetailsService } from "../../../../core/services";
 
 export default function AnalystScreen({ navigation }) {
 
+    const TRENDING_PRODUCT_COUNT = 5;
+
     const [isLoading, setIsLoading] = useState(false);
     const [isLoaded, setIsLoaded] = useState(false);
     const [orderDetails, setOrderDetails] = useState([]);
-    const [trendingData, setTrendingData] = useState([]);
 
     useEffect(() => {
         loadOrderDetails();
@@ -27,7 +28,6 @@ export default function AnalystScreen({ navigation }) {
                 setIsLoaded(false);
             } else {
                 setOrderDetails(result.data);
-                await updateTrendingData();
                 setIsLoaded(true);
             }
         } catch (e) {
@@ -38,7 +38,19 @@ export default function AnalystScreen({ navigation }) {
         }
     }
 
-    async function updateTrendingData() {
+    function openTrendingProductAnalystScreen() {
+        navigation.navigate("TrendingProductAnalyst", {
+            orderDetails: orderDetails
+        });
+    }
+
+    function openRevenueAnalystScreen() {
+        navigation.navigate("RevenueAnalyst", {
+            orderDetails: orderDetails
+        });
+    }
+
+    function getTrendingData() {
         if (!orderDetails || orderDetails.length < 1) {
             setTrendingData([]);
             return;
@@ -68,7 +80,7 @@ export default function AnalystScreen({ navigation }) {
 
         let otherProductSum = 0;
         for (let i = 0; i < rawData.length; i++) {
-            if (i < 5) {
+            if (i < TRENDING_PRODUCT_COUNT) {
                 data.push({
                     name: rawData[i].name,
                     unit: rawData[i].unit,
@@ -83,7 +95,7 @@ export default function AnalystScreen({ navigation }) {
             unit: otherProductSum,
             color: randomFlatColors()
         });
-        setTrendingData(data);
+        return data;
     }
 
     function getRevenueUI() {
@@ -95,7 +107,7 @@ export default function AnalystScreen({ navigation }) {
                         size="tiny"
                         appearance="ghost"
                         style={{ marginRight: 8 }}
-                        onPress={() => alert("Đang cập nhật...")}
+                        onPress={openRevenueAnalystScreen}
                     >
                         Chi tiết
                     </Button>
@@ -148,15 +160,14 @@ export default function AnalystScreen({ navigation }) {
                         size="tiny"
                         appearance="ghost"
                         style={{ marginRight: 8 }}
-                        //onPress={() => alert("Đang cập nhật...")}
-                        onPress={() => alert(JSON.stringify(trendingData, null, 2))}
+                        onPress={openTrendingProductAnalystScreen}
                     >
                         Chi tiết
                     </Button>
                 </Layout>
                 <Divider style={{ margin: 8 }} />
                 <PieChart
-                    data={trendingData}
+                    data={getTrendingData()}
                     width={Dimensions.get('window').width - 16}
                     height={220}
                     chartConfig={{
@@ -169,7 +180,6 @@ export default function AnalystScreen({ navigation }) {
                     accessor="unit"
                     backgroundColor="transparent"
                     paddingLeft="16"
-                    //absolute
                 />
             </Layout>
         );

@@ -35,6 +35,8 @@ import { WelcomeScreen,
          EmployeeDetailsManagementScreen,
          EmployeeProductDetailsListManagementScreen,
          EmployeeProductDetailsListDetailsManagementScreen,
+         EmployeeTrendingProductAnalystScreen,
+         EmployeeRevenueAnalystScreen,
         } from "./src/view/screens";
 
 import * as ErrorRecovery from "expo-error-recovery";
@@ -194,6 +196,16 @@ export default function App(props) {
                         options={{ title: "Nhân viên" }}
                         name="EmployeeDetails"
                         component={EmployeeDetailsManagementScreen}
+                    />
+                    <Stack.Screen 
+                        options={{ title: "Sản phẩm bán chạy"}}
+                        name="TrendingProductAnalyst"
+                        component={EmployeeTrendingProductAnalystScreen}
+                    />
+                    <Stack.Screen 
+                        options={{ title: "Doanh thu"}}
+                        name="RevenueAnalyst"
+                        component={EmployeeRevenueAnalystScreen}
                     />
                 </Stack.Navigator>
             </NavigationContainer>
