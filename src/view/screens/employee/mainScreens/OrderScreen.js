@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import { Platform, StatusBar, FlatList } from "react-native";
 import { Layout, Text, Card, RangeDatepicker, Button, Icon,
          CalendarViewModes, NativeDateService, Select, Tab, TabView } from "@ui-kitten/components";
 import { ActivityIndicator } from "react-native-paper";
-import { EmployeeScreensHeader, LoadErrorPanel, OrderChangeStateModal, OrderDetailsModal } from "../../../components/others";
+import { EmployeeScreensHeader, LoadErrorPanel, OrderChangeStateModal } from "../../../components/others";
 import { CUSTOMER_ORDER_TYPES, dateTimeLocale } from "../../../../core/types";
 import { CustomerOrderService } from "../../../../core/services";
 import { formatCurrency, formatDate } from "../../../../core/utilities";
@@ -25,8 +26,11 @@ export default function OrderScreen({ navigation }) {
     const [selectedOrder, setSelectedOrder] = useState();
     const [changeStateModalVisible, setChangeStateModalVisible] = useState(false);
     const [changeOrderNextState, setChangeOrderNextState] = useState();
-    const [orderDetailsModalVisible, setOrderDetailsModalVisible] = useState(false);
 
+    const auth = useSelector(state => state.authReducer);
+    const account = auth ? auth.account : null;
+    const employee = account ? account.employee : null;
+    
     const localeDateService = new NativeDateService("vi_VN", { dateTimeLocale, startDayOfWeek: 1 });
 
     useEffect(() => {
@@ -59,8 +63,10 @@ export default function OrderScreen({ navigation }) {
     }
 
     function handleOrderDetailClick(order) {
-        setSelectedOrder(order);
-        setOrderDetailsModalVisible(true);
+        navigation.navigate("OrderDetails", {
+            order: order,
+            showCustomerData: true
+        });
     }
 
     function handleOrderChangeState(order, nextState) {
@@ -240,12 +246,7 @@ export default function OrderScreen({ navigation }) {
                 visible={changeStateModalVisible}
                 setVisible={setChangeStateModalVisible}
                 nextState={changeOrderNextState}
-            />
-            <OrderDetailsModal 
-                visible={orderDetailsModalVisible}
-                setVisible={setOrderDetailsModalVisible}
-                order={selectedOrder}
-                showCustomerData={true}
+                employee={employee}
             />
         </Layout>
     );

@@ -44,7 +44,7 @@ export default function AddressInputPanel(props) {
         >
             {getAddressInputUI("Số nhà", addressNumber, setAddressNumber)}
             {getAddressInputUI("Tên đường", addressStreet, setAddressStreet)}
-            {getAddressInputUI("Quận", addressDistrict, setAddressDistrict)}
+            {getAddressInputUI("Phường / Xã / Quận / Huyện", addressDistrict, setAddressDistrict)}
             {getAddressInputUI("Thành phố", addressCity, setAddressCity)}
         </Card>
     );

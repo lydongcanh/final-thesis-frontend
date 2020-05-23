@@ -47,7 +47,7 @@ export default function AccountInfoScreen({ navigation }) {
     useEffect(() => {
         loadAccount();
         loadOrders();
-    }, []);
+    }, [account]);
 
     function loadAccount() {
         const account = auth.account;

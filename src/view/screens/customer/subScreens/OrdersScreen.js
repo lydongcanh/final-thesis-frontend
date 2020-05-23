@@ -4,7 +4,7 @@ import { Layout, Button, Tab, TabView, Text, Card, Icon } from "@ui-kitten/compo
 import { CustomerOrderService } from "../../../../core/services";
 import { formatDate, formatCurrency } from "../../../../core/utilities";
 import { CUSTOMER_ORDER_TYPES } from "../../../../core/types";
-import { OrderDetailsModal, OrderChangeStateModal } from "../../../components/others";
+import { OrderChangeStateModal } from "../../../components/others";
 
 export default function OrdersScreen({ navigation, route }) {
 
@@ -12,14 +12,15 @@ export default function OrdersScreen({ navigation, route }) {
     const orders = route ? route.params.orders : null;
 
     const [selectedOrder, setSelectedOrder] = useState();
-    const [orderDetailsModalVisible, setOrderDetailsModalVisible] = useState(false);
     const [selectedTabIndex, setSelectedTabIndex] = useState(0);
     const [changeStateModalVisible, setChangeStateModalVisible] = useState(false);
     const [changeOrderNextState, setChangeOrderNextState] = useState();
 
     function handleOrderDetailClick(order) {
-        setSelectedOrder(order);
-        setOrderDetailsModalVisible(true);
+        navigation.navigate("OrderDetails", {
+            order: order,
+            showCustomerData: false
+        });
     }
 
     function getOrders(type) {
@@ -81,18 +82,8 @@ export default function OrdersScreen({ navigation, route }) {
                 <Text appearance="hint">
                     Ngày đặt hàng: {formatDate(new Date(Date.parse(order.creationDate)))}
                 </Text>
-                {getDescriptionUI()}
             </Card>
         );
-
-        function getDescriptionUI() {
-            if (order.description && order.description !== "")
-                return (
-                    <Text appearance="hint">
-                        Chú thích: {order.description}
-                    </Text>
-                );
-        }
     }
 
     function getOrderList(orders) {
@@ -131,12 +122,6 @@ export default function OrdersScreen({ navigation, route }) {
                 visible={changeStateModalVisible}
                 setVisible={setChangeStateModalVisible}
                 nextState={changeOrderNextState}
-            />
-            <OrderDetailsModal 
-                visible={orderDetailsModalVisible}
-                setVisible={setOrderDetailsModalVisible}
-                order={selectedOrder}
-                showCustomerData={false}
             />
         </Layout>
     );

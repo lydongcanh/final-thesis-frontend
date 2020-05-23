@@ -2,6 +2,7 @@ export { default as AccountService } from "./accountService";
 export { default as EmployeeService } from "./employeeService";
 export { default as CustomerService } from "./customerService";
 export { default as CustomerCartService } from "./customerCartService";
+export { default as CustomerOrderStateDetailsService } from "./customerOrderStateDetailsService";
 export { default as CustomerOrderService } from "./customerOrderService";
 export { default as CustomerOrderDetailsService } from "./customerOrderDetailsService";
 export { default as CustomerProductDetailsService } from "./customerProductDetailsService";

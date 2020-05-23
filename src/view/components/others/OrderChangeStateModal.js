@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import { Card, CardHeader, Modal, Text, Layout, Button, Input } from "@ui-kitten/components";
 import { ActivityIndicator } from "react-native-paper";
-import customerOrderService from "../../../core/services/customerOrderService";
+import { CustomerOrderService, CustomerOrderStateDetailsService } from "../../../core/services";
 import { Space } from ".";
 
 /**
  * 
- * @param param0 order, nextState, visible, setVisible 
+ * @param param0 order, employee, nextState, visible, setVisible 
  */
-export default function OrderChangeStateModal({ order, nextState = "", visible, setVisible }) {
+export default function OrderChangeStateModal({ order, employee, nextState = "", visible, setVisible }) {
 
     const [description, setDescription] = useState(order ? order.description : "");
     const [isLoading, setIsLoading] = useState(false);
@@ -21,11 +21,21 @@ export default function OrderChangeStateModal({ order, nextState = "", visible, 
             setIsLoading(true);
             const newOrder = order;
             newOrder.orderState = nextState;
-            newOrder.description = description;
-            const result = await customerOrderService.update(newOrder);
+            const result = await CustomerOrderService.update(newOrder);
             if (result.error) {
                 console.log(error);
             } else {
+                const stateDetails = {
+                    customerOrderId: order.id,
+                    orderState: nextState,
+                    description: description                
+                };
+
+                if (employee)
+                    stateDetails.employeeId = employee.id;
+
+                await CustomerOrderStateDetailsService.create(stateDetails);
+                setDescription("");
                 setVisible(false);
             }
         } catch (e) {
