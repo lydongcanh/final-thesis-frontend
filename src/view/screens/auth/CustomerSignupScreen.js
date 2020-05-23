@@ -93,11 +93,11 @@ export default function CustomerSignupScreen({ navigation }) {
             email: username,
             vipLevel: CUSTOMER_VIP_LEVELS.VIP_0 
         });
-        console.log(customerResult);
+        //console.log(customerResult);
 
         account.customerId = customerResult.data.id;
-        const updateAccountResult = await AccountService.update(account);
-        console.log(updateAccountResult);
+        await AccountService.update(account);
+        //console.log(updateAccountResult);
 
         dispatch(login(account, true));
         navigation.navigate("CustomerHome");

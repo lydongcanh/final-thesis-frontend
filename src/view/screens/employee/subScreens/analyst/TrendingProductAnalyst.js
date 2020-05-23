@@ -35,9 +35,9 @@ export default function TrendingProductAnalyst({ route }) {
         for(const item of rawData) {
             data.push((
                 <DataTable.Row key={item.id}>
-                    <DataTable.Cell>{item.name}</DataTable.Cell>
-                    <DataTable.Cell>{item.quantity}</DataTable.Cell>
-                    <DataTable.Cell>{formatCurrency(item.revenue)}VNĐ</DataTable.Cell>
+                    <DataTable.Cell key={item.id + "1"}>{item.name}</DataTable.Cell>
+                    <DataTable.Cell key={item.id + "2"}>{item.quantity}</DataTable.Cell>
+                    <DataTable.Cell key={item.id + "3"}>{formatCurrency(item.revenue)}VNĐ</DataTable.Cell>
                 </DataTable.Row>
             ));
         }

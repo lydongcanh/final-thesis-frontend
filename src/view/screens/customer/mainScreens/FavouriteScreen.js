@@ -42,6 +42,7 @@ export default function FavouriteScreen({ navigation }) {
                 setIsLoaded(true);
             } else {
                 navigation.navigate("Login");
+                alert("Chua dang nhap...");
                 setIsLoaded(true);
             }
         } catch(e) {
@@ -53,7 +54,6 @@ export default function FavouriteScreen({ navigation }) {
     }
     
     function getFavouriteProductsUI() {
-
         if (isLoading)
             return <ActivityIndicator style={{ flex: 1, alignContent: "center" }} />
 

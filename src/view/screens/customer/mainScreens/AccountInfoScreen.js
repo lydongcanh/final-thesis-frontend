@@ -30,14 +30,29 @@ export default function AccountInfoScreen({ navigation }) {
     const [isLoading, setIsLoading] = useState(true);
     const [isLoaded, setIsLoaded] = useState(false);
     const [orders, setOrders] = useState([]);
+    const [account, setAccount] = useState();
 
     const dispatch = useDispatch();
     const auth = useSelector(state => state.authReducer);
-    const account = auth.account;
 
     useEffect(() => {
+        const unsubscribe = navigation.addListener('focus', () => {
+            loadAccount();
+            loadOrders();
+        });
+      
+        return unsubscribe;
+    }, []);
+
+    useEffect(() => {
+        loadAccount();
         loadOrders();
-    }, [account]);
+    }, []);
+
+    function loadAccount() {
+        const account = auth.account;
+        setAccount(account);
+    }
 
     async function loadOrders() {
         try {
