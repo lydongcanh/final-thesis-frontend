@@ -42,7 +42,6 @@ export default function FavouriteScreen({ navigation }) {
                 setIsLoaded(true);
             } else {
                 navigation.navigate("Login");
-                alert("Chua dang nhap...");
                 setIsLoaded(true);
             }
         } catch(e) {

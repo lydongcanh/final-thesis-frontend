@@ -52,8 +52,7 @@ export default function AnalystScreen({ navigation }) {
 
     function getTrendingData() {
         if (!orderDetails || orderDetails.length < 1) {
-            setTrendingData([]);
-            return;
+            return [];
         }
 
         let rawData = [];

@@ -2,6 +2,7 @@
 export const rootEndpoint = "http://10.0.2.2:5001/api"; // For Android localhost emulator debugging.
 export const accountsEndpoint = rootEndpoint + "/accounts";
 export const customerCartEndpoint = rootEndpoint + "/customerCartItems";
+export const customerOrderStateDetailsEndpoint = rootEndpoint + "/customerOrderStateDetails";
 export const customerOrderDetailsEndpoint = rootEndpoint + "/customerOrderDetails";
 export const customerOrdersEndpoint = rootEndpoint + "/customerOrders";
 export const customerProductDetailsEndpoint = rootEndpoint + "/customerProductDetails";

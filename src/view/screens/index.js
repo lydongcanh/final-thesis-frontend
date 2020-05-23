@@ -3,6 +3,7 @@ export { default as EmployeeHomeScreen } from "./EmployeeHomeScreen";
 export { default as ManagementScreen } from "./ManagementScreen";
 export { default as WelcomeScreen } from "./WelcomeScreen";
 export { default as LoginScreen } from "./auth/LoginScreen";
+export { default as ChangePasswordScreen } from "./auth/ChangePasswordScreen";
 
 export { default as CustomerSignupScreen } from "./auth/CustomerSignupScreen";
 export { default as CustomerAccountInfoScreen } from "./customer/mainScreens/AccountInfoScreen";

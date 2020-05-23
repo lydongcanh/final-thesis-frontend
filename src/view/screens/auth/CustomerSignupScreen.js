@@ -107,7 +107,7 @@ export default function CustomerSignupScreen({ navigation }) {
     function getContentUI() {
         if (isLoading)
             return <ActivityIndicator style={{ flex: 1, alignContent: "center", margin: 8 }} />
-          
+        
         return (
             <Card
                 appearance="filled"

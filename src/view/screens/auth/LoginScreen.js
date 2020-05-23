@@ -7,6 +7,7 @@ import { Texts } from "../../../core/texts";
 import { login } from "../../redux/actions/authActions";
 import { AccountService } from "../../../core/services";
 import { ACCOUNT_TYPES } from "../../../core/types";
+import { Space } from "../../components/others";
 
 /**
  * @param {*} param0 route.params.shouldGoBack 
@@ -83,6 +84,7 @@ export default function LoginScreen({ navigation, route }) {
                     onChangeText={setUsername}
                     value={username}
                 />
+                <Space />
                 <Input
                     icon={showPasswordIcon}
                     disabled={isLoading}

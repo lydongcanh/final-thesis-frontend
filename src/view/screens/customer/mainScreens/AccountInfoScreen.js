@@ -84,7 +84,9 @@ export default function AccountInfoScreen({ navigation }) {
     }
 
     function handleChangePasswordButton() {
-        alert("Đang cập nhật...");
+        navigation.navigate("ChangePassword", {
+            account: account
+        });
     }
 
     function handleCompletedOrdersButton() {
