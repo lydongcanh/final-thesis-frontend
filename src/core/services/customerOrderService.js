@@ -43,6 +43,7 @@ class CustomerOrderService extends BaseService {
                 return orderResult.error;
 
             const order = orderResult.data;
+            const details = [];
             for(let item of cartItems) {
                 try {
                     const data = {
@@ -51,12 +52,14 @@ class CustomerOrderService extends BaseService {
                         productDetailsId: item.productDetails.id,
                         customerOrderId: order.id
                     }
-                    await CustomerOrderDetailsService.create(data);
+                    const detail = await CustomerOrderDetailsService.create(data);
+                    details.push(detail.data);
                     CustomerCartService.delete(item.id);
                 } catch (e) {
                     return { error: e }
                 }
             }
+            order.orderDetails = details;
             return { data: order };
         } catch(e) {
             return { error: e };

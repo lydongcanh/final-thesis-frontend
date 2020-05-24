@@ -60,7 +60,7 @@ export default function ProductPurchaseScreen({ navigation, route }) {
                         Toast.show({
                             text: Texts.CART_ITEM_ADDED,
                             type: "success",
-                            buttonText: "Thanh toán",
+                            buttonText: "Giỏ hàng",
                             duration: 3000,
                             onClose: (reason) => { 
                                 if (reason === "user")

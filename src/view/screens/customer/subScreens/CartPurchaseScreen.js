@@ -42,7 +42,7 @@ export default function CartPurchaseScreen({ navigation, route }) {
                 Toast.show({
                     text: "Đơn hàng đã được đặt thành công",
                     type: "success",
-                    duration: 6000
+                    duration: 3000
                 });
             }
         } catch (e) {
@@ -101,7 +101,7 @@ export default function CartPurchaseScreen({ navigation, route }) {
                     onPress={handlePurchaseButton}
                     disabled={!isPurchasable()}
                 >
-                    Thanh toán
+                    Mua hàng
                 </Button>
             </View>
         );
