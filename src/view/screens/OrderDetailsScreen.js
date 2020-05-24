@@ -65,12 +65,8 @@ export default function OrderDetailsScreen({ navigation, route }) {
         setIsLoadingProductDetails(true);
         for(const details of order.orderDetails) {
             try {
-                if (!details.productDetails) {  
-                    const prdResult = await ProductDetailsService.getById(details.productDetailsId);
-                    const pResult = await ProductService.getById(prdResult.data.productId);
-                    details.productDetails = prdResult.data;
-                    details.productDetails.product = pResult.data;
-                }
+                const pResult = await ProductService.getById(details.productDetails.productId);
+                details.productDetails.product = pResult.data;
             } catch(e) {
                 console.log(e);
             }

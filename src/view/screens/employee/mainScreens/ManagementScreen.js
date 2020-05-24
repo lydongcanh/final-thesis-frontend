@@ -16,11 +16,11 @@ export default function ManagementScreen({ navigation }) {
             icon: "bookmark-outline",
             callback: () => navigation.navigate("EmployeeCollectionManagement")
         },
-        {
-            title: "Khuyến mãi",
-            icon: "scissors-outline",
-            callback: () => { alert("Đang cập nhật")}
-        },
+        // {
+        //     title: "Khuyến mãi",
+        //     icon: "scissors-outline",
+        //     callback: () => { alert("Đang cập nhật")}
+        // },
         {
             title: "Nhân viên",
             icon: "people-outline",

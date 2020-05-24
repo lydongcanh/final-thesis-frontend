@@ -114,9 +114,16 @@ export default function OrderScreen({ navigation }) {
                     icon={style => <Icon {...style} name="arrow-right-outline" />}
                     onPress={() => handleOrderChangeState(order, nextState)}
                 >
-                    {nextState}
+                    {getNextStateText(nextState)}
                 </Button>
             );
+        }
+
+        function getNextStateText(nextState) {
+            if (nextState === CUSTOMER_ORDER_TYPES.Pending)
+                return "Xác nhận";
+
+            return nextState;
         }
     }
 

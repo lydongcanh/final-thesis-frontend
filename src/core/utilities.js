@@ -25,3 +25,17 @@ export function getRandomColor() {
     }
     return color;
 }
+
+export function getMonths() {
+    const currentMonth = new Date().getMonth();
+    if (currentMonth < 4)
+        return [1, 2, 3];
+
+    if (currentMonth < 7)
+        return [4, 5, 6];
+
+    if (currentMonth < 10)
+        return [7, 8, 9];
+
+    return [10, 11, 12];
+}

@@ -3,6 +3,7 @@ import { Card, CardHeader, Modal, Text, Layout, Button, Input } from "@ui-kitten
 import { ActivityIndicator } from "react-native-paper";
 import { CustomerOrderService, CustomerOrderStateDetailsService } from "../../../core/services";
 import { Space } from ".";
+import { Toast } from "native-base";
 
 /**
  * 
@@ -35,6 +36,11 @@ export default function OrderChangeStateModal({ order, employee, nextState = "",
                     stateDetails.employeeId = employee.id;
 
                 await CustomerOrderStateDetailsService.create(stateDetails);
+                Toast.show({
+                    text: "Thành công chuyển hóa đơn sang trạng thái: " + nextState,
+                    type: "success",
+                    duration: 3000
+                });
                 setDescription("");
                 setVisible(false);
             }

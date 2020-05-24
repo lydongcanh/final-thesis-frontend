@@ -36,7 +36,6 @@ import { WelcomeScreen,
          EmployeeProductDetailsListManagementScreen,
          EmployeeProductDetailsListDetailsManagementScreen,
          EmployeeTrendingProductAnalystScreen,
-         EmployeeRevenueAnalystScreen,
          ChangePasswordScreen,
          OrderDetailsScreen,
         } from "./src/view/screens";
@@ -210,14 +209,9 @@ export default function App(props) {
                         component={EmployeeDetailsManagementScreen}
                     />
                     <Stack.Screen 
-                        options={{ title: "Sản phẩm bán chạy"}}
+                        options={{ title: "Chi tiết thống kê" }}
                         name="TrendingProductAnalyst"
                         component={EmployeeTrendingProductAnalystScreen}
-                    />
-                    <Stack.Screen 
-                        options={{ title: "Doanh thu"}}
-                        name="RevenueAnalyst"
-                        component={EmployeeRevenueAnalystScreen}
                     />
                 </Stack.Navigator>
             </NavigationContainer>

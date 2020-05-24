@@ -23,7 +23,7 @@ export { default as EmployeeAnalystScreen } from "./employee/mainScreens/Analyst
 export { default as EmployeeManagementScreen } from "./employee/mainScreens/ManagementScreen";
 export { default as EmployeeOrderScreen } from "./employee/mainScreens/OrderScreen";
 
-export { default as EmployeeRevenueAnalystScreen } from "./employee/subScreens/analyst/RevenueAnalyst";
+//export { default as EmployeeRevenueAnalystScreen } from "./employee/subScreens/analyst/RevenueAnalyst";
 export { default as EmployeeTrendingProductAnalystScreen } from "./employee/subScreens/analyst/TrendingProductAnalyst";
 
 export { default as EmployeeEmployeeManagementScreen } from "./employee/subScreens/EmployeeManagementScreen";
