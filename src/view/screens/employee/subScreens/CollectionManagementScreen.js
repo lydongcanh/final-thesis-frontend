@@ -8,6 +8,7 @@ import { ManagementTypes } from "../../../types";
 export default function CollectionManagementScreen({ navigation }) {
 
     const [data, setData] = useState([]);
+    const [searchText, setSearchText] = useState("");
 
     function handleNewButton() {
         navigation.navigate("CollectionDetails", { mode: ManagementTypes.CREATE });
@@ -19,10 +20,6 @@ export default function CollectionManagementScreen({ navigation }) {
             mode: ManagementTypes.UPDATE,
             collection: collection 
         });
-    }
-
-    function handleConfigButton() {
-        alert("Đang cập nhật");
     }
 
     function getCollectionListItemUI(collection) {
@@ -38,16 +35,25 @@ export default function CollectionManagementScreen({ navigation }) {
         );
     }
 
+    function handleOnSearch(text) {
+        setSearchText(text);
+    }
+
+    function getData() {
+        return data.filter(c => c.name.includes(searchText));
+    }
+
     return (
         <Layout style={{ flex: 1 }}>
             <ManagementTemplateScreen 
                 loadDataAsync={async () => await CollectionService.getAll()}
                 handleNewButton={handleNewButton}
-                handleConfigButton={handleConfigButton}
                 getListItemUI={getCollectionListItemUI}
-                data={data}
+                data={getData()}
                 setData={setData}
                 navigation={navigation}
+                showConfig={false}
+                handleOnSearch={handleOnSearch}
             />
         </Layout>
     );
