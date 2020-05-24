@@ -89,6 +89,7 @@ export default function ProductManagementScreen({ navigation, route }) {
                 data={data}
                 setData={setData}
                 navigation={navigation}
+                showSearchBox={false}
             />
         </Layout>
     );

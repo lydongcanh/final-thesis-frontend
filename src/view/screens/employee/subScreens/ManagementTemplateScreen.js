@@ -5,12 +5,12 @@ import { FlatList } from "react-native";
 import { LoadErrorPanel } from "../../../components/others";
 
 /**
- * @param props loadDataAsync, handleNewButton, handleConfigButton, getListItemUI, navigation
+ * @param props loadDataAsync, handleNewButton, handleConfigButton, getListItemUI, navigation,
  */
 export default function ManagementTemplateScreen ({ 
     loadDataAsync, handleNewButton, handleConfigButton = () => {}, getListItemUI, getConfigUI = () => {},
-    data, setData, navigation,
-    getOverrideListUI
+    data, setData, navigation, handleOnSearch = () => { },
+    getOverrideListUI, showSearchBox = true, showConfig = true
 }) {
 
     const [isLoading, setIsLoading] = useState(true);
@@ -49,10 +49,6 @@ export default function ManagementTemplateScreen ({
         }
     }
 
-    function handleOnSearch() {
-        alert("Đang cập nhật");
-    }
-
     function getListUI() {
         if (getOverrideListUI)
             return getOverrideListUI();
@@ -80,17 +76,22 @@ export default function ManagementTemplateScreen ({
     }
 
     function getConfigPanelUI() {
-        return (
-            <Layout>
-                <Layout style={{ flexDirection: "row", marginTop: 8, marginLeft: 8, marginRight: 8, padding: 8 }}>
+        function getSearchInput() {
+            if (showSearchBox)
+                return (
                     <Input 
                         icon={(style) => <Icon {...style} name="search-outline" />}
                         value={searchValue}
                         onChangeText={setSearchValue}
-                        onIconPress={handleOnSearch}
+                        onIconPress={() => handleOnSearch(searchValue)}
                         style={{ borderRadius: 50, flex: 50, backgroundColor: "white" }}
                     />
-                    {getNewButtonUI()}
+                );
+        }
+        
+        function getConfigButton() {
+            if (showConfig)
+                return (
                     <Button 
                         appearance="ghost"
                         icon={(style) => <Icon {...style} name="options-2-outline" />}
@@ -98,6 +99,15 @@ export default function ManagementTemplateScreen ({
                         //onPress={handleConfigButton}
                         onPress={() => setIsShowingConfig(true)}
                     />
+                )
+        }
+
+        return (
+            <Layout>
+                <Layout style={{ flexDirection: "row", marginTop: 8, marginLeft: 8, marginRight: 8, padding: 8 }}>
+                    {getSearchInput()}
+                    {getNewButtonUI()}
+                    {getConfigButton()}
                 </Layout>
                 <Divider />
                 <Modal 

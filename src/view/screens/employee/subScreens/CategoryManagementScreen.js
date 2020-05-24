@@ -139,7 +139,7 @@ export default function CategoryManagementScreen({ navigation }) {
             <Button
                 appearance="ghost"
                 icon={(style) => <Icon {...style} name="plus-outline" />} 
-                style={{ marginLeft: 8, borderRadius: 50, flex: 1 }}
+                style={{ margin: 8, borderRadius: 50, alignSelf: "flex-end" }}
                 onPress={() => handleAddChildButton(null, 0)}
             />
         );
@@ -147,17 +147,8 @@ export default function CategoryManagementScreen({ navigation }) {
 
     function getConfigPanelUI() {
         return (
-            <Layout style={{ marginBottom: 8 }}>
-                <Layout style={{ flexDirection: "row", marginTop: 8, marginLeft: 8, marginRight: 8, padding: 8 }}>
-                    <Input 
-                        icon={(style) => <Icon {...style} name="search-outline" />}
-                        value={searchValue}
-                        onChangeText={setSearchValue}
-                        onIconPress={handleOnSearch}
-                        style={{ borderRadius: 50, flex: 50, backgroundColor: "white" }}
-                    />
-                    {getNewButtonUI()}
-                </Layout>
+            <Layout style={{ marginBottom: 8, justifyContent: "flex-end" }}>
+                {getNewButtonUI()}
                 <Divider />
             </Layout>
         );

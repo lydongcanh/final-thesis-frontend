@@ -13,7 +13,12 @@ export default function EmployeeManagementScreen({ navigation }) {
     const [tabViewIndex, setTabViewIndex] = useState();
     const [lockAccountModalVisible, setLockAccountModalVisible] = useState(false);
     const [selectedAccount, setSelectedAccount] = useState();
+    const [searchText, setSearchText] = useState("");
 
+    function handleOnSearch(text) {
+        setSearchText(text);
+    }
+    
     function handleNewButton() {
         navigation.navigate("EmployeeDetails", { 
             mode: ManagementTypes.CREATE,
@@ -32,10 +37,6 @@ export default function EmployeeManagementScreen({ navigation }) {
     function handleOnEmployeeLockClick(employee) {
         setSelectedAccount(employee.account);
         setLockAccountModalVisible(true);
-    }
-
-    function handleConfigButton() {
-        alert("Đang cập nhật");
     }
 
     function getFooterUI(employee) {
@@ -103,10 +104,14 @@ export default function EmployeeManagementScreen({ navigation }) {
                 onSelect={setTabViewIndex}
             >
                 <Tab title={JOB_TITLES[0]}>
-                    {getListUI(data.filter(e => e.jobTitle === JOB_TITLES[0]))}
+                    {getListUI(data.filter(e => e.jobTitle === JOB_TITLES[0] &&
+                                                (e.name.includes(searchText) || 
+                                                 e.phoneNumber.includes(searchText))))}
                 </Tab>
                 <Tab title={JOB_TITLES[1]}>
-                    {getListUI(data.filter(e => e.jobTitle === JOB_TITLES[1]))}
+                {getListUI(data.filter(e => e.jobTitle === JOB_TITLES[1] &&
+                                                (e.name.includes(searchText) || 
+                                                 e.phoneNumber.includes(searchText))))}
                 </Tab>
             </TabView>
         );
@@ -117,12 +122,13 @@ export default function EmployeeManagementScreen({ navigation }) {
             <ManagementTemplateScreen 
                 loadDataAsync={async () => await EmployeeService.getAll()}
                 handleNewButton={handleNewButton}
-                handleConfigButton={handleConfigButton}
+                showConfig={false}
                 getListItemUI={getEmployeeListItemUI}
                 getOverrideListUI={getTabViewUI}
                 data={data}
                 setData={setData}
                 navigation={navigation}
+                handleOnSearch={handleOnSearch}
             />
             <LockAccountModal 
                 account={selectedAccount}

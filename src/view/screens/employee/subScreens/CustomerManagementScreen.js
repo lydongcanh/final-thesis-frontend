@@ -10,9 +10,10 @@ export default function CustomerManagementScreen({ navigation }) {
     const [data, setData] = useState([]);
     const [lockAccountModalVisible, setLockAccountModalVisible] = useState(false);
     const [selectedCustomer, setSelectedCustomer] = useState();
+    const [searchText, setSearchText] = useState("");
 
-    function handleConfigButton() {
-        alert("Đang cập nhật");
+    function handleOnSearch(text) {
+        setSearchText(text);
     }
 
     function handleOnCustomerDetailClick(customer) {
@@ -71,15 +72,20 @@ export default function CustomerManagementScreen({ navigation }) {
         );
     }
 
+    function getData() {
+        return data.filter(c => (c.name.includes(searchText) || (c.phoneNumber && c.phoneNumber.includes(searchText))));
+    }
+    
     return (
         <Layout style={{ flex: 1 }}>
             <ManagementTemplateScreen 
                 loadDataAsync={async () => await CustomerService.getAll()}
-                handleConfigButton={handleConfigButton}
+                showConfig={false}
                 getListItemUI={getCustomerListItemUI}
-                data={data}
+                data={getData()}
                 setData={setData}
                 navigation={navigation}
+                handleOnSearch={handleOnSearch}
             />
             <LockAccountModal 
                 account={selectedCustomer ? selectedCustomer.account : null}
