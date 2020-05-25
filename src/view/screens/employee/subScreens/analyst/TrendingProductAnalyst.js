@@ -1,19 +1,50 @@
-import React from "react";
+import React, { useState } from "react";
 import { ScrollView } from "react-native";
-import { Layout, Button, Text } from "@ui-kitten/components";
+import { Layout, Button, Text, Icon, TabView, Tab } from "@ui-kitten/components";
 import { DataTable, Divider } from "react-native-paper";
-import { Space } from "../../../../components/others";
-import { formatCurrency, getMonths } from "../../../../../core/utilities";
+import { Space, QuarterSelector, YearSelector } from "../../../../components/others";
+import { formatCurrency, getMonthsWithQuarter } from "../../../../../core/utilities";
 
 export default function TrendingProductAnalyst({ route }) {
 
-    const orders = route ? route.params.orders : null;
+    const [orders, setOrders] = useState(route ? route.params.orders : []);
+    const [year, setYear] = useState(new Date().getFullYear());
+    const [quarter, setQuarter] = useState(getCurrentQuarter());
+    const [availableYears, setAvailableYears] = useState(getAvailableYears(route ? route.params.orders : []));
+    const [tabViewIndex, setTabViewIndex] = useState(0);
+
+    function getAvailableYears(orders) {
+        if (!orders || orders.length < 1)
+            return [];
+
+        const years = [];
+        for (const order of orders) {
+            const year = new Date(Date.parse(order.creationDate)).getFullYear();
+            if (!years.includes(year))
+                years.push(year);
+        }
+        return years;
+    }
+
+    function getCurrentQuarter() {
+        const currentMonth = new Date().getMonth();
+        if (currentMonth < 4)
+            return 1;
+    
+        if (currentMonth < 7)
+            return 2;
+    
+        if (currentMonth < 10)
+            return 3;
+    
+        return 4;
+    }
 
     function getOrdersWithMonth(month) {
         const result = [];
         for (const order of orders) {
             const date = new Date(Date.parse(order.creationDate));
-            if ((date.getMonth() + 1) === month)
+            if ((date.getMonth() + 1) === month && date.getFullYear() === year)
                 result.push(order);
         }
         return result;
@@ -25,6 +56,14 @@ export default function TrendingProductAnalyst({ route }) {
             sum += detail.purchasedPrice;
         }
         return sum;
+    }
+
+    function getQuantity(orders) {
+        let quantity = 0;
+        for (const detail of getOrderDetails(orders)) {
+            quantity += detail.quantity;
+        }
+        return quantity;
     }
 
     function getDataRows(orderDetails) {
@@ -75,20 +114,35 @@ export default function TrendingProductAnalyst({ route }) {
     }
 
     function getTableUI(orders, month) {
+        if (!orders || orders.length < 1)
+            return <Text appearance="hint" style={{ textAlign: "center", marginTop: 16 }}>Không có thông tin.</Text>;
+
         return (
-            <Layout style={{ flex: 1 }}>
-                <Layout style={{ flexDirection: "row", justifyContent: "space-between" }}>
-                    <Text style={{ fontWeight: "bold", marginLeft: 16 }}>Tháng {month}</Text>
-                    <Text style={{ marginRight: 16 }} appearance="hint">{formatCurrency(getSum(orders))}VNĐ</Text>
+            <Layout key={(month + 1).toString()} style={{ flex: 1 }}>
+                <Layout key={(month + 2).toString()} style={{ marginLeft: 16 }}>
+                    <Text 
+                        key={(month + 4).toString()} 
+                        category="label" 
+                        appearance="hint"
+                    >
+                        Tổng doanh thu: {formatCurrency(getSum(orders))}VNĐ
+                    </Text>
+                    <Text
+                        key={(month + 5).toString()} 
+                        category="label" 
+                        appearance="hint"
+                    >
+                        Tổng sản phẩm tiêu thụ: {getQuantity(orders)}
+                    </Text>
                 </Layout>
-                <Divider style={{ marginTop: 8 }} />
-                <Layout style={{ flex: 1, paddingHorizontal: 8 }}>
-                    <ScrollView>
-                        <DataTable>
-                            <DataTable.Header>
-                                <DataTable.Title>Sản phẩm</DataTable.Title>
-                                <DataTable.Title>Số lượng bán</DataTable.Title>
-                                <DataTable.Title>Doanh thu</DataTable.Title>
+                <Divider key={(month + 6).toString()} style={{ marginTop: 8 }} />
+                <Layout key={(month + 7).toString()} style={{ flex: 1, paddingHorizontal: 8 }}>
+                    <ScrollView key={(month + 8).toString()}>
+                        <DataTable key={(month + 9).toString()}>
+                            <DataTable.Header key={(month + 10).toString()}>
+                                <DataTable.Title key={(month + 11).toString()}>Sản phẩm</DataTable.Title>
+                                <DataTable.Title key={(month + 12).toString()}>Số lượng bán</DataTable.Title>
+                                <DataTable.Title key={(month + 13).toString()}>Doanh thu</DataTable.Title>
                             </DataTable.Header>
 
                             {getDataRows(getOrderDetails(orders))}
@@ -100,14 +154,34 @@ export default function TrendingProductAnalyst({ route }) {
     }
 
     function getContentUI() {
-        return getMonths().map(month => {
-            return getTableUI(getOrdersWithMonth(month), month);
-        });
+        const months = getMonthsWithQuarter(quarter);
+        return (
+            <TabView
+                indicatorStyle={{ backgroundColor: "rgba(0, 0, 0, 0)" }}
+                selectedIndex={tabViewIndex}
+                onSelect={setTabViewIndex}
+                shouldLoadComponent={index => index === tabViewIndex}
+                style={{ flex: 1 }}
+            >
+                <Tab title={"Tháng " + months[0]}>
+                    {getTableUI(getOrdersWithMonth(months[0]), months[0])}
+                </Tab>
+                <Tab title={"Tháng " + months[1]}>
+                    {getTableUI(getOrdersWithMonth(months[1]), months[1])}
+                </Tab>
+                <Tab title={"Tháng " + months[2]}>
+                    {getTableUI(getOrdersWithMonth(months[2]), months[2])}
+                </Tab>
+            </TabView>
+        );
     }
 
     return (
-        <Layout style={{ flex: 1, justifyContent: "space-between" }}>
-            <Space />
+        <Layout style={{ flex: 1 }}>
+            <YearSelector data={availableYears} year={year} setYear={setYear} />
+            <QuarterSelector quarter={quarter} setQuarter={setQuarter} />
+
+            <Divider style={{ marginVertical: 8 }} />
             {getContentUI()}
         </Layout>
     )

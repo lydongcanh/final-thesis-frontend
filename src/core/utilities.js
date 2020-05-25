@@ -39,3 +39,16 @@ export function getMonths() {
 
     return [10, 11, 12];
 }
+
+export function getMonthsWithQuarter(quarter) {
+    if (quarter === 1)
+        return [1, 2, 3];
+
+    if (quarter === 2)
+        return [4, 5, 6];
+
+    if (quarter === 3)
+        return [7, 8, 9];
+
+    return [10, 11, 12];
+}

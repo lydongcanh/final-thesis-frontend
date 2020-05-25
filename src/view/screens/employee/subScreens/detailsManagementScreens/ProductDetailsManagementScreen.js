@@ -16,7 +16,7 @@ export default function ProductDetailsManagementScreen({ navigation, route }) {
     const [name, setName] = useState(product ? product.name : "");
     const [unitPrice, setUnitPrice] = useState(product ? product.unitPrice.toString() : null);
     const [mainImage, setMainImage] = useState(product ? product.mainImage : "");
-    const [subImages, setSubImages] = useState(product && product.subImages ? product.subImages : []);
+    //const [subImages, setSubImages] = useState(product && product.subImages ? product.subImages : []);
     const [category, setCategory] = useState(getDefaultCategory());
     const [isSelling, setIsSelling] = useState(product ? product.isSelling : true);
     
@@ -36,7 +36,7 @@ export default function ProductDetailsManagementScreen({ navigation, route }) {
             isSelling: isSelling,
             unitPrice: unitPrice, 
             mainImage: mainImage, 
-            subImages: subImages,
+            subImages: [],
             categoryId: category.id
         });
         return result;
@@ -49,7 +49,7 @@ export default function ProductDetailsManagementScreen({ navigation, route }) {
             isSelling: isSelling,
             unitPrice: unitPrice,
             mainImage: mainImage,
-            subImages: subImages,
+            subImages: [],
             categoryId: category.id
         });
         return result;
@@ -67,7 +67,7 @@ export default function ProductDetailsManagementScreen({ navigation, route }) {
         return name && name !== "" &&
                unitPrice && unitPrice !== "" &&
                mainImage && mainImage !== "" &&
-               subImages && subImages !== "" &&
+               //subImages && subImages !== "" &&
                category;
     }
 
@@ -148,7 +148,7 @@ export default function ProductDetailsManagementScreen({ navigation, route }) {
                     maxLength={200}
                 />
                 {getCategoryUI()}
-                {getSubImagesUI()}
+                {/* {getSubImagesUI()} */}
             </Layout>
         );
     }

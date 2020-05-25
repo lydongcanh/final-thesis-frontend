@@ -68,7 +68,7 @@ export default function ManagementTemplateScreen ({
                 <Button
                     appearance="ghost"
                     icon={(style) => <Icon {...style} name="plus-outline" />} 
-                    style={{ marginLeft: 8, borderRadius: 50, flex: 1 }}
+                    style={{ marginLeft: 8, borderRadius: 50, flex: 1, alignSelf: "flex-end" }}
                     onPress={handleNewButton}
                 />
             )

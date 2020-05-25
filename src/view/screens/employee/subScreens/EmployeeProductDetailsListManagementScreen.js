@@ -46,6 +46,8 @@ export default function EmployeeProductDetailsListManagementScreen({ navigation,
                 data={data}
                 setData={setData}
                 navigation={navigation}
+                showConfig={false}
+                showSearchBox={false}
             />
         </Layout>
     );

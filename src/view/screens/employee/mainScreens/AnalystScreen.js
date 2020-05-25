@@ -186,6 +186,7 @@ export default function AnalystScreen({ navigation }) {
                     accessor="unit"
                     backgroundColor="transparent"
                     paddingLeft="16"
+                    absolute
                 />
             </Layout>
         );
