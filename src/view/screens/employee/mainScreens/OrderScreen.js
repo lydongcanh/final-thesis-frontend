@@ -37,6 +37,14 @@ export default function OrderScreen({ navigation }) {
         loadOrders();
     }, []);
 
+    // useEffect(() => {
+    //     const unsubscribe = navigation.addListener('focus', () => {
+    //         loadOrders();
+    //     });
+      
+    //     return unsubscribe;
+    // }, []);
+
     async function loadOrders() {
         try {
             setIsLoading(true);
@@ -120,7 +128,7 @@ export default function OrderScreen({ navigation }) {
         }
 
         function getNextStateText(nextState) {
-            if (nextState === CUSTOMER_ORDER_TYPES.Pending)
+            if (nextState === CUSTOMER_ORDER_TYPES.Delivering)
                 return "Xác nhận";
 
             return nextState;

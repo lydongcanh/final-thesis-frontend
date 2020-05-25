@@ -21,11 +21,11 @@ export default function ProductDetailsManagementScreen({ navigation, route }) {
     const [isSelling, setIsSelling] = useState(product ? product.isSelling : true);
     
     function getDefaultCategory() {
-        if (product)
-            return product.category;
-
         if (fixedCategory)
             return fixedCategory;
+
+        if (product)
+            return product.category;
 
         return null;
     }

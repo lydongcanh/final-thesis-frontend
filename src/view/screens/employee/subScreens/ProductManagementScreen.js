@@ -10,6 +10,9 @@ export default function ProductManagementScreen({ navigation, route }) {
     const category = route ? route.params.category : null;
     const [data, setData] = useState([]);
 
+    if (category)
+        navigation.setOptions({ title: category.name });
+    
     async function loadProductsAsync() {
         if (category) {
             return await ProductService.getByCategoryId(category.id);
@@ -32,8 +35,9 @@ export default function ProductManagementScreen({ navigation, route }) {
     function handleProductInfoButton(product) {
         navigation.navigate("ProductDetails", { 
             mode: ManagementTypes.UPDATE,
-            product: product 
-        })
+            product: product,
+            category: category
+        });
     }
 
     function handleProductDetailsButton(product) {
@@ -72,7 +76,7 @@ export default function ProductManagementScreen({ navigation, route }) {
             <Card 
                 style={{ margin: 16 }}
                 disabled
-                header={() => <ProductVerticalListItem product={product} />}
+                header={() => <ProductVerticalListItem product={product} showCategory={false} />}
             >
                 {getProductBottomPanel(product)}
             </Card>

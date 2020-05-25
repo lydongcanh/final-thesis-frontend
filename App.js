@@ -131,7 +131,7 @@ export default function App(props) {
                         component={CustomerCartScreen}
                     />
                     <Stack.Screen 
-                        options={{ title: "Thanh toán" }}
+                        options={{ title: "Mua hàng" }}
                         name="CustomerCartPurchase"
                         component={CustomerCartPurchaseScreen}
                     />

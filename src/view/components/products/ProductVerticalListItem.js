@@ -25,7 +25,7 @@ export default function ProductVerticalListItem({ product, showCategory = true, 
         <Layout style={{ flexDirection: "row", marginLeft: 16, marginTop: 8, alignItems: "center" }}>
             <Image 
                 source={{ uri: product.mainImage }}
-                style={{ borderRadius: 50, width: 50, height: 50 }}
+                style={{ borderRadius: 50, width: 50, height: 50, marginBottom: 8 }}
             />
             <Layout style={{ margin: 8, alignContent: "center" }}>
                 <Text numberOfLines={1} style={{ fontWeight: "bold", width: 190 }}>{product.name}</Text>

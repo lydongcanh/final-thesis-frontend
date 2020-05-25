@@ -31,7 +31,7 @@ export default function ProductDetailsListDetailsManagementScreen({ navigation, 
                 color: color,
                 productId: product.id,
                 unitsInStock: unitsInStock
-            })
+            });
         }
     }
 

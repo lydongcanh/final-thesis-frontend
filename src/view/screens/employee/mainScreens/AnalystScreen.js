@@ -3,7 +3,6 @@ import { Platform, StatusBar, Dimensions } from "react-native";
 import { Button, Layout, Text } from "@ui-kitten/components";
 import { LineChart, PieChart } from "react-native-chart-kit";
 import { Divider, ActivityIndicator } from "react-native-paper";
-import randomFlatColors from "random-flat-colors"
 import { EmployeeScreensHeader, Space, LoadErrorPanel } from "../../../components/others";
 import { CustomerOrderService, ProductService } from "../../../../core/services";
 import { CUSTOMER_ORDER_TYPES } from "../../../../core/types";
@@ -11,12 +10,26 @@ import { getMonths } from "../../../../core/utilities";
 
 export default function AnalystScreen({ navigation }) {
 
-    const TRENDING_PRODUCT_COUNT = 5;
+    const colors = [
+        "#393e46",
+        "#00adb5",
+        "#30e3ca",
+        "#e4f9f5",
+        "#eeeeee"
+    ];
 
     const [isLoading, setIsLoading] = useState(false);
     const [isLoaded, setIsLoaded] = useState(false);
     const [orders, setOrders] = useState([]);
     const [trendingData, setTrendingData] = useState([]);
+
+    // useEffect(() => {
+    //     const unsubscribe = navigation.addListener('focus', () => {
+    //         loadOrders();
+    //     });
+      
+    //     return unsubscribe;
+    // }, []);
 
     useEffect(() => {
         loadOrders();
@@ -59,21 +72,21 @@ export default function AnalystScreen({ navigation }) {
                             rawData.push({
                                 id: product.id,
                                 name: product.name,
-                                unit: 0,
+                                unit: detail.quantity,
                             });
                     }
                     
                 }
                 const data = [];
-                rawData = rawData.sort((a, b) => a.unit - b.unit);
+                rawData = rawData.sort((a, b) => b.unit - a.unit);
         
                 let otherProductSum = 0;
                 for (let i = 0; i < rawData.length; i++) {
-                    if (i < TRENDING_PRODUCT_COUNT) {
+                    if (i < colors.length - 1) {
                         data.push({
                             name: rawData[i].name,
                             unit: rawData[i].unit,
-                            color: randomFlatColors()
+                            color: colors[i]
                         })
                     } else {
                         otherProductSum += rawData[i].unit;
@@ -82,7 +95,7 @@ export default function AnalystScreen({ navigation }) {
                 data.push({
                     name: "Khác",
                     unit: otherProductSum,
-                    color: randomFlatColors()
+                    color: colors[colors.length - 1]
                 });
                 setTrendingData(data);
                 setOrders(orders);
@@ -202,7 +215,7 @@ export default function AnalystScreen({ navigation }) {
         return (
             <Layout style={{ flex: 1 }}>
                 <Layout style={{ flexDirection: "row", justifyContent: "space-between" }}>
-                    <Text category="h6" style={{ marginLeft: 8 }}>Thống kê tháng {getMonths().join(", ")}</Text>
+                    <Text category="h6" style={{ marginLeft: 8 }}>Thống kê tháng {getMonths().join(", ")} năm {new Date().getFullYear()}</Text>
                     <Button
                         size="tiny"
                         appearance="ghost"
