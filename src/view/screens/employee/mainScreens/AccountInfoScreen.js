@@ -22,8 +22,7 @@ export default function AccountInfoScreen({ navigation }) {
         {
             title: "Hóa đơn đã xủ lý",
             icon: "pricetags-outline",
-            //callback: handleCompletedOrdersButton
-            callback: () => alert("Đang cập nhật...")
+            callback: handleOrderStateButton
         },
     ];
 
@@ -36,9 +35,11 @@ export default function AccountInfoScreen({ navigation }) {
     }
 
     function handleChangePasswordButton() {
-        navigation.navigate("ChangePassword", {
-            account: account
-        });
+        navigation.navigate("ChangePassword", { account: account });
+    }
+
+    function handleOrderStateButton() {
+        navigation.navigate("EmployeeOrderState", { employee: account.employee })
     }
 
     function handleLogoutButton() {

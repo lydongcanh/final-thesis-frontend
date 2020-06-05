@@ -17,6 +17,26 @@ export function formatDate(date) {
     return [day, month, year].join('/');
 }
 
+export function formatDateTime(date) {
+    var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear(),
+        hour = d.getHours(),
+        minute = d.getMinutes();
+
+    if (month.length < 2)
+        month = '0' + month;
+    if (day.length < 2)
+        day = '0' + day;
+    if (hour < 10)
+        hour = '0' + hour;
+    if (minute < 10)
+        minute = '0' + minute;
+
+    return [day, month, year].join('/') + ` ${hour}:${minute}`;
+}
+
 export function getRandomColor() {
     const letters = '0123456789ABCDEF';
     let color = '#';

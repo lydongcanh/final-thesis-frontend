@@ -27,6 +27,7 @@ export { default as EmployeeOrderScreen } from "./employee/mainScreens/OrderScre
 export { default as EmployeeTrendingProductAnalystScreen } from "./employee/subScreens/analyst/TrendingProductAnalyst";
 
 export { default as EmployeeAccountDetailsScreen } from "./employee/subScreens/EmployeeAccountDetailsScreen";
+export { default as EmployeeOrderStateScreen } from "./employee/subScreens/OrderStateScreen";
 
 export { default as EmployeeEmployeeManagementScreen } from "./employee/subScreens/EmployeeManagementScreen";
 export { default as EmployeeCustomerManagementScreen } from "./employee/subScreens/CustomerManagementScreen";
