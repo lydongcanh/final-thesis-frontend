@@ -3,7 +3,7 @@ import { Image, FlatList } from "react-native";
 import { Text, Layout, Button } from "@ui-kitten/components";
 import Timeline from 'react-native-timeline-flatlist'
 import { Divider, ActivityIndicator } from "react-native-paper";
-import { formatDate, formatCurrency } from "../../core/utilities";
+import { formatDate, formatDateTime, formatCurrency } from "../../core/utilities";
 import { Space } from "../components/others";
 import { CustomerOrderService, CustomerService, CustomerOrderStateDetailsService,
          ProductDetailsService, ProductService } from "../../core/services";
@@ -106,9 +106,9 @@ export default function OrderDetailsScreen({ navigation, route }) {
         for(const detail of order.stateDetails) {
             data.push({
                 key: detail.orderState,
-                time: formatDate(detail.creationDate),
+                time: formatDateTime(detail.creationDate),
                 title: detail.orderState,
-                description: detail.description
+                description: detail.description ? "Ghi chú: " + detail.description : "Không có ghi chú"
             });
         }
 
@@ -171,7 +171,7 @@ export default function OrderDetailsScreen({ navigation, route }) {
                     <Text category="label" style={{ marginBottom: 8 }}>Thông tin hóa đơn</Text>
                     <Divider style={{ marginBottom: 8 }}/>
                     {getId()}
-                    <Text>Giá: {formatCurrency(CustomerOrderService.calculateFinalPrice(order))}VND</Text>
+                    <Text>Tổng tiền: {formatCurrency(CustomerOrderService.calculateFinalPrice(order))}VND</Text>
                     <Text>Trạng thái: {order.orderState}</Text>
                     <Text>Ngày tạo: {formatDate(order.creationDate)}</Text>
                     {getDescriptionUI()}
