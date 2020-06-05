@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { Platform, StatusBar, Image, View } from "react-native";
-import { Layout, Text, Button, List, ListItem, Icon } from "@ui-kitten/components";
+import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Space, EmployeeScreensHeader } from "../../../components/others";
+import { Platform, StatusBar, Image } from "react-native";
+import { Layout, Text, Button, List, ListItem, Icon } from "@ui-kitten/components";
+import { Divider } from "react-native-paper";
 import { logout } from "../../../redux/actions/authActions";
-import { Divider, ActivityIndicator } from "react-native-paper";
+import { Space, EmployeeScreensHeader } from "../../../components/others";
 
 export default function AccountInfoScreen({ navigation }) {
     
@@ -27,17 +27,12 @@ export default function AccountInfoScreen({ navigation }) {
         },
     ];
 
-    const [isLoading, setIsLoading] = useState(true);
-    const [isLoaded, setIsLoaded] = useState(false);
-    const [orders, setOrders] = useState([]);
-
     const dispatch = useDispatch();
     const auth = useSelector(state => state.authReducer);
     const account = auth.account;
 
     function handleAccountDetailsButton() {
-        //navigation.navigate("CustomerAccountDetails", { customer: account.customer })
-        alert("Đang cập nhật...");
+        navigation.navigate("EmployeeAccountDetails", { employee: account.employee })
     }
 
     function handleChangePasswordButton() {
@@ -47,9 +42,7 @@ export default function AccountInfoScreen({ navigation }) {
     }
 
     function handleLogoutButton() {
-        setIsLoading(true);
         dispatch(logout());
-        setIsLoading(false);
     }
 
     function getAccountFunctionUI({ item }) {
@@ -128,25 +121,6 @@ export default function AccountInfoScreen({ navigation }) {
     }
 
     function getAccountContent() {
-        // if (isLoading)
-        //     return <ActivityIndicator style={{ flex: 1, alignSelf: "center" }} />
-
-        // if (!isLoaded) {
-        //     return (
-        //         <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        //             <Text appearance="hint">Có lỗi xảy ra khi load dữ liệu, xin thử lại!</Text>
-        //             <Space />
-        //             <Button
-        //                 size="tiny"
-        //                 icon={(style) => <Icon {...style} name="sync" />}
-        //                 onPress={loadOrders}
-        //             >
-        //                 Thử lại
-        //             </Button>
-        //         </View>
-        //     );
-        // }
-
         // TODO: check persisted account.
 
         if (auth.loggedIn)
