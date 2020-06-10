@@ -10,7 +10,7 @@ import { CollectionService, CollectionDetailsService } from "../../../../../core
 export default function CollectionDetailsManagementScreen({ route, navigation }) {
 
     const collection = route ? route.params.collection : null;
-    const collections = route ? route.params.collections : null;
+    const collections = route ? route.params.collections : [];
     const [name, setName] = useState(collection ? collection.name : null);
     const [showOnMainPage, setShowOnMainPage] = useState(collection ? collection.showOnMainPage : true);
     const [details, setDetails] = useState(collection ? collection.details : []);

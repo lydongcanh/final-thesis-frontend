@@ -12,7 +12,7 @@ import DetailsManagementTemplateScreen from "./DetailsManagementTemplateScreen";
 export default function ProductDetailsManagementScreen({ navigation, route }) {
 
     const product = route ? route.params.product : null;
-    const products = route ? route.params.products : null;
+    const products = route ? route.params.products : [];
     const fixedCategory = route ? route.params.category : null;
 
     const [name, setName] = useState(product ? product.name : "");

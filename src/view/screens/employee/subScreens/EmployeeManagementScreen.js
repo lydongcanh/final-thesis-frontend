@@ -109,7 +109,7 @@ export default function EmployeeManagementScreen({ navigation }) {
                                                  e.phoneNumber.includes(searchText))))}
                 </Tab>
                 <Tab title={JOB_TITLES[1]}>
-                {getListUI(data.filter(e => e.jobTitle === JOB_TITLES[1] &&
+                    {getListUI(data.filter(e => e.jobTitle === JOB_TITLES[1] &&
                                                 (e.name.includes(searchText) || 
                                                  e.phoneNumber.includes(searchText))))}
                 </Tab>
