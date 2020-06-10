@@ -11,14 +11,18 @@ export default function CollectionManagementScreen({ navigation }) {
     const [searchText, setSearchText] = useState("");
 
     function handleNewButton() {
-        navigation.navigate("CollectionDetails", { mode: ManagementTypes.CREATE });
+        navigation.navigate("CollectionDetails", { 
+            mode: ManagementTypes.CREATE,
+            collections: data
+        });
     }
 
     /** When user click on a card. */
     function handleCollectionDetailsButton(collection) {
         navigation.navigate("CollectionDetails", { 
             mode: ManagementTypes.UPDATE,
-            collection: collection 
+            collection: collection,
+            collections: data
         });
     }
 

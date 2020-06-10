@@ -10,11 +10,16 @@ import { CollectionService, CollectionDetailsService } from "../../../../../core
 export default function CollectionDetailsManagementScreen({ route, navigation }) {
 
     const collection = route ? route.params.collection : null;
+    const collections = route ? route.params.collections : null;
     const [name, setName] = useState(collection ? collection.name : null);
-    const [showOnMainPage, setShowOnMainPage] = useState(collection ? collection.showOnMainPage : false);
+    const [showOnMainPage, setShowOnMainPage] = useState(collection ? collection.showOnMainPage : true);
     const [details, setDetails] = useState(collection ? collection.details : []);
+    const [nameMessage, setNameMessage] = useState("");
 
     async function createCollection() {
+        if (!validateInputs())
+            return { error: true };
+
         alert(JSON.stringify({
             name, showOnMainPage, details
         }, null, 2));
@@ -22,6 +27,8 @@ export default function CollectionDetailsManagementScreen({ route, navigation })
     }
 
     async function updateCollection() {
+        if (!validateInputs())
+            return { error: true };
 
         for(const detail of collection.details) {
             if (!details.includes(detail))
@@ -35,6 +42,16 @@ export default function CollectionDetailsManagementScreen({ route, navigation })
         return result;
     }
 
+    function validateInputs() {
+        for(const c of collections) {
+            if (c.name == name && (!collection || collection.name != c.name)) {
+                setNameMessage("Tên bộ sưu tập đã tồn tại.");
+                return false;
+            }
+        }
+        return true;
+    }
+
     function removeDetail(detail) {
         setDetails(details.filter(d => d.id !== detail.id));
     }
@@ -42,6 +59,7 @@ export default function CollectionDetailsManagementScreen({ route, navigation })
     function resetInputValues() {
         setName("");
         setProducts([]);
+        setNameMessage("");
     }
 
     function canAdd() {
@@ -51,7 +69,7 @@ export default function CollectionDetailsManagementScreen({ route, navigation })
     function getHeader() {
         return (
             <Layout style={{ flexDirection: "row", justifyContent: "space-between", padding: 8 }}>
-                <Text>Sản phẩm</Text>
+                <Text category="h6" style={{ marginLeft: 8 }}>Sản phẩm</Text>
                 <Button 
                     size="tiny"
                     appearance="ghost"
@@ -110,6 +128,8 @@ export default function CollectionDetailsManagementScreen({ route, navigation })
                     </Layout>
                 </Layout>
                 <Input
+                    caption={nameMessage}
+                    status={(nameMessage && nameMessage != "") ? "danger" : "basic"}
                     value={name}
                     onChangeText={setName}
                     style={styles.input}
