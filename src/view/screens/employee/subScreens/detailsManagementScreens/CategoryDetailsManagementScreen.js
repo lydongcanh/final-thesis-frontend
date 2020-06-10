@@ -15,12 +15,8 @@ export default function CategoryDetailsManagementScreen({ navigation, route }) {
     const [nameMessage, setNameMessage] = useState("");
 
     async function createCategory() {
-        for(const category of getSameLevelCategories()) {
-            if (category.name == name) {
-                setNameMessage("Tên sản phẩm đã tồn tại.");
-                return { error: true }
-            }
-        }
+        if (!validateInput())
+            return { error: true };
 
         const newCategory = {
             name: name,
@@ -37,17 +33,26 @@ export default function CategoryDetailsManagementScreen({ navigation, route }) {
     }
 
     async function updateCategory() {
-        for(const category of getSameLevelCategories()) {
-            if (category.name == name && category.name != node.name) {
-                setNameMessage("Tên sản phẩm đã tồn tại.");
-                return { error: true }
-            }
-        }
+        if (!validateInput())
+            return { error: true };
 
         node.name = name;
         node.description = description;
         const result = await CategoryService.update(node);
         return result;
+    }
+
+    function validateInput() {
+        const sameLevelCategories = getSameLevelCategories();
+        if (sameLevelCategories) {
+            for(const category of sameLevelCategories) {
+                if (category.name == name && category.name != node.name) {
+                    setNameMessage("Tên sản phẩm đã tồn tại.");
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     function getSameLevelCategories() {
