@@ -65,6 +65,7 @@ export default function LeafCategorySelector({ selectedCategory, setSelectedCate
     function getCategoryButton(level, item, selectedCategory, setCategoryFunc) {
         return (
             <Button
+                disabled={(level == 0 || level == 1) && (!item.childrenCategories || item.childrenCategories.lenght < 1)}
                 size="tiny"
                 style={{ margin: 8, borderRadius: 24 }}
                 onPress={() => handleCategoryButton(level, item, setCategoryFunc)}
