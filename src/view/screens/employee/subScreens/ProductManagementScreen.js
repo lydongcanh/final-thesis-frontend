@@ -24,7 +24,8 @@ export default function ProductManagementScreen({ navigation, route }) {
     function handleNewButton() {
         navigation.navigate("ProductDetails", { 
             mode: ManagementTypes.CREATE,
-            category: category
+            category: category,
+            products: data
         });
     }
 
@@ -36,6 +37,7 @@ export default function ProductManagementScreen({ navigation, route }) {
         navigation.navigate("ProductDetails", { 
             mode: ManagementTypes.UPDATE,
             product: product,
+            products: data,
             category: category
         });
     }

@@ -2,15 +2,17 @@ import React, { useState } from "react";
 import { FlatList } from "react-native";
 import { Layout, Input, Text, Card, CardHeader, Button } from "@ui-kitten/components";
 import { Switch } from "react-native-paper";
-import { styles } from "../../../../styles";
 import { LeafCategorySelector } from "../../../../components/categories";
 import { ProductService } from "../../../../../core/services";
 import { formatDate } from "../../../../../core/utilities";
+import { validatePositiveInt } from "../../../../../core/validations";
+import { styles } from "../../../../styles";
 import DetailsManagementTemplateScreen from "./DetailsManagementTemplateScreen";
 
 export default function ProductDetailsManagementScreen({ navigation, route }) {
 
     const product = route ? route.params.product : null;
+    const products = route ? route.params.products : null;
     const fixedCategory = route ? route.params.category : null;
 
     const [name, setName] = useState(product ? product.name : "");
@@ -20,6 +22,9 @@ export default function ProductDetailsManagementScreen({ navigation, route }) {
     const [category, setCategory] = useState(getDefaultCategory());
     const [isSelling, setIsSelling] = useState(product ? product.isSelling : true);
     
+    const [nameMessage, setNameMessage] = useState("");
+    const [priceMessage, setPriceMessage] = useState("");
+
     function getDefaultCategory() {
         if (fixedCategory)
             return fixedCategory;
@@ -31,6 +36,9 @@ export default function ProductDetailsManagementScreen({ navigation, route }) {
     }
 
     async function createProduct() {
+        if (!validateInputs())
+            return { error: true };
+
         const result = await ProductService.create({
             name: name,
             isSelling: isSelling,
@@ -43,6 +51,9 @@ export default function ProductDetailsManagementScreen({ navigation, route }) {
     }
 
     async function updateProduct() {
+        if (!validateInputs())
+            return { error: true };
+
         const result = await ProductService.update({
             id: product.id,
             name: name,
@@ -55,12 +66,35 @@ export default function ProductDetailsManagementScreen({ navigation, route }) {
         return result;
     }
 
+    function validateInputs() {
+        let validFlag = true;
+
+        if (!validatePositiveInt(unitPrice)) {
+            setPriceMessage("Giá sản phẩm không hợp lệ.");
+            validFlag = false;
+        }
+
+        if (products && products.length > 0) {
+            for(const p of products) {
+                if (p.name == name && (!product || product.name != p.name)) {
+                    setNameMessage("Tên sản phẩm đã tồn tại.");
+                    validFlag = false;
+                    break;
+                }
+            }
+        }
+
+        return validFlag;
+    }
+
     function resetInputValues() {
         setName("");
         setUnitPrice("");
         setMainImage("");
         setSubImages([]);
         setCategory(null);
+        setNameMessage("");
+        setPriceMessage("");
     }
 
     function canAdd() {
@@ -126,6 +160,8 @@ export default function ProductDetailsManagementScreen({ navigation, route }) {
                     </Layout>
                 </Layout>
                 <Input
+                    caption={nameMessage}
+                    status={(nameMessage && nameMessage != "") ? "danger" : "basic"}
                     value={name}
                     onChangeText={setName}
                     style={styles.input}
@@ -133,6 +169,8 @@ export default function ProductDetailsManagementScreen({ navigation, route }) {
                     maxLength={100}
                 />
                 <Input
+                    caption={priceMessage}
+                    status={(priceMessage && priceMessage != "") ? "danger" : "basic"}
                     value={unitPrice}
                     onChangeText={setUnitPrice}
                     style={styles.input}

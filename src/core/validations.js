@@ -36,4 +36,12 @@ export function validateInt(value) {
     return !isNaN(value) && 
            parseInt(Number(value)) == value && 
            !isNaN(parseInt(value, 10));
-  }
+}
+
+/**
+ * Check if a string is an positive interger.
+ * @param {string} value 
+ */
+export function validatePositiveInt(value) {
+    return /^\+?(0|[1-9]\d*)$/.test(value);
+}
