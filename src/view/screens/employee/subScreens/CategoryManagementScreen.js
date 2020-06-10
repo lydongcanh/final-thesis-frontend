@@ -57,8 +57,13 @@ export default function CategoryManagementScreen({ navigation }) {
         }
     }
 
-    async function handleEditButton(node) {
-        alert(JSON.stringify(node, null, 2));
+    async function handleEditButton(node, level) {
+        navigation.navigate("CategoryDetails", {
+            mode: ManagementTypes.UPDATE, 
+            node: node,
+            level: level,
+            categories: categories
+        });
     }
 
     async function handleProductsButton(node) {
@@ -70,8 +75,9 @@ export default function CategoryManagementScreen({ navigation }) {
     async function handleAddChildButton(node, level) {
         navigation.navigate("CategoryDetails", {
             mode: ManagementTypes.CREATE, 
-            parentNode: node,
-            level: level
+            node: node,
+            level: level,
+            categories: categories
         });
     }
     
@@ -106,7 +112,7 @@ export default function CategoryManagementScreen({ navigation }) {
                 >
                     <Button
                         icon={style => <Icon name="edit-2-outline" {...style} />}
-                        onPress={async () => await handleEditButton(node)}
+                        onPress={async () => await handleEditButton(node, level)}
                     />
                     <Button
                         icon={style => <Icon name="cube-outline" {...style} />}
@@ -123,7 +129,7 @@ export default function CategoryManagementScreen({ navigation }) {
                 >
                     <Button
                         icon={style => <Icon name="edit-2-outline" {...style} />}
-                        onPress={async () => await handleEditButton(node)}
+                        onPress={async () => await handleEditButton(node, level)}
                     />
                     <Button
                         icon={style => <Icon name="plus-outline" {...style} />}
