@@ -7,7 +7,7 @@ import { CustomerProductDetailsService } from "../../../core/services";
 /**
  * @param props account, product, navigation, width, height
  */
-export default function MinimalProduct({ account, product, width, height, navigation }) {
+export default function MinimalProduct({ account, product, width, height, navigation, fromFavoriteScreen = false }) {
 
     const [isLiked, setIsLiked] = useState(false);
     const [isLoaded, setIsLoaded] = useState(false);
@@ -16,12 +16,19 @@ export default function MinimalProduct({ account, product, width, height, naviga
     const imageWidth = width !== undefined ? width : 150;
     const imageHeight = height !== undefined ? height: 150;
 
-    useEffect(() => {
+    useEffect(() => {        
         loadCustomerProductDetails();
     }, [account]);
 
     function loadCustomerProductDetails() {
         if (!account || !account.customer || !account.customer.customerProductDetails) {
+            setIsLoaded(true);
+            return;
+        }
+
+        if (fromFavoriteScreen) {
+            setHasOldState(true);
+            setIsLiked(true);
             setIsLoaded(true);
             return;
         }
@@ -50,7 +57,7 @@ export default function MinimalProduct({ account, product, width, height, naviga
             navigation.navigate("Login", { shouldGoBack: true });
             return;
         }
-        // TODO: Update info in saved account data.
+
         CustomerProductDetailsService.toggleCustomerLikedProduct(account.customer.id, product.id, hasOldState, !isLiked);
         setHasOldState(true);
         setIsLiked(!isLiked);

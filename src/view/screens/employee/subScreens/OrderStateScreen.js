@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { ScrollView } from "react-native";
-import { Layout, Button } from "@ui-kitten/components";
+import { Layout, Button, Text } from "@ui-kitten/components";
 import { ActivityIndicator } from "react-native-paper";
 import Timeline from "react-native-timeline-flatlist";
 import { CustomerOrderStateDetailsService } from "../../../../core/services";
@@ -47,8 +47,8 @@ export default function OrderStateScreen({ route }) {
             data.push({
                 key: detail.orderState,
                 //time: formatDate(detail.creationDate),
-                title: formatDateTime(detail.creationDate),
-                description: "Hóa đơn: " + detail.customerOrderId + "\nChuyển hóa đơn sang trạng thái: " + detail.orderState
+                title: detail.orderState,
+                description: "Id: " + detail.customerOrderId + "\nThời gian: " +  formatDateTime(detail.creationDate)
             });
         }
         return data;
@@ -61,9 +61,18 @@ export default function OrderStateScreen({ route }) {
         if (!isLoaded)
             return <LoadErrorPanel onReload={loadOrderStates} />
 
+        const data = getTimelineData();
+        if (!data || data.length < 1) {
+            return (
+                <Text category="p2" style={{ alignSelf: "center", marginTop: 24 }}>
+                    Nhân viên hiện tại chưa xử lý hóa đơn nào.
+                </Text>
+            );
+        }
+
         return (
             <Timeline 
-                data={getTimelineData()}
+                data={data}
                 innerCircle={"dot"}
                 separator={true}
                 showTime={false}

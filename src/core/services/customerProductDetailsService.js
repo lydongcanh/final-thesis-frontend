@@ -11,20 +11,20 @@ class CustomerProductDetailsService extends BaseService {
      * @param {string} customerId 
      * @param {string} productId 
      */
-    toggleCustomerLikedProduct(customerId, productId, hasOldState, newState) {
+    async toggleCustomerLikedProduct(customerId, productId, hasOldState, newState) {
         if (hasOldState) {
-            super.update({
+            return await super.update({
                 customerId: customerId,
                 productId: productId,
                 liked: newState
             })
-        } else {
-            super.create({
-                customerId: customerId,
-                productId: productId,
-                liked: true
-            });
         }
+
+        return await super.create({
+            customerId: customerId,
+            productId: productId,
+            liked: true
+        });
     }
 
     /**

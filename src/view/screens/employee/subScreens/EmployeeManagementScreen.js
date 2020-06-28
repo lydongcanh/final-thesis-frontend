@@ -50,6 +50,14 @@ export default function EmployeeManagementScreen({ navigation }) {
                 >
                     Chi tiết
                 </Button>
+                <Button 
+                    appearance="ghost"
+                    size="tiny"
+                    icon={style => <Icon {...style} name="pricetags-outline" />}
+                    onPress={() => navigation.navigate("EmployeeOrderState", { employee: employee })}
+                >
+                    Hóa đơn
+                </Button>
                 <Button
                     status="danger"
                     appearance="ghost"

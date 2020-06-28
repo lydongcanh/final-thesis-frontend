@@ -69,13 +69,13 @@ export default function CollectionDetailsManagementScreen({ route, navigation })
     function getHeader() {
         return (
             <Layout style={{ flexDirection: "row", justifyContent: "space-between", padding: 8 }}>
-                <Text category="h6" style={{ marginLeft: 8 }}>Sản phẩm</Text>
-                <Button 
+                <Text category="p2" style={{ marginLeft: 8 }}>Danh sách sản phẩm</Text>
+                {/* <Button 
                     size="tiny"
                     appearance="ghost"
                     icon={(style) => <Icon {...style} name="plus-outline" />}
                     onPress={() => alert("Đang cập nhật...")}
-                />
+                /> */}
             </Layout>
         );
     }

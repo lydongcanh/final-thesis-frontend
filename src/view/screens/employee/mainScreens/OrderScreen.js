@@ -209,6 +209,14 @@ export default function OrderScreen({ navigation }) {
     }
 
     function getOrderList(orders) {
+        if (!orders || orders.length < 1) {
+            return (
+                <Text category="p2" style={{ alignSelf: "center", marginTop: 24 }}>
+                    Hiện không có hóa đơn nào trong trạng thái cần tìm.
+                </Text>
+            );
+        }
+
         return (
             <FlatList
                 data={orders}

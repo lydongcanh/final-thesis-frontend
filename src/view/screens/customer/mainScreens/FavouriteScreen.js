@@ -12,7 +12,7 @@ export default function FavouriteScreen({ navigation }) {
 
     const [isLoading, setIsLoading] = useState(true);
     const [isLoaded, setIsLoaded] = useState(false);
-    const [favouriteProducts, setFavouriteProducts] = useState();
+    const [favouriteProducts, setFavouriteProducts] = useState([]);
 
     const auth = useSelector(state => state.authReducer);
     const account = auth.account;
@@ -27,17 +27,18 @@ export default function FavouriteScreen({ navigation }) {
         });
       
         return unsubscribe;
-    }, []);
+    }, [navigation]);
 
-    function loadFavouriteProducts() {
+    async function loadFavouriteProducts() {
         try {
             setIsLoading(true);
             if (auth.loggedIn && auth.account && auth.account.customer) {
+                const result = await CustomerProductDetailsService.getFavouriteProductByCustomerId(auth.account.customer.id);
+                
                 const products = [];
-                for(const details of account.customer.customerProductDetails) {
-                    if (details.liked)
-                        products.push(details.product);
-                }
+                for(const details of result.data) 
+                    products.push(details.product);
+
                 setFavouriteProducts(products);
                 setIsLoaded(true);
             } else {
@@ -91,6 +92,7 @@ export default function FavouriteScreen({ navigation }) {
                 numColumns={2}
                 renderItem={({ item }) => (
                     <MinimalProduct
+                        fromFavoriteScreen={true}
                         account={account}
                         product={item}
                         navigation={navigation}

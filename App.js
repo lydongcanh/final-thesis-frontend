@@ -40,6 +40,7 @@ import { WelcomeScreen,
          OrderDetailsScreen,
          EmployeeAccountDetailsScreen,
          EmployeeOrderStateScreen,
+         EmployeeCustomerDetailsManagementScreen,
         } from "./src/view/screens";
 
 import * as ErrorRecovery from "expo-error-recovery";
@@ -56,7 +57,8 @@ export default function App(props) {
     const [isReady, setIsReady] = useState(false);
 
     ErrorRecovery.setRecoveryProps(props);
-
+    console.disableYellowBox = true;
+    
     useEffect(() => {
         loadFont();
     }, []);
@@ -206,6 +208,11 @@ export default function App(props) {
                         options={{ title: "Chi tiết sản phẩm" }}
                         name="ProductDetailsListDetails"
                         component={EmployeeProductDetailsListDetailsManagementScreen}
+                    />
+                    <Stack.Screen
+                        options={{ title: "Thông tin khách hàng" }}
+                        name="CustomerDetails"
+                        component={EmployeeCustomerDetailsManagementScreen}
                     />
                     <Stack.Screen
                         options={{ title: "Loại sản phẩm" }}

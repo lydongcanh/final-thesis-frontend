@@ -18,6 +18,7 @@ export default function CustomerManagementScreen({ navigation }) {
 
     function handleOnCustomerDetailClick(customer) {
         setSelectedCustomer(customer);
+        navigation.navigate("CustomerDetails", { customer: customer });
     }
 
     function handleOnCustomerLockClick(customer) {
@@ -54,6 +55,7 @@ export default function CustomerManagementScreen({ navigation }) {
             <Card 
                 style={{ margin: 16 }}
                 onPress={() => alert(JSON.stringify(customer, null, 2))}
+                disabled
                 footer={() => getFooterUI(customer)}
             >
                 <Layout style={{ flexDirection: "row", backgroundColor: "rgba(0, 0, 0, 0)", alignItems: "center" }}>
@@ -65,7 +67,7 @@ export default function CustomerManagementScreen({ navigation }) {
                         <Layout style={{ flexDirection: "row", alignItems: "center", backgroundColor: "rgba(0, 0, 0, 0)" }}>
                             <Text style={{ fontWeight: "bold" }}>{customer.name}</Text>
                         </Layout>
-                        <Text appearance="hint" category="label">{customer.phoneNumber}</Text>
+                        <Text appearance="hint" category="label">{customer.email}</Text>
                     </Layout>
                 </Layout>
             </Card>

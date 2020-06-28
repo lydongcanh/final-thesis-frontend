@@ -36,6 +36,7 @@ export { default as EmployeeAccountManagementScreen } from "./employee/subScreen
 export { default as EmployeeCollectionManagementScreen } from "./employee/subScreens/CollectionManagementScreen";
 export { default as EmployeeCategoryManagementScreen } from "./employee/subScreens/CategoryManagementScreen";
 export { default as EmployeeProductDetailsListManagementScreen } from "./employee/subScreens/EmployeeProductDetailsListManagementScreen";
+export { default as EmployeeCustomerDetailsManagementScreen } from "./employee/subScreens/detailsManagementScreens/CustomerDetailsManagementScreen";
 export { default as EmployeeDetailsManagementScreen } from "./employee/subScreens/detailsManagementScreens/EmployeeDetailsManagementScreen";
 export { default as EmployeeCollectionDetailsManagementScreen } from "./employee/subScreens/detailsManagementScreens/CollectionDetailsManagementScreen";
 export { default as EmployeeProductDetailsManagementScreen } from "./employee/subScreens/detailsManagementScreens/ProductDetailsManagementScreen";
