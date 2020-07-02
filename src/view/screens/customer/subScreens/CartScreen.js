@@ -95,7 +95,7 @@ export default function CartScreen({ navigation, route }) {
                                     source={{ uri: item.productDetails.product.mainImage }}
                                 />
                                 <Layout style={{ justifyContent: "space-around" }}>
-                                    <Text style={{ fontWeight: "bold" }}>{item.productDetails.product.name}</Text>
+                                    <Text numberOfLines={1} style={{ fontWeight: "bold", maxWidth: 150 }}>{item.productDetails.product.name}</Text>
                                     <Text style={{ fontWeight: "bold" }}>{formatCurrency(item.productDetails.product.unitPrice)}VND</Text>
                                     <Text appearance="hint">{item.productDetails.size} | {item.productDetails.color}</Text>
                                 </Layout>

@@ -6,7 +6,7 @@ import { Image, View } from "react-native";
 import { Toast } from "native-base";
 import { AddressInputPanel, Space } from "../../../components/others";
 import { formatCurrency } from "../../../../core/utilities";
-import { CustomerOrderService, CustomerOrderStateDetailsService } from "../../../../core/services";
+import { CustomerOrderService, CustomerOrderStateDetailsService, EmailService } from "../../../../core/services";
 import { CUSTOMER_ORDER_TYPES } from "../../../../core/types";
 
 export default function CartPurchaseScreen({ navigation, route }) {
@@ -38,6 +38,10 @@ export default function CartPurchaseScreen({ navigation, route }) {
                     orderState: CUSTOMER_ORDER_TYPES.Pending,
                     customerOrderId: result.data.id,                  
                 });
+                
+                const address = { number: addressNumber, street: addressStreet, district: addressDistrict, city: addressCity };
+                EmailService.sendNewOrderEmail(result.data, address, customer, cartItems);
+
                 navigation.navigate("CustomerHome");
                 Toast.show({
                     text: "Đơn hàng đã được đặt thành công",

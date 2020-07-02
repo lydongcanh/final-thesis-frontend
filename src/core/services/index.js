@@ -11,3 +11,4 @@ export { default as ProductDetailsService } from "./productDetailsService";
 export { default as CollectionDetailsService } from "./collectionDetailsService";
 export { default as CollectionService } from "./collectionService";
 export { default as CategoryService } from "./categoryService";
+export { default as EmailService } from "./emailService";

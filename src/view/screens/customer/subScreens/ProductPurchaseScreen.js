@@ -69,7 +69,16 @@ export default function ProductPurchaseScreen({ navigation, route }) {
                         });
                     }
                 } catch(e) {
-                    alert(JSON.stringify(e, null, 2));
+                    Toast.show({
+                        text: "Sản phẩm đã tồn tại trong giỏ hàng.",
+                        type: "success",
+                        buttonText: "Giỏ hàng",
+                        duration: 3000,
+                        onClose: (reason) => { 
+                            if (reason === "user")
+                                navigation.navigate("CustomerCart", { account: auth.account })
+                        }
+                    });
                 }
                 setIsLoading(false);
                 return;
@@ -109,7 +118,6 @@ export default function ProductPurchaseScreen({ navigation, route }) {
         }
     }
 
-    /** Render colors & size list. */
     function getButtonsListUI(data, title, selectedIndex, setIndexFunc) {
         return (
             <View>

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Card, CardHeader, Modal, Text, Layout, Button, Input } from "@ui-kitten/components";
 import { ActivityIndicator } from "react-native-paper";
-import { CustomerOrderService, CustomerOrderStateDetailsService } from "../../../core/services";
+import { CustomerOrderService, CustomerOrderStateDetailsService, EmailService } from "../../../core/services";
 import { Space } from ".";
 import { Toast } from "native-base";
 
@@ -35,12 +35,15 @@ export default function OrderChangeStateModal({ order, employee, nextState = "",
                 if (employee)
                     stateDetails.employeeId = employee.id;
 
-                await CustomerOrderStateDetailsService.create(stateDetails);
+                const result = await CustomerOrderStateDetailsService.create(stateDetails);
+                EmailService.sendCustomerOrderStateChange(order, result.data);
+
                 Toast.show({
                     text: "Thành công chuyển hóa đơn sang trạng thái: " + nextState,
                     type: "success",
                     duration: 3000
                 });
+
                 setDescription("");
                 setVisible(false);
             }

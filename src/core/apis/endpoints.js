@@ -13,3 +13,4 @@ export const productCollectionDetailsEndpoint = rootEndpoint + "/productCollecti
 export const productCollectionEndpoint = rootEndpoint + "/productCollections";
 export const productDetailsEndpoint = rootEndpoint + "/productDetails";
 export const productsEndpoint = rootEndpoint + "/products";
+export const emailsEndpoint = rootEndpoint + "/emails";

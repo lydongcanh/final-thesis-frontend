@@ -37,6 +37,19 @@ class AccountService extends BaseService {
         return await this.create({ username, password, accountType, isActive });
     }
 
+    async getActiveEmployeeAccounts() {
+        return await this.query({
+            accountType: ACCOUNT_TYPES.Employee,
+            isActive: true
+        });
+    }
+
+    async getByCustomerId(customerId) {
+        return await this.query({
+            customerId: customerId
+        });
+    }
+
     /**
      * @param {string} username 
      */
