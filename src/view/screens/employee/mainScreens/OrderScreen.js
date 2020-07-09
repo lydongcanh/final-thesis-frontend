@@ -1,28 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Platform, StatusBar, FlatList } from "react-native";
-import { Layout, Text, Card, RangeDatepicker, Button, Icon,
-         CalendarViewModes, NativeDateService, Select, Tab, TabView } from "@ui-kitten/components";
+import { Layout, Text, Card, Datepicker, Button, Icon,
+         CalendarViewModes, NativeDateService, CheckBox } from "@ui-kitten/components";
 import { ActivityIndicator } from "react-native-paper";
-import { EmployeeScreensHeader, LoadErrorPanel, OrderChangeStateModal } from "../../../components/others";
+import { EmployeeScreensHeader, LoadErrorPanel, OrderChangeStateModal, Space } from "../../../components/others";
 import { CUSTOMER_ORDER_TYPES, dateTimeLocale } from "../../../../core/types";
 import { CustomerOrderService } from "../../../../core/services";
 import { formatCurrency, formatDate } from "../../../../core/utilities";
 
 export default function OrderScreen({ navigation }) {
 
-    const dateData = [
-        { text: "Chọn theo ngày", value: CalendarViewModes.DATE },
-        { text: "Chọn theo tháng", value: CalendarViewModes.MONTH },
-        { text: "Chọn theo năm", value: CalendarViewModes.YEAR },
-    ];
-
     const [orders, setOrders] = useState();
     const [isLoading, setIsLoading] = useState(true);
     const [isLoaded, setIsLoaded] = useState(false);
-    const [dateRange, setDateRange] = useState({});
-    const [dateRangeMode, setDateRangeMode] = useState(dateData[0]);
-    const [selectedTabIndex, setSelectedTabIndex] = useState(0);
+    const [fromDate, setFromDate] = useState(new Date());
+    const [toDate, setToDate] = useState(new Date());
+    const [allTimeValue, setAllTimeValue] = useState(true);
+    const [selectedState, setSelectedState] = useState(CUSTOMER_ORDER_TYPES.Pending);
     const [selectedOrder, setSelectedOrder] = useState();
     const [changeStateModalVisible, setChangeStateModalVisible] = useState(false);
     const [changeOrderNextState, setChangeOrderNextState] = useState();
@@ -35,7 +30,7 @@ export default function OrderScreen({ navigation }) {
 
     useEffect(() => {
         loadOrders();
-    }, []);
+    }, [selectedState, allTimeValue, fromDate, toDate]);
 
     // useEffect(() => {
     //     const unsubscribe = navigation.addListener('focus', () => {
@@ -48,7 +43,9 @@ export default function OrderScreen({ navigation }) {
     async function loadOrders() {
         try {
             setIsLoading(true);
-            const result = await CustomerOrderService.getAll();
+            const result = allTimeValue 
+                            ? await CustomerOrderService.query({ orderState: selectedState })
+                            : await CustomerOrderService.query({ orderState: selectedState, fromDate: fromDate, toDate: toDate });
             if (result.error) {
                 console.log(result.error);
                 setIsLoaded(false);
@@ -66,10 +63,6 @@ export default function OrderScreen({ navigation }) {
         }
     }
 
-    function getOrders(type) {
-        return orders.filter(o => o.orderState === type);
-    }
-
     function handleOrderDetailClick(order) {
         navigation.navigate("OrderDetails", {
             order: order,
@@ -82,7 +75,7 @@ export default function OrderScreen({ navigation }) {
         setChangeOrderNextState(nextState);
         setChangeStateModalVisible(true);
     }
-
+    
     function getHandleButtons(order) {
         if (order.orderState === CUSTOMER_ORDER_TYPES.Pending)
             return (
@@ -184,31 +177,68 @@ export default function OrderScreen({ navigation }) {
     function getConfigPanel() {
         return (
             <Layout>
-                <Layout style={{ justifyContent: "flex-start", flexDirection: "column", margin: 4 }}>
-                    <Text appearance="hint" category="label">Thời gian</Text>
-                    <Layout style={{ justifyContent: "space-between", flexDirection: "row", alignItems: "flex-start", margin: 4 }}>
-                        <Select 
-                            data={dateData}
-                            selectedOption={dateRangeMode}
-                            onSelect={value => setDateRangeMode(value)}
-                            style={{ flex: 5, marginRight: 8 }}
-                        />
-                        <RangeDatepicker 
-                            range={dateRange} 
-                            onSelect={setDateRange} 
-                            startView={dateRangeMode.value}
-                            dateService={localeDateService}
-                            min={new Date(1900, 12, 31)}
-                            max={new Date()}
-                            style={{ flex: 4 }}
-                        />
-                    </Layout>
+                <FlatList 
+                    horizontal
+                    data={[CUSTOMER_ORDER_TYPES.Pending, CUSTOMER_ORDER_TYPES.Delivering, CUSTOMER_ORDER_TYPES.Completed, CUSTOMER_ORDER_TYPES.Cancelled]}
+                    keyExtractor={(_, index) => index.toString()}
+                    renderItem={({ item }) => (
+                        <Button
+                            style={{ marginRight: 8, marginTop: 4, borderRadius: 24 }}
+                            status={item === selectedState ? "info" : "basic"}
+                            size="tiny"
+                            onPress={() => setSelectedState(item)}
+                        >
+                            {item}
+                        </Button>
+                    )}
+                />
+                <Space />
+
+                <Layout style={{ flexDirection: "row", justifyContent: "space-between" }}>
+                    <CheckBox
+                        style={{ alignItems: "flex-start", top: 10 }}
+                        status="info"
+                        text={"Tất cả"}
+                        checked={allTimeValue}
+                        onChange={setAllTimeValue}
+                    />
+                    {getTimeConfigPanel()}
                 </Layout>
+                <Space />
             </Layout>
         );
+
+        function getTimeConfigPanel() {
+            if (allTimeValue)
+                return;
+
+            return (
+                <Layout style={{ flexDirection: "row", justifyContent: "space-between" }}>
+                    <Text category="label" style={{ top: 15 }}>Từ </Text>
+                    <Datepicker
+                        date={fromDate}
+                        onSelect={setFromDate}
+                        max={new Date()}
+                    />
+                    <Space />
+                    <Text category="label" style={{ top: 15 }}>Đến </Text>
+                    <Datepicker
+                        date={toDate}
+                        onSelect={setToDate}
+                        max={new Date()}
+                    />
+                </Layout>
+            )
+        }
     }
 
     function getOrderList(orders) {
+        if (isLoading)
+            return <ActivityIndicator style={{ flex: 1, alignContent: "center", margin: 8 }} />
+
+        if (!isLoaded)
+            return <LoadErrorPanel onReload={loadOrders} />
+
         if (!orders || orders.length < 1) {
             return (
                 <Text category="p2" style={{ alignSelf: "center", marginTop: 24 }}>
@@ -227,35 +257,10 @@ export default function OrderScreen({ navigation }) {
     }
 
     function getContentUI() {
-        if (isLoading)
-            return <ActivityIndicator style={{ flex: 1, alignContent: "center", margin: 8 }} />
-
-        if (!isLoaded)
-            return <LoadErrorPanel onReload={loadOrders} />
-
         return (
             <Layout style={{ flex: 1, padding: 8 }}>
-                {/* {getConfigPanel()}
-                <Space /> */}
-                <TabView
-                    indicatorStyle={{ backgroundColor: "rgba(0, 0, 0, 0)" }}
-                    selectedIndex={selectedTabIndex}
-                    onSelect={setSelectedTabIndex}
-                    style={{ flex: 1 }}
-                >
-                    <Tab title={CUSTOMER_ORDER_TYPES.Pending}>
-                        {getOrderList(getOrders(CUSTOMER_ORDER_TYPES.Pending))}
-                    </Tab>
-                    <Tab title={CUSTOMER_ORDER_TYPES.Delivering}>
-                        {getOrderList(getOrders(CUSTOMER_ORDER_TYPES.Delivering))}
-                    </Tab>
-                    <Tab title={CUSTOMER_ORDER_TYPES.Completed}>
-                        {getOrderList(getOrders(CUSTOMER_ORDER_TYPES.Completed))}
-                    </Tab>
-                    <Tab title={CUSTOMER_ORDER_TYPES.Cancelled}>
-                        {getOrderList(getOrders(CUSTOMER_ORDER_TYPES.Cancelled))}
-                    </Tab>
-                </TabView>
+                {getConfigPanel()}
+                {getOrderList(orders)}
             </Layout>
         );
     }

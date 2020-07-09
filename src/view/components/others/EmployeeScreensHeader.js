@@ -18,7 +18,7 @@ export default function EmployeeScreensHeader({ navigation }) {
 
     return (
         <TopNavigation 
-            title="ĐỒ ÁN TỐT NGHIỆP"
+            title="MASSEW SHOP"
             alignment="center"
             //rightControls={getRightControl()}
         />
