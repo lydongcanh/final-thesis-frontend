@@ -47,7 +47,8 @@ export function getRandomColor() {
 }
 
 export function getMonths() {
-    const currentMonth = new Date().getMonth();
+    const currentMonth = new Date().getMonth() + 1;
+
     if (currentMonth < 4)
         return [1, 2, 3];
 

@@ -27,6 +27,8 @@ export default function CartPurchaseScreen({ navigation, route }) {
             const result = await CustomerOrderService.createNewCustomerOrder(
                 customer, cartItems, addressNumber, addressStreet, addressDistrict, addressCity);
 
+            console.log(result);
+            
             if (!result || result.error) {
                 Toast.show({
                     text: "Đặt hàng không thành công",
@@ -46,11 +48,12 @@ export default function CartPurchaseScreen({ navigation, route }) {
                 Toast.show({
                     text: "Đơn hàng đã được đặt thành công",
                     type: "success",
-                    duration: 3000
+                    duration: 5000
                 });
             }
         } catch (e) {
             alert(e);
+            console.log(e);
         } finally {
             setIsLoading(false);
         }

@@ -1,26 +1,59 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Image, Platform, StatusBar, FlatList, Dimensions } from "react-native";
-import { Layout, Text, Input, Icon, Button, Card } from "@ui-kitten/components";
+import { Image, Platform, StatusBar, FlatList } from "react-native";
+import { Layout, Text, Input, Icon, Button } from "@ui-kitten/components";
 import { ActivityIndicator, Divider } from "react-native-paper";
-import { CategoryService } from "../../../../core/services";
+import { CategoryService, ProductService } from "../../../../core/services";
 import { Space, CustomerScreensHeader } from "../../../components/others";
+import { MinimalProduct } from "../../../components/products";
 
 export default function SearchScreen({ navigation }) {
 
     const [categories, setCategories] = useState();
     const [selectedMainCategory, setSelectedMainCategory] = useState();
     const [selectedSubCategory, setSelectedSubCategory] = useState();
+    const [selectedFinalCategory, setSelectedFinalCategory] = useState();
     const [isLoading, setIsLoading] = useState(true);
+    const [isLoadingProducts, setIsLoadingProducts] = useState(false);
     const [isLoaded, setIsLoaded] = useState(false);
+    const [products, setProducts] = useState([]);
+    const [searchValue, setSearchValue] = useState("");
 
-    const screenWidth = Dimensions.get("window").width;
     const auth = useSelector(state => state.authReducer);
     const account = auth.account;
 
     useEffect(() => {
         loadCategories();
     }, []);
+
+    useEffect(() => {
+        loadProducts();
+    }, [selectedFinalCategory]);
+
+    async function loadProducts() {
+        try {
+            setIsLoadingProducts(true);
+            
+            const result =  await ProductService.query({
+                categoryId: selectedFinalCategory ? selectedFinalCategory.id : null,
+                isSelling: true,
+                containsName: (!searchValue || searchValue == "") ? "" : searchValue
+            });
+
+            if (result.data) {
+                setProducts(result.data);
+                setIsLoaded(true);
+            } else {
+                console.log("Load product by category error.", result);
+                setIsLoaded(false);
+            }
+        } catch(e) {
+            console.log(e);
+            setIsLoaded(false);
+        } finally {
+            setIsLoadingProducts(false);
+        }
+    }
 
     async function loadCategories() {
         setIsLoading(true);
@@ -52,11 +85,12 @@ export default function SearchScreen({ navigation }) {
         }
     }
 
+    async function handleOnSearch(text) {
+        await loadProducts();
+    }
+
     function handleFinalCategoryClick(category) {
-        navigation.navigate("CustomerProductByCategory", {
-            category: category,
-            account: account
-        })
+        setSelectedFinalCategory(category);
     }
 
     function handleSubCategoryClick(category) {
@@ -66,6 +100,7 @@ export default function SearchScreen({ navigation }) {
     function handleMainCategoryClick(category) {
         setSelectedMainCategory(category);
         setSelectedSubCategory(null);
+        setSelectedFinalCategory(null);
     }
 
     function getMainCategoriesUI() {
@@ -129,34 +164,25 @@ export default function SearchScreen({ navigation }) {
             return;
 
         return (
-            <FlatList
-                data={selectedSubCategory.childrenCategories.sort((a, b) => a.sortOrder > b.sortOrder)}
-                keyExtractor={(_, index) => index.toString()}
-                renderItem={({ item }) => (
-                    <Card
-                        style={{ marginTop: 16, marginHorizontal: 16 }}
-                        //header={() => getCardHeader(item) }
-                        onPress={() => handleFinalCategoryClick(item)}
-                    >
-                        <Text>{item.name}</Text>
-                    </Card>
-                )}
-            />
+            <Layout>
+                <FlatList
+                    horizontal
+                    data={selectedSubCategory.childrenCategories.sort((a, b) => a.sortOrder > b.sortOrder)}
+                    keyExtractor={(_, index) => index.toString()}
+                    renderItem={({ item }) => (
+                        <Button
+                            size="tiny"
+                            status={(selectedFinalCategory && item.id === selectedFinalCategory.id) ? "info" : "basic"}
+                            onPress={() => handleFinalCategoryClick(item)}
+                            style={{ margin: 8, borderRadius: 24 }}
+                        >
+                            {item.name}
+                        </Button>
+                    )}
+                />
+                <Divider />
+            </Layout>
         );
-
-        function getCardHeader(item) {
-            if (!item)
-                return;
-
-            return (
-                <Layout style={{ flex: 1 }}>
-                    <Image 
-                        source={{ uri: item.imagePath }} 
-                        style={{ width: screenWidth, height: 100, justifyContent: "flex-start" }} 
-                    />
-                </Layout>
-            );
-        }
     }
 
     function getCategoriesUI() {
@@ -164,12 +190,57 @@ export default function SearchScreen({ navigation }) {
             return;
 
         return (
-            <Layout style={{ flex: 1, justifyContent: "flex-start" }}>
+            <Layout style={{ justifyContent: "flex-start" }}>
                 {getMainCategoriesUI()}
                 {getSubCategoriesUI()}
                 {getFinalCategoriesUI()}
             </Layout>
         );
+    }
+
+    function getProductsUI() {       
+        if (isLoadingProducts)
+            return <ActivityIndicator style={{ margin: 8, flex: 1, alignContent: "center" }} />
+
+        if (!products || products.length < 1) {
+            return (
+                <Text category="p2" style={{ alignSelf: "center", marginTop: 24 }}>
+                    Không có sản phẩm nào phù hợp với kết quả tìm kiếm.
+                </Text>
+            );
+        }
+
+        return (
+            <Layout style={{ flex: 1 }}>
+                <FlatList
+                    style={{ margin: 8 }}
+                    data={products}
+                    keyExtractor={(_, index) => index.toString()}
+                    numColumns={2}
+                    renderItem={({ item }) => (
+                        <MinimalProduct
+                            account={account}
+                            product={item}
+                            navigation={navigation}
+                            width={170}
+                            height={200}
+                        />
+                    )}
+                />   
+            </Layout> 
+        );
+    }
+
+    function getSearchInputUI() {
+        return (
+            <Input 
+                icon={(style) => <Icon {...style} name="search-outline" />}
+                value={searchValue}
+                onChangeText={setSearchValue}
+                onIconPress={() => handleOnSearch(searchValue)}
+                style={{ borderRadius: 50, margin: 8, backgroundColor: "white" }}
+            />
+        )
     }
 
     function getContentUI() {
@@ -193,12 +264,10 @@ export default function SearchScreen({ navigation }) {
         }
 
         return (
-            <Layout style={{ flex: 1 }}>
-                {/* <Input
-                    style={{ borderRadius: 24, marginLeft: 8, marginRight: 8 }}
-                    icon={(style) => <Icon {...style} name="search" />}
-                /> */}
+            <Layout style={{ flex: 1, justifyContent: "flex-start" }}>
+                {getSearchInputUI()}
                 {getCategoriesUI()}
+                {getProductsUI()}
             </Layout>
         );
     }
