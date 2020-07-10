@@ -28,7 +28,7 @@ export default function EmployeeProductDetailsListManagementScreen({ navigation,
         return (
             <Card
                 style={{ margin: 16 }}
-                onPress={() => alert(JSON.stringify(detail, null, 2))}
+                //onPress={() => alert(JSON.stringify(detail, null, 2))}
             >
                 <Text>Size: {detail.size} | Màu: {detail.color}</Text>
                 <Text>Sản phẩm tồn kho: {detail.unitsInStock}</Text>

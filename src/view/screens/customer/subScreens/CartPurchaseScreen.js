@@ -48,7 +48,12 @@ export default function CartPurchaseScreen({ navigation, route }) {
                 Toast.show({
                     text: "Đơn hàng đã được đặt thành công",
                     type: "success",
-                    duration: 5000
+                    buttonText: "Kiếm tra",
+                    duration: 6000,
+                    onClose: (reason) => { 
+                        if (reason === "user")
+                            navigation.navigate("CustomerOrders", {  customer: customer });
+                    }
                 });
             }
         } catch (e) {

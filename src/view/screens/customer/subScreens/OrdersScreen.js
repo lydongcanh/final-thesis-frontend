@@ -1,30 +1,54 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FlatList } from "react-native";
-import { Layout, Button, Tab, TabView, Text, Card, Icon } from "@ui-kitten/components";
+import { Layout, Button, Text, Card, Icon } from "@ui-kitten/components";
+import { ActivityIndicator } from "react-native-paper";
 import { CustomerOrderService } from "../../../../core/services";
-import { formatDate, formatCurrency } from "../../../../core/utilities";
+import { formatCurrency, formatDateTime } from "../../../../core/utilities";
 import { CUSTOMER_ORDER_TYPES } from "../../../../core/types";
-import { OrderChangeStateModal } from "../../../components/others";
+import { OrderChangeStateModal, LoadErrorPanel, Space } from "../../../components/others";
 
 export default function OrdersScreen({ navigation, route }) {
 
     const customer = route ? route.params.customer : null;
-    const orders = route ? route.params.orders : null;
 
+    const [orders, setOrders] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [isLoaded, setIsLoaded] = useState(false);
     const [selectedOrder, setSelectedOrder] = useState();
-    const [selectedTabIndex, setSelectedTabIndex] = useState(0);
     const [changeStateModalVisible, setChangeStateModalVisible] = useState(false);
     const [changeOrderNextState, setChangeOrderNextState] = useState();
+    const [selectedState, setSelectedState] = useState(CUSTOMER_ORDER_TYPES.Pending);
+
+    useEffect(() => {
+        loadOrders();
+    }, [selectedState]);
+
+    async function loadOrders() {
+        try {
+            setIsLoading(true);
+            const result = await CustomerOrderService.query({ orderState: selectedState });
+            if (result.error) {
+                console.log(result.error);
+                setIsLoaded(false);
+            } else {
+                setOrders(result.data.sort((a, b) => {
+                    return new Date(Date.parse(a.creationDate)) < new Date(Date.parse(b.creationDate));
+                }));
+                setIsLoaded(true);
+            }
+        } catch (e) {
+            console.log(e);
+            setIsLoaded(false);
+        } finally {
+            setIsLoading(false);
+        }
+    }
 
     function handleOrderDetailClick(order) {
         navigation.navigate("OrderDetails", {
             order: order,
             showCustomerData: false
         });
-    }
-
-    function getOrders(type) {
-        return orders.filter(o => o.orderState === type);
     }
 
     function handleCancelOrderClick(order) {
@@ -47,6 +71,29 @@ export default function OrdersScreen({ navigation, route }) {
             >
                 Hủy
             </Button>
+        );
+    }
+
+    function getConfigPanel() {
+        return (
+            <Layout>
+                <FlatList 
+                    horizontal
+                    data={[CUSTOMER_ORDER_TYPES.Pending, CUSTOMER_ORDER_TYPES.Delivering, CUSTOMER_ORDER_TYPES.Completed, CUSTOMER_ORDER_TYPES.Cancelled]}
+                    keyExtractor={(_, index) => index.toString()}
+                    renderItem={({ item }) => (
+                        <Button
+                            style={{ marginRight: 8, marginTop: 4, borderRadius: 24 }}
+                            status={item === selectedState ? "info" : "basic"}
+                            size="tiny"
+                            onPress={() => setSelectedState(item)}
+                        >
+                            {item}
+                        </Button>
+                    )}
+                />
+                <Space />
+            </Layout>
         );
     }
 
@@ -80,13 +127,27 @@ export default function OrdersScreen({ navigation, route }) {
                     Địa chỉ: {order.shipAddress.number}, {order.shipAddress.street}, {order.shipAddress.district}, {order.shipAddress.city}
                 </Text>
                 <Text appearance="hint">
-                    Ngày đặt hàng: {formatDate(new Date(Date.parse(order.creationDate)))}
+                    Thời gian đặt hàng: {formatDateTime(new Date(Date.parse(order.creationDate)))}
                 </Text>
             </Card>
         );
     }
 
     function getOrderList(orders) {
+        if (isLoading)
+            return <ActivityIndicator style={{ flex: 1, alignContent: "center", margin: 8 }} />
+
+        if (!isLoaded)
+            return <LoadErrorPanel onReload={loadOrders} />
+
+        if (!orders || orders.length < 1) {
+            return (
+                <Text category="p2" style={{ alignSelf: "center", marginTop: 24 }}>
+                    Hiện không có hóa đơn nào trong trạng thái cần tìm.
+                </Text>
+            );
+        }
+
         return (
             <FlatList
                 data={orders}
@@ -98,25 +159,8 @@ export default function OrdersScreen({ navigation, route }) {
 
     return (
         <Layout style={{ flex: 1, padding: 8 }}>
-            <TabView
-                indicatorStyle={{ backgroundColor: "rgba(0, 0, 0, 0)" }}
-                selectedIndex={selectedTabIndex}
-                onSelect={setSelectedTabIndex}
-                style={{ flex: 1 }}
-            >
-                <Tab title={CUSTOMER_ORDER_TYPES.Pending}>
-                    {getOrderList(getOrders(CUSTOMER_ORDER_TYPES.Pending))}
-                </Tab>
-                <Tab title={CUSTOMER_ORDER_TYPES.Delivering}>
-                    {getOrderList(getOrders(CUSTOMER_ORDER_TYPES.Delivering))}
-                </Tab>
-                <Tab title={CUSTOMER_ORDER_TYPES.Completed}>
-                    {getOrderList(getOrders(CUSTOMER_ORDER_TYPES.Completed))}
-                </Tab>
-                <Tab title={CUSTOMER_ORDER_TYPES.Cancelled}>
-                    {getOrderList(getOrders(CUSTOMER_ORDER_TYPES.Cancelled))}
-                </Tab>
-            </TabView>
+            {getConfigPanel()}
+            {getOrderList(orders)}
             <OrderChangeStateModal 
                 order={selectedOrder}
                 visible={changeStateModalVisible}

@@ -4,8 +4,7 @@ import { Layout, Text, Button, List, ListItem, Icon } from "@ui-kitten/component
 import { useSelector, useDispatch } from "react-redux";
 import { Space, CustomerScreensHeader } from "../../../components/others";
 import { logout } from "../../../redux/actions/authActions";
-import { Divider, ActivityIndicator } from "react-native-paper";
-import { CustomerOrderService } from "../../../../core/services";
+import { Divider } from "react-native-paper";
 
 export default function AccountInfoScreen({ navigation }) {
 
@@ -27,9 +26,6 @@ export default function AccountInfoScreen({ navigation }) {
         },
     ];
 
-    const [isLoading, setIsLoading] = useState(true);
-    const [isLoaded, setIsLoaded] = useState(false);
-    const [orders, setOrders] = useState([]);
     const [account, setAccount] = useState();
 
     const dispatch = useDispatch();
@@ -38,7 +34,6 @@ export default function AccountInfoScreen({ navigation }) {
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
             loadAccount();
-            loadOrders();
         });
       
         return unsubscribe;
@@ -46,37 +41,11 @@ export default function AccountInfoScreen({ navigation }) {
 
     useEffect(() => {
         loadAccount();
-        loadOrders();
     }, [account]);
 
     function loadAccount() {
         const account = auth.account;
         setAccount(account);
-    }
-
-    async function loadOrders() {
-        try {
-            if (!account || !account.customer) {
-                setIsLoaded(true);
-                return;
-            }
-
-            const result = await CustomerOrderService.getByCustomerId(account.customer.id);
-            if (result.error) {
-                setIsLoaded(false);
-                return;
-            }
-
-            setOrders(result.data.sort((a, b) => {
-                return new Date(Date.parse(a.creationDate)) < new Date(Date.parse(b.creationDate));
-            }));
-            setIsLoaded(true);
-        } catch (e) {
-            console.log(e);
-            setIsLoaded(false);
-        } finally {
-            setIsLoading(false);
-        }
     }
 
     function handleAccountDetailsButton() {
@@ -90,16 +59,11 @@ export default function AccountInfoScreen({ navigation }) {
     }
 
     function handleCompletedOrdersButton() {
-        navigation.navigate("CustomerOrders", { 
-            customer: account.customer,
-            orders: orders
-        })
+        navigation.navigate("CustomerOrders", { customer: account.customer });
     }
 
     function handleLogoutButton() {
-        setIsLoading(true);
         dispatch(logout());
-        setIsLoading(false);
     }
 
     function getAccountFunctionUI({ item }) {
@@ -117,7 +81,7 @@ export default function AccountInfoScreen({ navigation }) {
     }
 
     function getLoggedInUI() {
-        const customer = account.customer;
+        const customer = account ? account.customer : null;
         if (!customer)
             return;
             
@@ -184,25 +148,6 @@ export default function AccountInfoScreen({ navigation }) {
     }
 
     function getAccountContent() {
-        if (isLoading)
-            return <ActivityIndicator style={{ flex: 1, alignSelf: "center" }} />
-
-        if (!isLoaded) {
-            return (
-                <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-                    <Text appearance="hint">Có lỗi xảy ra khi load dữ liệu, xin thử lại!</Text>
-                    <Space />
-                    <Button
-                        size="tiny"
-                        icon={(style) => <Icon {...style} name="sync" />}
-                        onPress={loadOrders}
-                    >
-                        Thử lại
-                    </Button>
-                </View>
-            );
-        }
-
         // TODO: check persisted account.
 
         if (auth.loggedIn)
