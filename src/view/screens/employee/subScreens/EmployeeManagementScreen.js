@@ -87,7 +87,7 @@ export default function EmployeeManagementScreen({ navigation }) {
                         <Layout style={{ flexDirection: "row", alignItems: "center", backgroundColor: "rgba(0, 0, 0, 0)" }}>
                             <Text style={{ fontWeight: "bold" }}>{employee.name}</Text>
                         </Layout>
-                        <Text appearance="hint" category="label">{employee.phoneNumber}</Text>
+                        <Text appearance="hint" category="label">{employee.email}</Text>
                     </Layout>
                 </Layout>
             </Card>

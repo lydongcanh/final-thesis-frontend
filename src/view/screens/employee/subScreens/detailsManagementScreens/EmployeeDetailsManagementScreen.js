@@ -103,9 +103,6 @@ export default function EmployeeDetailsManagementScreen({ navigation, route }) {
     }
 
     function canAdd() {
-        if (employee)
-            return true;
-
         return name && name !== "" &&
             addressNumber && addressNumber !== "" &&
             addressStreet && addressStreet !== "" &&
