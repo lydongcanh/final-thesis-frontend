@@ -20,7 +20,12 @@ export default function AccountInfoScreen({ navigation }) {
             callback: handleChangePasswordButton
         },
         {
-            title: "Tất cả hóa đơn",
+            title: "Đánh giá",
+            icon: "star-outline",
+            callback: handleRateButton
+        },
+        {
+            title: "Hóa đơn",
             icon: "pricetags-outline",
             callback: handleCompletedOrdersButton
         },
@@ -62,8 +67,13 @@ export default function AccountInfoScreen({ navigation }) {
         navigation.navigate("CustomerOrders", { customer: account.customer });
     }
 
+    function handleRateButton() {
+        navigation.navigate("CustomerRate", { customer: account.customer });
+    }
+
     function handleLogoutButton() {
         dispatch(logout());
+        navigation.navigate("Welcome");
     }
 
     function getAccountFunctionUI({ item }) {

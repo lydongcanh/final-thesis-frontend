@@ -3,8 +3,9 @@ import { useSelector } from "react-redux";
 import { Layout, Button, Icon, Text } from "@ui-kitten/components";
 import { ImageBackground, Dimensions, View, FlatList, Platform, StatusBar } from "react-native";
 import { Toast } from "native-base";
+import { Rating } from "react-native-elements";
 import { ActivityIndicator } from "react-native-paper";
-import { ProductDetailsService, CustomerCartService } from "../../../../core/services";
+import { ProductDetailsService, CustomerCartService, CustomerProductDetailsService } from "../../../../core/services";
 import { Space } from "../../../components/others";
 import { formatCurrency } from "../../../../core/utilities";
 import { Texts } from "../../../../core/texts";
@@ -24,12 +25,17 @@ export default function ProductPurchaseScreen({ navigation, route }) {
     const [productSizes, setProductSizes] = useState();
     const [selectedColorIndex, setSelectedColorIndex] = useState();
     const [selectedSizeIndex, setSelectedSizeIndex] = useState();
+    const [cpDetails, setCPDetails] = useState([]);
 
     navigation.setOptions({ title: product.name });
 
     useEffect(() => {
         loadProductDetails();
     }, []);
+
+    function handleOnRateDetailButton() {
+        navigation.navigate("CustomerRateDetails", { details: cpDetails })
+    }
 
     // TODO: check existed item in customer's cart.
     async function handleAddToCartButton() {
@@ -94,7 +100,7 @@ export default function ProductPurchaseScreen({ navigation, route }) {
     async function loadProductDetails() {
         setIsLoading(true);
         try {
-            const detailsResult = await ProductDetailsService.getDetaisByProductId(product.id);
+            const detailsResult = await ProductDetailsService.getDetaisByProductId(product.id);          
             const details = detailsResult.data;
 
             const colors = [];
@@ -107,6 +113,8 @@ export default function ProductPurchaseScreen({ navigation, route }) {
                     colors.push(detail.color);
             }
 
+            const cpResult = await CustomerProductDetailsService.query({ productId: product.id });
+            setCPDetails(cpResult.data);
             setProductDetails(details);
             setProductColors(colors);
             setProductSizes(sizes);
@@ -116,6 +124,17 @@ export default function ProductPurchaseScreen({ navigation, route }) {
         } finally {
             setIsLoading(false);
         }
+    }
+
+    function getAvgRating() {
+        if (!cpDetails || cpDetails.length < 1)
+            return 0;
+
+        let sum = 0;
+        for(const detail of cpDetails)
+            sum += detail.rate;
+
+        return sum / cpDetails.length;
     }
 
     function getButtonsListUI(data, title, selectedIndex, setIndexFunc) {
@@ -168,6 +187,28 @@ export default function ProductPurchaseScreen({ navigation, route }) {
                     <Text category="h6" style={{ fontWeight: "bold" }}>{product.name}</Text>
                     <Text category="h6" appearance="hint">{formatCurrency(product.unitPrice)}VND</Text>
                 </View>
+                <Layout style={{ paddingTop: 4, flexDirection: "row", borderRadius: 24, marginTop: 8, justifyContent: "space-between" }}>
+                    <Layout style={{ marginLeft: 8, flexDirection: "row" }}>
+                        <Rating
+                            disabled 
+                            imageSize={20}                                                   
+                            startingValue={getAvgRating()}
+                            type="custom"
+                        />
+                        <Text style={{ marginLeft: 4 }}>
+                            ({!cpDetails ? 0 : cpDetails.length})
+                        </Text>
+                    </Layout>
+                    <Button 
+                        size="tiny"
+                        appearance="ghost"
+                        onPress={handleOnRateDetailButton}
+                        disabled={!cpDetails || cpDetails.length < 1}
+                        style={{ backgroundColor: "rgba(0, 0, 0, 0)", marginRight: 4 }}
+                    >
+                        Chi tiết
+                    </Button>
+                </Layout>
                 <Space />
 
                 {getButtonsListUI(productColors, "Màu", selectedColorIndex, setSelectedColorIndex)}

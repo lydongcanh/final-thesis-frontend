@@ -17,6 +17,8 @@ export { default as CustomerSearchScreen } from "./customer/mainScreens/SearchSc
 export { default as CustomerProductPurchaseScreen } from "./customer/subScreens/ProductPurchaseScreen";
 export { default as CustomerOrdersScreen } from "./customer/subScreens/OrdersScreen";
 export { default as CustomerProductByCategoryScreen } from "./customer/subScreens/ProductByCategoryScreen";
+export { default as CustomerRateScreen } from "./customer/subScreens/RateScreen";
+export { default as CustomerRateDetailsScreen } from "./customer/subScreens/ProductRateDetailsScreen";
 
 export { default as EmployeeAccountInfoScreen } from "./employee/mainScreens/AccountInfoScreen";
 export { default as EmployeeAnalystScreen } from "./employee/mainScreens/AnalystScreen";
