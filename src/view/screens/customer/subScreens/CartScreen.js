@@ -59,13 +59,20 @@ export default function CartScreen({ navigation, route }) {
         setCartItems(items => items.map(item => item));
     }
 
+    function getProductPrice(product) {
+        if (product.isDiscount)
+            return product.unitPrice - product.discountAmount;
+
+        return product.unitPrice;
+    }
+
     function getFinalPrice() {
         let price = 0;
         if (!cartItems)
             return price;
 
         for (const item of cartItems) {
-            price += item.quantity * item.productDetails.product.unitPrice;
+            price += item.quantity * getProductPrice(item.productDetails.product);
         }
         return price;
     }
@@ -96,7 +103,7 @@ export default function CartScreen({ navigation, route }) {
                                 />
                                 <Layout style={{ justifyContent: "space-around" }}>
                                     <Text numberOfLines={1} style={{ fontWeight: "bold", maxWidth: 150 }}>{item.productDetails.product.name}</Text>
-                                    <Text style={{ fontWeight: "bold" }}>{formatCurrency(item.productDetails.product.unitPrice)}VND</Text>
+                                    <Text style={{ fontWeight: "bold" }}>{formatCurrency(getProductPrice(item.productDetails.product))}VND</Text>
                                     <Text appearance="hint">{item.productDetails.size} | {item.productDetails.color}</Text>
                                 </Layout>
                             </Layout>

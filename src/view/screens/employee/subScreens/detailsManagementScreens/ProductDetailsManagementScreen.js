@@ -45,6 +45,8 @@ export default function ProductDetailsManagementScreen({ navigation, route }) {
             unitPrice: unitPrice, 
             mainImage: mainImage, 
             subImages: [],
+            isDiscount: false,
+            discountAmount: 0,
             categoryId: category.id
         });
         return result;
@@ -61,6 +63,8 @@ export default function ProductDetailsManagementScreen({ navigation, route }) {
             unitPrice: unitPrice,
             mainImage: mainImage,
             subImages: [],
+            isDiscount: product.isDiscount,
+            discountAmount: product.discountAmount,
             categoryId: category.id
         });
         return result;

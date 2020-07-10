@@ -43,6 +43,8 @@ import { WelcomeScreen,
          EmployeeCustomerDetailsManagementScreen,
          CustomerRateScreen,
          CustomerRateDetailsScreen,
+         EmployeeDiscount,
+         EmployeeDiscountDetailsScreen,
         } from "./src/view/screens";
 
 import * as ErrorRecovery from "expo-error-recovery";
@@ -50,6 +52,7 @@ import * as ExpoFont from "expo-font";
 
 /** Fix buffer issue on iOS. */
 import { Buffer } from "buffer";
+import { Space } from "./src/view/components/others";
 global.Buffer = Buffer;
 
 const Stack = createStackNavigator();
@@ -173,7 +176,16 @@ export default function App(props) {
                         name="EmployeeOrderState"
                         component={EmployeeOrderStateScreen}
                     />
-
+                    <Stack.Screen 
+                        options={{ title: "Khuyến mãi" }}
+                        name="EmployeeDiscount"
+                        component={EmployeeDiscount}
+                    />
+                    <Stack.Screen
+                        options={{ title: "Khuyến mãi" }}
+                        name="EmployeeDiscountDetails"
+                        component={EmployeeDiscountDetailsScreen}
+                    />
                     <Stack.Screen
                         options={{ title: "Sản phẩm" }}
                         name="EmployeeProductManagement"

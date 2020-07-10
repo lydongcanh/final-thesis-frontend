@@ -82,8 +82,23 @@ export default function MinimalProduct({ account, product, width, height, naviga
                     style={{ position: "absolute", top: 8, right: 8, height: 24, width: 24, borderRadius: 12 }}
                     onPress={handleLikeButton}
                 />
+                {getDiscountText()}
             </Layout>
         );
+    }
+
+    function getPriceUI() {
+        if (!product.isDiscount)
+            return <Text category="label" appearance="hint" >{formatCurrency(product.unitPrice)}VND</Text>;
+
+        return <Text style={{ color: "red" }} category="label" >{formatCurrency(product.unitPrice - product.discountAmount)}VND</Text>
+    }
+
+    function getDiscountText() {
+        if (!product.isDiscount)
+            return;
+        
+        return <Text style={{ color: "red", position: "absolute", bottom: 5, left: 25 }}>Giảm đến {(product.discountAmount / product.unitPrice * 100).toFixed(0)}%</Text>
     }
 
     if (product) {
@@ -94,7 +109,7 @@ export default function MinimalProduct({ account, product, width, height, naviga
                 onPress={handleProductClick}
             >
                 <Text numberOfLines={1} style={{ width: 100 }}>{product.name}</Text>
-                <Text category="label" appearance="hint" >{formatCurrency(product.unitPrice)}VND</Text>
+                {getPriceUI()}
             </Card>
         );
     } else {

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Layout, Text, Button, Icon } from "@ui-kitten/components";
-import { CollectionService } from "../../../../core/services";
+import { CollectionService, ProductService } from "../../../../core/services";
 import { FlatList, ScrollView } from "react-native-gesture-handler";
 import { ActivityIndicator } from "react-native-paper";
 import { Dimensions, View, ImageBackground, Platform, StatusBar } from "react-native";
@@ -28,16 +28,18 @@ export default function MainScreen({ navigation }) {
     const [collections, setCollection] = useState();
     const [isLoading, setIsLoading] = useState(true);
     const [isLoaded, setIsLoaded] = useState(false);
+    const [discountProducts, setDiscountProducts] = useState([]);
 
     useEffect(() => {
         loadCollections();
     }, [account]);
 
     async function loadCollections() {
-        setIsLoading(true);
         try {
+            setIsLoading(true);
             const collectionResult = await CollectionService.getMainPageCollection();
-            // TODO: catch error, reload...
+            const discountProducts = await ProductService.query({ isDiscount: true });
+            setDiscountProducts(discountProducts.data);
             setCollection(collectionResult.data);
             setIsLoaded(true);
         } catch (e) {
@@ -45,6 +47,29 @@ export default function MainScreen({ navigation }) {
         } finally {
             setIsLoading(false);
         }
+    }
+
+    function getDiscountProductsUI() {
+        if (!discountProducts || discountProducts.length < 1)
+            return;
+
+        return (
+            <Layout style={{ margin: 16 }}>
+                <Text style={{ fontWeight: "bold" }} category="h6">Sản phẩm đang khuyến mãi</Text>
+                <FlatList
+                    horizontal
+                    data={discountProducts}
+                    keyExtractor={(_, index) => index.toString()}
+                    renderItem={({ item }) => ( 
+                        <MinimalProduct
+                            product={item} 
+                            account={account}
+                            navigation={navigation}
+                        />
+                    )}
+                />
+            </Layout>
+        );
     }
 
     function getCollectionUI(collection) {
@@ -131,16 +156,26 @@ export default function MainScreen({ navigation }) {
         )
     }
 
+    function getContentUI() {
+        if (isLoading)
+            return <ActivityIndicator style={{ marginTop: "50%", alignSelf: "center" }} />
+
+        return (
+            <ScrollView>
+                {getHeadCarousel()}
+                {getDiscountProductsUI()}
+                {getCollectionsUI()}
+            </ScrollView>
+        );
+    }
+
     return (
         <Layout style={{ 
             flex: 1, 
             marginTop: Platform.OS === "ios" ? 0 : StatusBar.currentHeight,
         }}>
             <CustomerScreensHeader navigation={navigation} />
-            <ScrollView>
-                {getHeadCarousel()}
-                {getCollectionsUI()}
-            </ScrollView>
+            {getContentUI()}
         </Layout>
     );
 }

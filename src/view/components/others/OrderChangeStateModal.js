@@ -4,6 +4,7 @@ import { ActivityIndicator } from "react-native-paper";
 import { CustomerOrderService, CustomerOrderStateDetailsService, EmailService } from "../../../core/services";
 import { Space } from ".";
 import { Toast } from "native-base";
+import { CUSTOMER_ORDER_TYPES } from "../../../core/types";
 
 /**
  * 
@@ -58,6 +59,7 @@ export default function OrderChangeStateModal({ order, employee, nextState = "",
         return (
             <Layout style={{ flexDirection: "row", justifyContent: "flex-end" }}>
                 <Button
+                    disabled={(!description || description == null) && nextState == CUSTOMER_ORDER_TYPES.Cancelled}
                     size="tiny"
                     appearance="ghost"
                     onPress={updateOrderState}

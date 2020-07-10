@@ -24,6 +24,7 @@ export { default as EmployeeAccountInfoScreen } from "./employee/mainScreens/Acc
 export { default as EmployeeAnalystScreen } from "./employee/mainScreens/AnalystScreen";
 export { default as EmployeeManagementScreen } from "./employee/mainScreens/ManagementScreen";
 export { default as EmployeeOrderScreen } from "./employee/mainScreens/OrderScreen";
+export { default as EmployeeDiscount } from "./employee/subScreens/DiscountScreen";
 
 //export { default as EmployeeRevenueAnalystScreen } from "./employee/subScreens/analyst/RevenueAnalyst";
 export { default as EmployeeTrendingProductAnalystScreen } from "./employee/subScreens/analyst/TrendingProductAnalyst";
@@ -44,3 +45,4 @@ export { default as EmployeeCollectionDetailsManagementScreen } from "./employee
 export { default as EmployeeProductDetailsManagementScreen } from "./employee/subScreens/detailsManagementScreens/ProductDetailsManagementScreen";
 export { default as EmployeeCategoryDetailsManagementScreen } from "./employee/subScreens/detailsManagementScreens/CategoryDetailsManagementScreen";
 export { default as EmployeeProductDetailsListDetailsManagementScreen } from "./employee/subScreens/detailsManagementScreens/ProductDetailsListDetailsManagementScreen";
+export { default as EmployeeDiscountDetailsScreen } from "./employee/subScreens/detailsManagementScreens/DiscountDetailsScreen";

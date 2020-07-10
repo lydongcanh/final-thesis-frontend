@@ -149,7 +149,7 @@ export default function ProductPurchaseScreen({ navigation, route }) {
                         <Button
                             status={index === selectedIndex ? "danger" : "basic"}
                             size="tiny"
-                            style={{ marginRight: 8, marginTop: 4, borderRadius: 24 }}
+                            style={{ marginRight: 8, marginTop: 2, borderRadius: 24 }}
                             onPress={() => setIndexFunc(index)}
                         >
                             {item}
@@ -161,6 +161,13 @@ export default function ProductPurchaseScreen({ navigation, route }) {
         );
     }
 
+    function getProductPriceUI(product) {
+        if (!product.isDiscount)
+            return <Text category="h6" appearance="hint">{formatCurrency(product.unitPrice)}VND</Text>
+
+        return <Text style={{ color: "red" }} category="h6" appearance="hint">{formatCurrency(product.unitPrice - product.discountAmount)}VND</Text>
+    }
+    
     function getProductDetailsUI() {
         if (isLoading)
             return <ActivityIndicator style={{ margin: 8, flex: 1, alignContent: "center" }} />
@@ -184,8 +191,8 @@ export default function ProductPurchaseScreen({ navigation, route }) {
         return (
             <View>
                 <View style={{ justifyContent: "space-between", flexDirection: "row" }}>
-                    <Text category="h6" style={{ fontWeight: "bold" }}>{product.name}</Text>
-                    <Text category="h6" appearance="hint">{formatCurrency(product.unitPrice)}VND</Text>
+                    <Text category="h6" style={{ fontWeight: "bold", width: 210 }} numberOfLines={1}>{product.name}</Text>
+                    {getProductPriceUI(product)}
                 </View>
                 <Layout style={{ paddingTop: 4, flexDirection: "row", borderRadius: 24, marginTop: 8, justifyContent: "space-between" }}>
                     <Layout style={{ marginLeft: 8, flexDirection: "row" }}>
@@ -209,11 +216,10 @@ export default function ProductPurchaseScreen({ navigation, route }) {
                         Chi tiết
                     </Button>
                 </Layout>
-                <Space />
+                <Space value={4} />
 
                 {getButtonsListUI(productColors, "Màu", selectedColorIndex, setSelectedColorIndex)}
                 {getButtonsListUI(productSizes, "Size", selectedSizeIndex, setSelectedSizeIndex)}
-                <Space />
 
                 <Button
                     disabled={!isLoaded || selectedColorIndex === undefined || selectedSizeIndex === undefined}

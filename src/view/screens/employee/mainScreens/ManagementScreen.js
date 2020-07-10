@@ -12,15 +12,15 @@ export default function ManagementScreen({ navigation }) {
             callback: () => navigation.navigate("EmployeeCategoryManagement")
         },
         {
+            title: "Khuyến mãi",
+            icon: "scissors-outline",
+            callback: () => navigation.navigate("EmployeeDiscount")
+        },
+        {
             title: "Bộ sưu tập",
             icon: "bookmark-outline",
             callback: () => navigation.navigate("EmployeeCollectionManagement")
         },
-        // {
-        //     title: "Khuyến mãi",
-        //     icon: "scissors-outline",
-        //     callback: () => { alert("Đang cập nhật")}
-        // },
         {
             title: "Nhân viên",
             icon: "people-outline",
