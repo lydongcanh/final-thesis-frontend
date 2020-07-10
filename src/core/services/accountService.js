@@ -11,7 +11,10 @@ class AccountService extends BaseService {
     }
 
     async login(username, password) {
-        const result = await this.query({ username, password });
+        const result = await this.query({ 
+            username: username, 
+            password: password
+        });
         if (result.data.length == 1)
             return { account: result.data[0] };
 

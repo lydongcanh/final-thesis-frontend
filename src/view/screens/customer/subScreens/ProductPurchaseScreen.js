@@ -113,7 +113,7 @@ export default function ProductPurchaseScreen({ navigation, route }) {
                     colors.push(detail.color);
             }
 
-            const cpResult = await CustomerProductDetailsService.query({ productId: product.id });
+            const cpResult = await CustomerProductDetailsService.query({ productId: product.id, rated: true });
             setCPDetails(cpResult.data);
             setProductDetails(details);
             setProductColors(colors);

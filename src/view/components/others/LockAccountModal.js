@@ -37,6 +37,7 @@ export function LockAccountModal({ account, visible, setVisible, onUpdated = () 
         return (
             <Layout style={{ flexDirection: "row", justifyContent: "flex-end" }}>
                 <Button
+                    disabled={!description || description == ""}
                     size="tiny"
                     appearance="ghost"
                     onPress={updateAccount}
