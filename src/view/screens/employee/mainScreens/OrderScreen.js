@@ -32,14 +32,6 @@ export default function OrderScreen({ navigation }) {
         loadOrders();
     }, [selectedState, allTimeValue, fromDate, toDate]);
 
-    // useEffect(() => {
-    //     const unsubscribe = navigation.addListener('focus', () => {
-    //         loadOrders();
-    //     });
-      
-    //     return unsubscribe;
-    // }, []);
-
     async function loadOrders() {
         try {
             setIsLoading(true);
@@ -257,10 +249,13 @@ export default function OrderScreen({ navigation }) {
     }
 
     function getContentUI() {
+        if (!orders)
+            return;
+
         return (
             <Layout style={{ flex: 1, padding: 8 }}>
                 {getConfigPanel()}
-                {getOrderList(orders)}
+                {getOrderList(orders.filter(o => o.orderState == selectedState))}
             </Layout>
         );
     }

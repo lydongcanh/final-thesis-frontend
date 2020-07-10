@@ -49,16 +49,13 @@ export function getRandomColor() {
 export function getMonths() {
     const currentMonth = new Date().getMonth() + 1;
 
-    if (currentMonth < 4)
-        return [1, 2, 3];
+    if (currentMonth == 1)
+        return [11, 12, 1];
 
-    if (currentMonth < 7)
-        return [4, 5, 6];
+    if (currentMonth == 2)
+        return [12, 1, 2];
 
-    if (currentMonth < 10)
-        return [7, 8, 9];
-
-    return [10, 11, 12];
+    return [currentMonth - 2, currentMonth - 1, currentMonth];
 }
 
 export function getMonthsWithQuarter(quarter) {

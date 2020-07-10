@@ -160,7 +160,7 @@ export default function OrdersScreen({ navigation, route }) {
     return (
         <Layout style={{ flex: 1, padding: 8 }}>
             {getConfigPanel()}
-            {getOrderList(orders)}
+            {getOrderList(orders ? orders.filter(o => o.orderState == selectedState) : null)}
             <OrderChangeStateModal 
                 order={selectedOrder}
                 visible={changeStateModalVisible}

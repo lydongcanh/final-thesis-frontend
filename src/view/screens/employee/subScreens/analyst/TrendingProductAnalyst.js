@@ -89,7 +89,7 @@ export default function TrendingProductAnalyst({ route }) {
         }
 
         const data = [];
-        rawData = rawData.sort((a, b) => a.quantity - b.quantity);
+        rawData = rawData.sort((a, b) => b.quantity - a.quantity);
         for (const item of rawData) {
             data.push((
                 <DataTable.Row key={item.id}>
