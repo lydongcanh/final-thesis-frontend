@@ -124,8 +124,18 @@ export default function CartPurchaseScreen({ navigation, route }) {
             return <ActivityIndicator style={{ margin: 8, flex: 1, alignContent: "center" }} />
 
         return (
-            <Layout style={{ flex: 1, justifyContent: "space-between" }}>
+            <Layout style={{ flex: 1, justifyContent: "space-between" }}>              
                 <ScrollView style={{ padding: 16 }}>
+                    <Card
+                        status="success"
+                        header={() => <CardHeader title="Thông tin khách hàng" />}
+                    >
+                        <Text>Tên: {customer.name}</Text>
+                        <Text>Email: {customer.email}</Text>
+                        <Text>Số điện thoại: {customer.phoneNumber}</Text>    
+                    </Card>
+                    <Space />
+                    
                     <AddressInputPanel 
                         title="Địa chỉ giao hàng"
                         addressNumber={addressNumber}

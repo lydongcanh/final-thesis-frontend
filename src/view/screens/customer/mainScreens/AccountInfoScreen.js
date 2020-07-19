@@ -105,7 +105,7 @@ export default function AccountInfoScreen({ navigation }) {
                         />
                     </Layout>
                     <Text category="h5" style={{ fontWeight: "bold" }} >{customer.name}</Text>
-                    <Text appearance="hint" >{customer.vipLevel}</Text>
+                    <Text appearance="hint" >{account.username}</Text>
                 </Layout>
 
                 <Layout style={{ flex: 1, padding: 4, marginTop: 16  }}>

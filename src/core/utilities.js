@@ -58,6 +58,16 @@ export function getMonths() {
     return [currentMonth - 2, currentMonth - 1, currentMonth];
 }
 
+export function simpleHash(text) {
+    var hash = 0, i, chr;
+    for (i = 0; i < text.length; i++) {
+      chr = text.charCodeAt(i);
+      hash  = ((hash << 5) - hash) + chr;
+      hash |= 0; // Convert to 32bit integer
+    }
+    return hash;
+}
+
 export function getMonthsWithQuarter(quarter) {
     if (quarter === 1)
         return [1, 2, 3];

@@ -21,9 +21,19 @@ export default function OrderChangeStateModal({ order, employee, nextState = "",
 
         try {
             setIsLoading(true);
-            const newOrder = order;
-            newOrder.orderState = nextState;
+
+            const newOrder = {
+                id: order.id,
+                orderState: nextState,
+                shipAddress: order.shipAddress,
+                creationDate: order.creationDate,
+                customerId: order.customerId
+            };
+            
+            order.orderState = nextState;
+
             const result = await CustomerOrderService.update(newOrder);
+            
             if (result.error) {
                 console.log(error);
             } else {
@@ -33,12 +43,12 @@ export default function OrderChangeStateModal({ order, employee, nextState = "",
                     description: description                
                 };
 
-                if (employee)
-                    stateDetails.employeeId = employee.id;
+                stateDetails.employeeId = employee ? employee.id : null;
 
+                
                 const result = await CustomerOrderStateDetailsService.create(stateDetails);
                 EmailService.sendCustomerOrderStateChange(order, result.data);
-
+                
                 Toast.show({
                     text: "Thành công chuyển hóa đơn sang trạng thái: " + nextState,
                     type: "success",

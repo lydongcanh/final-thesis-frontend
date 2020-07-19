@@ -38,34 +38,42 @@ export default function LoginScreen({ navigation, route }) {
     );
 
     async function handleLoginButtonPress() {
-        setIsLoading(true);
+        try {
+            setIsLoading(true);
 
-        const result = await AccountService.login(username, password);
-        if (result.error) {
-            Toast.show({
-                text: result.error,
-                type: "danger"
-            });
-        } else if (!result.account.isActive) {
-            Toast.show({
-                text: `Tài khoản đã bị khóa với lý do: ${result.account.description}`,
-                type: "warning",
-                duration: 6000
-            });
-        }
-        else {
-            dispatch(login(result.account, true));
-            if (route && route.params && route.params.shouldGoBack) {
-                navigation.goBack();
-            } else {
-                const screen = result.account.accountType === ACCOUNT_TYPES.Employee ? "EmployeeHome" : "CustomerHome";
-                navigation.navigate(screen);
+            const result = await AccountService.login(username, password);
+    
+            //console.log(result);
+    
+            if (result.error) {
+                Toast.show({
+                    text: result.error,
+                    type: "danger"
+                });
+            } else if (!result.account.isActive) {
+                Toast.show({
+                    text: `Tài khoản đã bị khóa với lý do: ${result.account.description}`,
+                    type: "warning",
+                    duration: 6000
+                });
             }
-            setUsername("");
-            setPassword("");
+            else {
+                dispatch(login(result.account, true));
+                if (route && route.params && route.params.shouldGoBack) {
+                    navigation.goBack();
+                } else {
+                    const screen = result.account.accountType === ACCOUNT_TYPES.Employee ? "EmployeeHome" : "CustomerHome";
+                    navigation.navigate(screen);
+                }
+                //setUsername("");
+                //setPassword("");
+            }
         }
-
-        setIsLoading(false);
+        catch(e) {
+            console.log(e);
+        } finally {
+            setIsLoading(false);
+        }
     }
 
     if (isLoading)

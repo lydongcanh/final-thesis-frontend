@@ -4,16 +4,18 @@ import { Button, Card, Layout, Icon, Input } from "@ui-kitten/components";
 import { validateUsername, validatePassword } from "../../../core/validations";
 import { Texts } from "../../../core/texts";
 import { login } from "../../redux/actions/authActions";
-import { AccountService, CustomerService } from "../../../core/services";
+import { AccountService, CustomerService, EmailService } from "../../../core/services";
 import { Toast } from "native-base";
 import { Space } from "../../components/others";
 import { ActivityIndicator } from "react-native-paper";
 import { CUSTOMER_VIP_LEVELS } from "../../../core/types";
+import { simpleHash } from "../../../core/utilities";
 
 export default function CustomerSignupScreen({ navigation }) {
     const [customerName, setCustomerName] = useState("");
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [hashValue, setHashValue] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [validCustomerName, setValidCustomerName] = useState(false);
     const [validUsername, setValidUsername] = useState(false);
@@ -74,6 +76,16 @@ export default function CustomerSignupScreen({ navigation }) {
 
     async function handleSignupButtonPress() {
         setIsLoading(true);
+
+        if (simpleHash(username) != hashValue) {
+            Toast.show({
+                text: "Mã xác nhận không hợp lệ.",
+                type: "danger"
+            });
+            
+            setIsLoading(false);
+            return;
+        }
 
         const accountResult = await AccountService.customerSignup(username, password);
         if (accountResult.error) {
@@ -160,6 +172,24 @@ export default function CustomerSignupScreen({ navigation }) {
                     value={confirmPassword}
                 />
                 <Space />
+                <Layout style={{ flexDirection: "row", justifyContent: "space-between" }}>
+                    <Input
+                        style={{ flex: 4 }}
+                        disabled={isLoading}
+                        label="Mã xác nhận"
+                        maxLength={100}
+                        onChangeText={setHashValue}
+                        value={hashValue}
+                    />
+                    <Button
+                        onPress={async () => await EmailService.sendEmail(username, "Mã xác nhận", `Mã xác nhận tài khoản: ${simpleHash(username)}`)}
+                        size="tiny"
+                        style={{ height: 40, top: 22, left: 4 }}
+                        disabled={!validateUsername(username)}
+                    >
+                        Gửi
+                    </Button>
+                </Layout>
             </Card>
         );
     }

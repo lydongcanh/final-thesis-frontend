@@ -176,7 +176,14 @@ export default function OrderDetailsScreen({ navigation, route }) {
                     <Text>Ngày tạo: {formatDate(order.creationDate)}</Text>
                     {getDescriptionUI()}
                 </Layout>
-
+                <Layout>
+                    <Text category="label" style={{ marginVertical: 8 }}>Địa chỉ giao hàng</Text>
+                    <Divider style={{ marginBottom: 8 }}/>
+                    <Text>Số nhà: {order.shipAddress.number}</Text>
+                    <Text>Đường: {order.shipAddress.street}</Text>
+                    <Text>Phường/Xã/Quận/Huyện: {order.shipAddress.district}</Text>
+                    <Text>Thành phố: {order.shipAddress.city}</Text>              
+                </Layout>
                 <Layout>
                     <Space />
                     {getCustomerInfoUI()}
